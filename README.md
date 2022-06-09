@@ -3,6 +3,8 @@
     <center><h1>HeadViews</h1></center> 
 </div>
 
+[![](https://jitpack.io/v/headwww/HeadViews.svg)](https://jitpack.io/#headwww/HeadViews)
+
 # 预览
 千言和万语不如一张图，请看下面的效果图
 <div align=center>  
@@ -107,9 +109,22 @@ binding.headEditTextView.setOnBottomDrawableClickListener {
 | head/*··········*/StrokeDashGap     | 设置虚线边框虚线的间隙                               | float     |
 | headButtonShape                     | 设置按钮是矩形还是椭圆形 默认矩形（rectangle，oval） | enum      |
 
-# 引入
+# How to
 
 在你的`build.gradle`中添加如下代码：
+
+```groovy
+allprojects {
+    repositories {
+        ...
+        maven { url "https://jitpack.io" }
+    }
+}
+dependencies {
+    implementation 'com.github.headwww:HeadViews:0.0.01.beta01'
+}
+
+```
 
 
 
