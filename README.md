@@ -19,7 +19,7 @@ HeadViews控件库包含以下控件：
 
 ### Usage
 
-用法非常简单。将标记添加到XML布局中：
+用法非常简单。将控件添加到XML布局中：
 ```xml
 <com.head.view.HeadEditTextView
     android:id="@+id/headEditTextView"
@@ -48,7 +48,7 @@ binding.headEditTextView.setOnBottomDrawableClickListener {
 ### Attributes
 添加属性以自定义视图。可用属性：
 
-| attr                  | 说明                                                         | format    |
+| attr                  | info                                                         | format    |
 | :-------------------- | :----------------------------------------------------------- | :-------- |
 | headBackgroundColor   | 背景色                                                       | color     |
 | headSupportGradient   | 是否支持渐变背景色                                           | boolean   |
@@ -67,6 +67,20 @@ binding.headEditTextView.setOnBottomDrawableClickListener {
 | headClearIcon         | 设置开启右侧图标的清空功能按钮是否根据焦点来控制显示/隐藏 默认false | boolean   |
 | headType              | 控件类型(支持editText和textView，默认editText)               | enum      |
 
+## HeadButton
+该控件解决了按钮按下时候状态切换需要引入的大量的drawable，直接通过属性控制默认、按下、禁止三种状态的颜色、形状等样式
+
+### Usage
+
+首先将控件添加到XML布局中：
+```xml
+<com.head.view.HeadButton
+        android:id="@+id/headButton"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="com.head.view.HeadButton" />
+```
 
 
- 
+
+
