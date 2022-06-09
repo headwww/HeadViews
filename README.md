@@ -107,6 +107,9 @@ binding.headEditTextView.setOnBottomDrawableClickListener {
 | head/*··········*/StrokeDashGap     | 设置虚线边框虚线的间隙                               | float     |
 | headButtonShape                     | 设置按钮是矩形还是椭圆形 默认矩形（rectangle，oval） | enum      |
 
+# 引入
+
+在你的`build.gradle`中添加如下代码：
 
 
 
