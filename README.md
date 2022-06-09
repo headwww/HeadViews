@@ -15,7 +15,10 @@ HeadViews控件库包含以下控件：
 - HeadButton
 
 # 使用
+
 ## HeadEditText
+
+该控件解决了传统的EditText设置样式繁琐的步骤，直接通过属性来设置，同时可以随意切换文本和编辑框两个种模式，还解决了传统的四周图标无法点击的问题可以为其设置点击事件。
 
 ### Usage
 
@@ -29,6 +32,7 @@ HeadViews控件库包含以下控件：
 ```
 
 ### Listeners
+
 当我们给控件设置`android:drawableLeft=""` `android:drawableTop=""` `android:drawableRight=""` `android:drawableBottom=""`后android原生的是不带点击事件的，HeadViews框架特意增加了四周图标的点击事件如下：
 ```kotlin
 binding.headEditTextView.setOnLeftDrawableClickListener {
@@ -46,6 +50,7 @@ binding.headEditTextView.setOnBottomDrawableClickListener {
 ```
 
 ### Attributes
+
 添加属性以自定义视图。可用属性：
 
 | attr                  | info                                                         | format    |
@@ -68,7 +73,8 @@ binding.headEditTextView.setOnBottomDrawableClickListener {
 | headType              | 控件类型(支持editText和textView，默认editText)               | enum      |
 
 ## HeadButton
-该控件解决了按钮按下时候状态切换需要引入的大量的drawable，直接通过属性控制默认、按下、禁止三种状态的颜色、形状等样式
+
+该控件解决了按钮按下时候状态切换需要引入的大量的drawable，直接通过属性控制默认、按下、禁止三种状态的颜色、形状等样式，同时支持该控件设置为圆形按钮。
 
 ### Usage
 
@@ -80,6 +86,26 @@ binding.headEditTextView.setOnBottomDrawableClickListener {
         android:layout_height="wrap_content"
         android:text="com.head.view.HeadButton" />
 ```
+
+### Attributes
+注意：`/*··········*/`可用`Normal` `Pressed` `Enable`三个单词替换
+
+| attr                                | info                                                 | format    |
+| :---------------------------------- | :--------------------------------------------------- | :-------- |
+| head/*··········*/BackgroundColor   | 背景色                                               | color     |
+| head/*··········*/SupportGradient   | 是否支持渐变                                         | boolean   |
+| head/*··········*/GradientFrom      | 渐变起始色                                           | color     |
+| head/*··········*/GradientTo        | 渐变结束色                                           | color     |
+| head/*··········*/Radians           | 圆角弧度                                             | dimension |
+| head/*··········*/RadianLeftTop     | 设置左上角的弧度                                     | dimension |
+| head/*··········*/RadianRightTop    | 设置右上角的弧度                                     | dimension |
+| head/*··········*/RadianLeftBottom  | 设置左下角的弧度                                     | dimension |
+| head/*··········*/RadianRightBottom | 设置右下角的弧度                                     | dimension |
+| head/*··········*/StrokeColor       | 边框颜色                                             | color     |
+| head/*··········*/StrokeWidth       | 设置边框宽度                                         | dimension |
+| head/*··········*/StrokeDashWidth   | 设置虚线边框宽度                                     | float     |
+| head/*··········*/StrokeDashGap     | 设置虚线边框虚线的间隙                               | float     |
+| headButtonShape                     | 设置按钮是矩形还是椭圆形 默认矩形（rectangle，oval） | enum      |
 
 
 
