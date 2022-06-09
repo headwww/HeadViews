@@ -528,7 +528,7 @@ class HeadButton : AppCompatButton {
         background = createDrawable()
     }
 
-    fun setheadButtonShape(headButtonShape: Int) {
+    fun setHeadButtonShape(headButtonShape: Int) {
         this.headButtonShape = headButtonShape
         background = createDrawable()
     }

@@ -47,10 +47,16 @@ class HomeFragment : Fragment() {
             }
         }
         binding.headEditTextView.setOnLeftDrawableClickListener {
-            Log.e(TAG, "onCreateView: 左边", )
+            Log.d(TAG, "onCreateView: Left" )
         }
         binding.headEditTextView.setOnRightDrawableClickListener {
-            Log.e(TAG, "onCreateView: 右边", )
+            Log.d(TAG, "onCreateView: Right" )
+        }
+        binding.headEditTextView.setOnTopDrawableClickListener {
+            Log.d(TAG, "onCreateView: Top", )
+        }
+        binding.headEditTextView.setOnBottomDrawableClickListener {
+            Log.i(TAG, "onCreateView: Bottom", )
         }
         return root
     }
