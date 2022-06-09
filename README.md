@@ -17,6 +17,34 @@ HeadViews控件库包含以下控件：
 # 使用
 ## HeadEditText
 
+### Usage
+
+用法非常简单。将标记添加到XML布局中：
+```xml
+<com.head.view.HeadEditTextView
+    android:id="@+id/headEditTextView"
+    android:layout_width="wrap_content"
+    android:layout_height="wrap_content"
+    android:text="com.head.view.HeadEditTextView" />
+```
+
+### Listeners
+当我们给控件设置`android:drawableLeft=""` `android:drawableTop=""` `android:drawableRight=""` `android:drawableBottom=""`后android原生的是不带点击事件的，HeadViews框架特意增加了四周图标的点击事件如下：
+```kotlin
+binding.headEditTextView.setOnLeftDrawableClickListener {
+    Log.d(TAG, "onCreateView: Left" )
+}
+binding.headEditTextView.setOnRightDrawableClickListener {
+    Log.d(TAG, "onCreateView: Right" )
+}
+binding.headEditTextView.setOnTopDrawableClickListener {
+    Log.d(TAG, "onCreateView: Top" )
+}
+binding.headEditTextView.setOnBottomDrawableClickListener {
+    Log.i(TAG, "onCreateView: Bottom" )
+}
+```
+
 ### Attributes
 添加属性以自定义视图。可用属性：
 
