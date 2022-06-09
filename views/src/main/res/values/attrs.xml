@@ -1,0 +1,132 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <declare-styleable name="HeadEditTextView" >
+        <!--背景色-->
+        <attr name="headBackgroundColor" format="color"></attr>
+        <!--是否支持渐变-->
+        <attr name="headSupportGradient" format="boolean"></attr>
+        <!--渐变起始色-->
+        <attr name="headGradientFrom" format="color"></attr>
+        <!--渐变结束色-->
+        <attr name="headGradientTo" format="color"></attr>
+        <!--圆角弧度-->
+        <attr name="headRadians" format="dimension"></attr>
+        <!--单独设置每个角-->
+        <attr name="headRadianLeftTop" format="dimension"></attr>
+        <!--单独设置每个角-->
+        <attr name="headRadianRightTop" format="dimension"></attr>
+        <!--单独设置每个角-->
+        <attr name="headRadianLeftBottom" format="dimension"></attr>
+        <!--单独设置每个角-->
+        <attr name="headRadianRightBottom" format="dimension"></attr>
+        <!--边框颜色-->
+        <attr name="headStrokeColor" format="color"></attr>
+        <!--设置边框宽度-->
+        <attr name="headStrokeWidth" format="dimension"></attr>
+        <!--设置边框为虚线的长度-->
+        <attr name="headStrokeDashWidth" format="float"></attr>
+        <!--设置虚线之间的像素间距-->
+        <attr name="headStrokeDashGap" format="float"></attr>
+        <!--设置开启右侧的清空内容事件 默认关闭-->
+        <attr name="headClear" format="boolean"></attr>
+        <!--设置开启右侧的清空内容按钮是否根据焦点来控制显示还是不显示，默认关闭这个开关-->
+        <attr name="headClearIcon" format="boolean"></attr>
+        <!--控件类型-->
+        <attr name="headType">
+            <enum name="editText" value="-1" />
+            <enum name="textView" value="-2" />
+        </attr>
+    </declare-styleable>
+    <declare-styleable name="HeadButton" >
+        <!--背景色 默认-->
+        <attr name="headNormalBackgroundColor" format="color"></attr>
+        <!--是否支持渐变 默认-->
+        <attr name="headNormalSupportGradient" format="boolean"></attr>
+        <!--渐变起始色 默认-->
+        <attr name="headNormalGradientFrom" format="color"></attr>
+        <!--渐变结束色 默认-->
+        <attr name="headNormalGradientTo" format="color"></attr>
+        <!--圆角弧度 默认-->
+        <attr name="headNormalRadians" format="dimension"></attr>
+        <!--单独设置每个角 默认-->
+        <attr name="headNormalRadianLeftTop" format="dimension"></attr>
+        <!--单独设置每个角 默认-->
+        <attr name="headNormalRadianRightTop" format="dimension"></attr>
+        <!--单独设置每个角 默认-->
+        <attr name="headNormalRadianLeftBottom" format="dimension"></attr>
+        <!--单独设置每个角 默认-->
+        <attr name="headNormalRadianRightBottom" format="dimension"></attr>
+        <!--边框颜色 默认-->
+        <attr name="headNormalStrokeColor" format="color"></attr>
+        <!--设置边框宽度 默认-->
+        <attr name="headNormalStrokeWidth" format="dimension"></attr>
+        <!--设置边框为虚线的长度 默认-->
+        <attr name="headNormalStrokeDashWidth" format="float"></attr>
+        <!--设置虚线之间的像素间距 默认-->
+        <attr name="headNormalStrokeDashGap" format="float"></attr>
+
+
+        <!--背景色 按下-->
+        <attr name="headPressedBackgroundColor" format="color"></attr>
+        <!--是否支持渐变 按下-->
+        <attr name="headPressedSupportGradient" format="boolean"></attr>
+        <!--渐变起始色 按下-->
+        <attr name="headPressedGradientFrom" format="color"></attr>
+        <!--渐变结束色 按下-->
+        <attr name="headPressedGradientTo" format="color"></attr>
+        <!--圆角弧度 按下-->
+        <attr name="headPressedRadians" format="dimension"></attr>
+        <!--单独设置每个角 按下-->
+        <attr name="headPressedRadianLeftTop" format="dimension"></attr>
+        <!--单独设置每个角 按下-->
+        <attr name="headPressedRadianRightTop" format="dimension"></attr>
+        <!--单独设置每个角 按下-->
+        <attr name="headPressedRadianLeftBottom" format="dimension"></attr>
+        <!--单独设置每个角 按下-->
+        <attr name="headPressedRadianRightBottom" format="dimension"></attr>
+        <!--边框颜色 按下-->
+        <attr name="headPressedStrokeColor" format="color"></attr>
+        <!--设置边框宽度 按下-->
+        <attr name="headPressedStrokeWidth" format="dimension"></attr>
+        <!--设置边框为虚线的长度 按下-->
+        <attr name="headPressedStrokeDashWidth" format="float"></attr>
+        <!--设置虚线之间的像素间距 按下-->
+        <attr name="headPressedStrokeDashGap" format="float"></attr>
+
+
+        <!--背景色 禁止-->
+        <attr name="headEnabledBackgroundColor" format="color"></attr>
+        <!--是否支持渐变 禁止-->
+        <attr name="headEnabledSupportGradient" format="boolean"></attr>
+        <!--渐变起始色 禁止-->
+        <attr name="headEnabledGradientFrom" format="color"></attr>
+        <!--渐变结束色 禁止-->
+        <attr name="headEnabledGradientTo" format="color"></attr>
+        <!--圆角弧度 禁止-->
+        <attr name="headEnabledRadians" format="dimension"></attr>
+        <!--单独设置每个角 禁止-->
+        <attr name="headEnabledRadianLeftTop" format="dimension"></attr>
+        <!--单独设置每个角 禁止-->
+        <attr name="headEnabledRadianRightTop" format="dimension"></attr>
+        <!--单独设置每个角 禁止-->
+        <attr name="headEnabledRadianLeftBottom" format="dimension"></attr>
+        <!--单独设置每个角 禁止-->
+        <attr name="headEnabledRadianRightBottom" format="dimension"></attr>
+        <!--边框颜色 禁止-->
+        <attr name="headEnabledStrokeColor" format="color"></attr>
+        <!--设置边框宽度 禁止-->
+        <attr name="headEnabledStrokeWidth" format="dimension"></attr>
+        <!--设置边框为虚线的长度 禁止-->
+        <attr name="headEnabledStrokeDashWidth" format="float"></attr>
+        <!--设置虚线之间的像素间距 禁止-->
+        <attr name="headEnabledStrokeDashGap" format="float"></attr>
+        <!--设置按钮是矩形还是椭圆形 默认矩形-->
+        <attr name="headButtonShape">
+            <enum name="rectangle" value="0" />
+            <enum name="oval" value="1" />
+        </attr>
+
+
+    </declare-styleable>
+
+</resources>
