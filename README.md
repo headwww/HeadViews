@@ -129,7 +129,7 @@ dependencies {
 
 HeadViews遵循 Apache License 2.0 开源协议。
 ```
- Copyright headwww HeadViews
+                    Copyright headwww HeadViews
 
    Licensed under the Apache License, Version 2.0 (the "License");
    you may not use this file except in compliance with the License.
