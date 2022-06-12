@@ -6,10 +6,10 @@ import android.graphics.Color
 import android.graphics.drawable.ColorDrawable
 import android.util.AttributeSet
 import android.view.MotionEvent
-import android.view.View
-import android.widget.AdapterView
+import android.widget.TextView
 import androidx.appcompat.widget.AppCompatTextView
 import androidx.appcompat.widget.ListPopupWindow
+import androidx.core.view.get
 import com.head.view.adapter.HeadSpinnerAdapter
 
 /**
@@ -38,21 +38,25 @@ class HeadSpinner<T> : AppCompatTextView {
     }
 
 
-    private lateinit var dataSource:  ArrayList<T>
+    private lateinit var dataSource: ArrayList<T>
+
     private lateinit var adapter: HeadSpinnerAdapter<T>
+
     private val popupWindow: ListPopupWindow by lazy { ListPopupWindow(context) }
 
-
-    private var onItemClick: ((item:T,position: Int) -> Unit)? = null
+    private var onItemClick: ((item: T, position: Int) -> Unit)? = null
 
     private fun init(attrs: AttributeSet? = null, defStyleAttr: Int? = null) {
         val typedArray: TypedArray = context.obtainStyledAttributes(attrs, R.styleable.HeadSpinner)
+        adapter = HeadSpinnerAdapter(context, null, null)
+        popupWindow.setAdapter(adapter)
 
         popupWindow.setBackgroundDrawable(ColorDrawable(Color.WHITE))
         popupWindow.width = ListPopupWindow.WRAP_CONTENT
         popupWindow.height = ListPopupWindow.WRAP_CONTENT
         popupWindow.setOnItemClickListener { parent, view, position, id ->
-            onItemClick?.invoke(dataSource[position],position)
+            onItemClick?.invoke(dataSource[position], position)
+            text =(view as TextView).text
             popupWindow.dismiss()
         }
         popupWindow.isModal = true
@@ -75,15 +79,24 @@ class HeadSpinner<T> : AppCompatTextView {
         return true
     }
 
-    fun setOnItemClickListener(onItemClick: ((item:T,position: Int) -> Unit)?) {
+    fun setOnItemClickListener(onItemClick: ((item: T, position: Int) -> Unit)?) {
         this.onItemClick = onItemClick
     }
 
-
-    fun  setData(array: ArrayList<T>) {
-        this.dataSource = array
-        adapter = HeadSpinnerAdapter(context, array)
-        popupWindow.setAdapter(adapter)
+    fun setData(array: ArrayList<T>) {
+        dataSource = array
+        adapter.setData(array)
     }
+
+    fun setData(array: ArrayList<T>, format: (t: T) -> String) {
+        dataSource = array
+        adapter.setData(array)
+        adapter.setItemFormat(format)
+    }
+
+    fun setItemFormat(format: (t: T) -> String) {
+        adapter.setItemFormat(format)
+    }
+
 
 }

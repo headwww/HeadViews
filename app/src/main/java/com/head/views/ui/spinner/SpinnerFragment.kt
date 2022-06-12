@@ -12,10 +12,8 @@ import com.head.views.databinding.FragmentSpinnerBinding
 class SpinnerFragment : Fragment() {
 
     private var _binding: FragmentSpinnerBinding? = null
-
-    // This property is only valid between onCreateView and
-    // onDestroyView.
     private val binding get() = _binding!!
+    private var arrayList = arrayListOf<DataTest>(DataTest("舒文",25),DataTest("闵天赐",26))
 
     override fun onCreateView(
         inflater: LayoutInflater,
@@ -31,7 +29,13 @@ class SpinnerFragment : Fragment() {
         binding.headSpinner.setOnClickListener {
             Log.e("TAG", "onCreateView: ")
         }
-        binding.headSpinner.setData(arrayListOf("1", "2", "2", "2", "2"))
+
+        binding.headSpinner.setItemFormat{
+            it as DataTest
+            "姓名：${it.name} ; 年龄： ${it.age}"
+        }
+        binding.headSpinner.setData(arrayList)
+//        binding.headSpinner.setData(arrayListOf("12","213"))
         binding.headSpinner.setOnItemClickListener { item, position ->
             Log.e("TAG", "onCreateView:$item ")
         }
