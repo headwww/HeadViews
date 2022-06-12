@@ -1,4 +1,4 @@
-package com.head.view
+package com.head.view.utils
 
 import android.content.Context
 import android.util.TypedValue

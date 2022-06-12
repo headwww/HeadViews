@@ -127,6 +127,10 @@
         </attr>
 
 
-    </declare-styleable>
 
+
+    </declare-styleable>
+    <declare-styleable name="HeadSpinner" >
+
+    </declare-styleable>
 </resources>

@@ -1,10 +1,9 @@
-package com.head.view
+package com.head.view.utils
 
 import android.content.Context
 import android.graphics.Color
 import android.graphics.drawable.GradientDrawable
-import android.graphics.drawable.RippleDrawable
-import androidx.annotation.ColorInt
+import com.head.view.utils.Utils
 
 /**
  *
