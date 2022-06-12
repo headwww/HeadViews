@@ -4,13 +4,16 @@ import android.content.Context
 import android.content.res.TypedArray
 import android.graphics.Color
 import android.graphics.drawable.ColorDrawable
+import android.os.Bundle
+import android.os.Parcelable
 import android.util.AttributeSet
+import android.util.Log
 import android.view.MotionEvent
 import android.widget.TextView
 import androidx.appcompat.widget.AppCompatTextView
 import androidx.appcompat.widget.ListPopupWindow
-import androidx.core.view.get
 import com.head.view.adapter.HeadSpinnerAdapter
+import com.head.view.utils.TemplateDrawable
 
 /**
  *
@@ -38,9 +41,13 @@ class HeadSpinner<T> : AppCompatTextView {
     }
 
 
-    private lateinit var dataSource: ArrayList<T>
+    private var position: Int =-1
+    private var format:( (t: T) -> String)?= null
+    private var dataSource: ArrayList<T> = arrayListOf()
 
-    private lateinit var adapter: HeadSpinnerAdapter<T>
+    private val adapter: HeadSpinnerAdapter<T> by lazy {
+        HeadSpinnerAdapter(context, null, null)
+    }
 
     private val popupWindow: ListPopupWindow by lazy { ListPopupWindow(context) }
 
@@ -48,35 +55,49 @@ class HeadSpinner<T> : AppCompatTextView {
 
     private fun init(attrs: AttributeSet? = null, defStyleAttr: Int? = null) {
         val typedArray: TypedArray = context.obtainStyledAttributes(attrs, R.styleable.HeadSpinner)
-        adapter = HeadSpinnerAdapter(context, null, null)
         popupWindow.setAdapter(adapter)
-
         popupWindow.setBackgroundDrawable(ColorDrawable(Color.WHITE))
         popupWindow.width = ListPopupWindow.WRAP_CONTENT
         popupWindow.height = ListPopupWindow.WRAP_CONTENT
         popupWindow.setOnItemClickListener { parent, view, position, id ->
+            this.position = position
             onItemClick?.invoke(dataSource[position], position)
             text =(view as TextView).text
             popupWindow.dismiss()
         }
         popupWindow.isModal = true
+        popupWindow.setBackgroundDrawable(TemplateDrawable(context, backgroundColor = Color.WHITE, radians = 30))
     }
 
 
+    override fun onSaveInstanceState(): Parcelable? {
+        val bundle = Bundle()
+        val parcelable=super.onSaveInstanceState()
+        bundle.putParcelable(SUPER_HEAD_SPINNER, parcelable)
+        bundle.putSerializable(SAVE_HEAD_SPINNER, text.toString())
+        return bundle
+    }
+
+    override fun onRestoreInstanceState(state: Parcelable?) {
+        val bundle = ( state as Bundle)
+        val parcelable : Parcelable? = bundle.getParcelable(SUPER_HEAD_SPINNER)
+        text = bundle.getSerializable(SAVE_HEAD_SPINNER).toString()
+        super.onRestoreInstanceState(parcelable)
+    }
     override fun onTouchEvent(event: MotionEvent?): Boolean {
-        if (isEnabled && event!!.action == MotionEvent.ACTION_UP) return if (!popupWindow.isShowing) showDropDown() else dismissDropDown()
-        return super.onTouchEvent(event)
+        if (isEnabled && event!!.action == MotionEvent.ACTION_UP){
+            if (!popupWindow.isShowing) showDropDown() else dismissDropDown()
+        }
+        return true
     }
 
-    private fun showDropDown(): Boolean {
+    private fun showDropDown() {
         popupWindow.anchorView = this
         popupWindow.show()
-        return true
     }
 
-    private fun dismissDropDown(): Boolean {
+    private fun dismissDropDown() {
         popupWindow.dismiss()
-        return true
     }
 
     fun setOnItemClickListener(onItemClick: ((item: T, position: Int) -> Unit)?) {
@@ -86,17 +107,38 @@ class HeadSpinner<T> : AppCompatTextView {
     fun setData(array: ArrayList<T>) {
         dataSource = array
         adapter.setData(array)
+        setSelection(position)
     }
 
     fun setData(array: ArrayList<T>, format: (t: T) -> String) {
+        this.format = format
         dataSource = array
         adapter.setData(array)
         adapter.setItemFormat(format)
+        setSelection(position)
     }
 
     fun setItemFormat(format: (t: T) -> String) {
+        this.format = format
         adapter.setItemFormat(format)
     }
 
+    /**
+     * 设置默认选中项
+     */
+    fun setSelection(position: Int){
+        this.position=position
+        if (0<position&&position<dataSource.size){
+            text = if (format == null) dataSource[position].toString() else dataSource[position]?.let { format!!.invoke(it) }
+        }
+    }
 
+
+    fun getSelection():Int{
+        return position
+    }
 }
+
+private const val SUPER_HEAD_SPINNER = "super_head_Spinner"
+
+private const val SAVE_HEAD_SPINNER = "save_head_Spinner"
