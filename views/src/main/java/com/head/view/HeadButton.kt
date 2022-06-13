@@ -24,6 +24,11 @@ import com.head.view.utils.TemplateDrawable
 
 class HeadButton : AppCompatButton {
 
+    enum class ButtonShape{
+        RECTANGLE,
+        OVAL
+    }
+
     constructor(context: Context) : super(context) {
         init()
     }
@@ -40,218 +45,218 @@ class HeadButton : AppCompatButton {
         init(attrs, defStyleAttr)
     }
 
-    private var headNormalBackgroundColor: Int = Color.TRANSPARENT
-    private var headNormalSupportGradient: Boolean = false
-    private var headNormalGradientFrom: Int = Color.TRANSPARENT
-    private var headNormalGradientTo: Int = Color.TRANSPARENT
-    private var headNormalRadians: Int = 0
-    private var headNormalRadianLeftTop: Int = 0
-    private var headNormalRadianRightTop: Int = 0
-    private var headNormalRadianLeftBottom: Int = 0
-    private var headNormalRadianRightBottom: Int = 0
-    private var headNormalStrokeWidth: Int = 0
-    private var headNormalStrokeColor: Int = -1
-    private var headNormalStrokeDashWidth: Float = 0F
-    private var headNormalStrokeDashGap: Float = 0F
+    private var headButtonNormalBackgroundColor: Int = Color.TRANSPARENT
+    private var headButtonNormalSupportGradient: Boolean = false
+    private var headButtonNormalGradientFrom: Int = Color.TRANSPARENT
+    private var headButtonNormalGradientTo: Int = Color.TRANSPARENT
+    private var headButtonNormalRadians: Int = 0
+    private var headButtonNormalRadianLeftTop: Int = 0
+    private var headButtonNormalRadianRightTop: Int = 0
+    private var headButtonNormalRadianLeftBottom: Int = 0
+    private var headButtonNormalRadianRightBottom: Int = 0
+    private var headButtonNormalStrokeWidth: Int = 0
+    private var headButtonNormalStrokeColor: Int = -1
+    private var headButtonNormalStrokeDashWidth: Float = 0F
+    private var headButtonNormalStrokeDashGap: Float = 0F
 
-    private var headPressedBackgroundColor: Int = -1
-    private var headPressedSupportGradient: Boolean = false
-    private var headPressedGradientFrom: Int = headNormalGradientFrom
-    private var headPressedGradientTo: Int = headNormalGradientTo
-    private var headPressedRadians: Int = headNormalRadians
-    private var headPressedRadianLeftTop: Int = headNormalRadianLeftTop
-    private var headPressedRadianRightTop: Int = headNormalRadianRightTop
-    private var headPressedRadianLeftBottom: Int = headNormalRadianLeftBottom
-    private var headPressedRadianRightBottom: Int = headNormalRadianRightBottom
-    private var headPressedStrokeWidth: Int = headNormalStrokeWidth
-    private var headPressedStrokeColor: Int = headNormalStrokeColor
-    private var headPressedStrokeDashWidth: Float = headNormalStrokeDashWidth
-    private var headPressedStrokeDashGap: Float = headNormalStrokeDashGap
+    private var headButtonPressedBackgroundColor: Int = -1
+    private var headButtonPressedSupportGradient: Boolean = false
+    private var headButtonPressedGradientFrom: Int = headButtonNormalGradientFrom
+    private var headButtonPressedGradientTo: Int = headButtonNormalGradientTo
+    private var headButtonPressedRadians: Int = headButtonNormalRadians
+    private var headButtonPressedRadianLeftTop: Int = headButtonNormalRadianLeftTop
+    private var headButtonPressedRadianRightTop: Int = headButtonNormalRadianRightTop
+    private var headButtonPressedRadianLeftBottom: Int = headButtonNormalRadianLeftBottom
+    private var headButtonPressedRadianRightBottom: Int = headButtonNormalRadianRightBottom
+    private var headButtonPressedStrokeWidth: Int = headButtonNormalStrokeWidth
+    private var headButtonPressedStrokeColor: Int = headButtonNormalStrokeColor
+    private var headButtonPressedStrokeDashWidth: Float = headButtonNormalStrokeDashWidth
+    private var headButtonPressedStrokeDashGap: Float = headButtonNormalStrokeDashGap
 
-    private var headEnabledBackgroundColor: Int = -1
-    private var headEnabledSupportGradient: Boolean = false
-    private var headEnabledGradientFrom: Int = headNormalGradientFrom
-    private var headEnabledGradientTo: Int = headNormalGradientTo
-    private var headEnabledRadians: Int = headNormalRadians
-    private var headEnabledRadianLeftTop: Int = headNormalRadianLeftTop
-    private var headEnabledRadianRightTop: Int = headNormalRadianRightTop
-    private var headEnabledRadianLeftBottom: Int = headNormalRadianLeftBottom
-    private var headEnabledRadianRightBottom: Int = headNormalRadianRightBottom
-    private var headEnabledStrokeWidth: Int = headNormalStrokeWidth
-    private var headEnabledStrokeColor: Int = headNormalStrokeColor
-    private var headEnabledStrokeDashWidth: Float = headNormalStrokeDashWidth
-    private var headEnabledStrokeDashGap: Float = headNormalStrokeDashGap
-    private var headButtonShape: Int = 0
+    private var headButtonEnabledBackgroundColor: Int = -1
+    private var headButtonEnabledSupportGradient: Boolean = false
+    private var headButtonEnabledGradientFrom: Int = headButtonNormalGradientFrom
+    private var headButtonEnabledGradientTo: Int = headButtonNormalGradientTo
+    private var headButtonEnabledRadians: Int = headButtonNormalRadians
+    private var headButtonEnabledRadianLeftTop: Int = headButtonNormalRadianLeftTop
+    private var headButtonEnabledRadianRightTop: Int = headButtonNormalRadianRightTop
+    private var headButtonEnabledRadianLeftBottom: Int = headButtonNormalRadianLeftBottom
+    private var headButtonEnabledRadianRightBottom: Int = headButtonNormalRadianRightBottom
+    private var headButtonEnabledStrokeWidth: Int = headButtonNormalStrokeWidth
+    private var headButtonEnabledStrokeColor: Int = headButtonNormalStrokeColor
+    private var headButtonEnabledStrokeDashWidth: Float = headButtonNormalStrokeDashWidth
+    private var headButtonEnabledStrokeDashGap: Float = headButtonNormalStrokeDashGap
+    private var headButtonShape: Int = ButtonShape.RECTANGLE.ordinal
 
     private fun init(attrs: AttributeSet? = null, defStyleAttr: Int? = null) {
         val typedArray: TypedArray = context.obtainStyledAttributes(attrs, R.styleable.HeadButton)
-        headNormalBackgroundColor = typedArray.getColor(
-            R.styleable.HeadButton_headNormalBackgroundColor,
+        headButtonNormalBackgroundColor = typedArray.getColor(
+            R.styleable.HeadButton_headButtonNormalBackgroundColor,
             Color.TRANSPARENT
         )
-        headNormalSupportGradient = typedArray.getBoolean(
-            R.styleable.HeadButton_headNormalSupportGradient,
+        headButtonNormalSupportGradient = typedArray.getBoolean(
+            R.styleable.HeadButton_headButtonNormalSupportGradient,
             false
         )
-        headNormalGradientFrom = typedArray.getColor(
-            R.styleable.HeadButton_headNormalGradientFrom,
+        headButtonNormalGradientFrom = typedArray.getColor(
+            R.styleable.HeadButton_headButtonNormalGradientFrom,
             Color.TRANSPARENT
         )
-        headNormalGradientTo = typedArray.getColor(
-            R.styleable.HeadButton_headNormalGradientTo,
+        headButtonNormalGradientTo = typedArray.getColor(
+            R.styleable.HeadButton_headButtonNormalGradientTo,
             Color.TRANSPARENT
         )
-        headNormalRadians = typedArray.getDimensionPixelSize(
-            R.styleable.HeadButton_headNormalRadians,
+        headButtonNormalRadians = typedArray.getDimensionPixelSize(
+            R.styleable.HeadButton_headButtonNormalRadians,
             0
         )
-        headNormalRadianLeftTop = typedArray.getDimensionPixelSize(
-            R.styleable.HeadButton_headNormalRadianLeftTop,
+        headButtonNormalRadianLeftTop = typedArray.getDimensionPixelSize(
+            R.styleable.HeadButton_headButtonNormalRadianLeftTop,
             0
         )
-        headNormalRadianRightTop = typedArray.getDimensionPixelSize(
-            R.styleable.HeadButton_headNormalRadianRightTop,
+        headButtonNormalRadianRightTop = typedArray.getDimensionPixelSize(
+            R.styleable.HeadButton_headButtonNormalRadianRightTop,
             0
         )
-        headNormalRadianLeftBottom = typedArray.getDimensionPixelSize(
-            R.styleable.HeadButton_headNormalRadianLeftBottom,
+        headButtonNormalRadianLeftBottom = typedArray.getDimensionPixelSize(
+            R.styleable.HeadButton_headButtonNormalRadianLeftBottom,
             0
         )
-        headNormalRadianRightBottom = typedArray.getDimensionPixelSize(
-            R.styleable.HeadButton_headNormalRadianRightBottom,
+        headButtonNormalRadianRightBottom = typedArray.getDimensionPixelSize(
+            R.styleable.HeadButton_headButtonNormalRadianRightBottom,
             0
         )
-        headNormalStrokeColor = typedArray.getColor(
-            R.styleable.HeadButton_headNormalStrokeColor,
+        headButtonNormalStrokeColor = typedArray.getColor(
+            R.styleable.HeadButton_headButtonNormalStrokeColor,
             -1
         )
-        headNormalStrokeWidth = typedArray.getDimensionPixelSize(
-            R.styleable.HeadButton_headNormalStrokeWidth,
+        headButtonNormalStrokeWidth = typedArray.getDimensionPixelSize(
+            R.styleable.HeadButton_headButtonNormalStrokeWidth,
             0
         )
-        headNormalStrokeDashWidth = typedArray.getFloat(
-            R.styleable.HeadButton_headNormalStrokeDashWidth,
+        headButtonNormalStrokeDashWidth = typedArray.getFloat(
+            R.styleable.HeadButton_headButtonNormalStrokeDashWidth,
             0F
         )
-        headNormalStrokeDashGap = typedArray.getFloat(
-            R.styleable.HeadButton_headNormalStrokeDashGap,
+        headButtonNormalStrokeDashGap = typedArray.getFloat(
+            R.styleable.HeadButton_headButtonNormalStrokeDashGap,
             0F
         )
 
         /////
 
-        headPressedBackgroundColor = typedArray.getColor(
-            R.styleable.HeadButton_headPressedBackgroundColor,
+        headButtonPressedBackgroundColor = typedArray.getColor(
+            R.styleable.HeadButton_headButtonPressedBackgroundColor,
             -1
         )
-        headPressedSupportGradient = typedArray.getBoolean(
-            R.styleable.HeadButton_headPressedSupportGradient,
+        headButtonPressedSupportGradient = typedArray.getBoolean(
+            R.styleable.HeadButton_headButtonPressedSupportGradient,
             false
         )
-        headPressedGradientFrom = typedArray.getColor(
-            R.styleable.HeadButton_headPressedGradientFrom,
+        headButtonPressedGradientFrom = typedArray.getColor(
+            R.styleable.HeadButton_headButtonPressedGradientFrom,
             Color.TRANSPARENT
         )
-        headPressedGradientTo = typedArray.getColor(
-            R.styleable.HeadButton_headPressedGradientTo,
+        headButtonPressedGradientTo = typedArray.getColor(
+            R.styleable.HeadButton_headButtonPressedGradientTo,
             Color.TRANSPARENT
         )
-        headPressedRadians = typedArray.getDimensionPixelSize(
-            R.styleable.HeadButton_headPressedRadians,
+        headButtonPressedRadians = typedArray.getDimensionPixelSize(
+            R.styleable.HeadButton_headButtonPressedRadians,
             0
         )
-        headPressedRadianLeftTop = typedArray.getDimensionPixelSize(
-            R.styleable.HeadButton_headPressedRadianLeftTop,
+        headButtonPressedRadianLeftTop = typedArray.getDimensionPixelSize(
+            R.styleable.HeadButton_headButtonPressedRadianLeftTop,
             0
         )
-        headPressedRadianRightTop = typedArray.getDimensionPixelSize(
-            R.styleable.HeadButton_headPressedRadianRightTop,
+        headButtonPressedRadianRightTop = typedArray.getDimensionPixelSize(
+            R.styleable.HeadButton_headButtonPressedRadianRightTop,
             0
         )
-        headPressedRadianLeftBottom = typedArray.getDimensionPixelSize(
-            R.styleable.HeadButton_headPressedRadianLeftBottom,
+        headButtonPressedRadianLeftBottom = typedArray.getDimensionPixelSize(
+            R.styleable.HeadButton_headButtonPressedRadianLeftBottom,
             0
         )
-        headPressedRadianRightBottom = typedArray.getDimensionPixelSize(
-            R.styleable.HeadButton_headPressedRadianRightBottom,
+        headButtonPressedRadianRightBottom = typedArray.getDimensionPixelSize(
+            R.styleable.HeadButton_headButtonPressedRadianRightBottom,
             0
         )
-        headPressedStrokeColor = typedArray.getColor(
-            R.styleable.HeadButton_headPressedStrokeColor,
+        headButtonPressedStrokeColor = typedArray.getColor(
+            R.styleable.HeadButton_headButtonPressedStrokeColor,
             -1
         )
-        headPressedStrokeWidth = typedArray.getDimensionPixelSize(
-            R.styleable.HeadButton_headPressedStrokeWidth,
+        headButtonPressedStrokeWidth = typedArray.getDimensionPixelSize(
+            R.styleable.HeadButton_headButtonPressedStrokeWidth,
             0
         )
-        headPressedStrokeDashWidth = typedArray.getFloat(
-            R.styleable.HeadButton_headPressedStrokeDashWidth,
+        headButtonPressedStrokeDashWidth = typedArray.getFloat(
+            R.styleable.HeadButton_headButtonPressedStrokeDashWidth,
             0F
         )
-        headPressedStrokeDashGap = typedArray.getFloat(
-            R.styleable.HeadButton_headPressedStrokeDashGap,
+        headButtonPressedStrokeDashGap = typedArray.getFloat(
+            R.styleable.HeadButton_headButtonPressedStrokeDashGap,
             0F
         )
 
 
         /////
 
-        headEnabledBackgroundColor = typedArray.getColor(
-            R.styleable.HeadButton_headEnabledBackgroundColor,
+        headButtonEnabledBackgroundColor = typedArray.getColor(
+            R.styleable.HeadButton_headButtonEnabledBackgroundColor,
             -1
         )
-        headEnabledSupportGradient = typedArray.getBoolean(
-            R.styleable.HeadButton_headEnabledSupportGradient,
+        headButtonEnabledSupportGradient = typedArray.getBoolean(
+            R.styleable.HeadButton_headButtonEnabledSupportGradient,
             false
         )
-        headEnabledGradientFrom = typedArray.getColor(
-            R.styleable.HeadButton_headEnabledGradientFrom,
+        headButtonEnabledGradientFrom = typedArray.getColor(
+            R.styleable.HeadButton_headButtonEnabledGradientFrom,
             Color.TRANSPARENT
         )
-        headEnabledGradientTo = typedArray.getColor(
-            R.styleable.HeadButton_headEnabledGradientTo,
+        headButtonEnabledGradientTo = typedArray.getColor(
+            R.styleable.HeadButton_headButtonEnabledGradientTo,
             Color.TRANSPARENT
         )
-        headEnabledRadians = typedArray.getDimensionPixelSize(
-            R.styleable.HeadButton_headEnabledRadians,
+        headButtonEnabledRadians = typedArray.getDimensionPixelSize(
+            R.styleable.HeadButton_headButtonEnabledRadians,
             0
         )
-        headEnabledRadianLeftTop = typedArray.getDimensionPixelSize(
-            R.styleable.HeadButton_headEnabledRadianLeftTop,
+        headButtonEnabledRadianLeftTop = typedArray.getDimensionPixelSize(
+            R.styleable.HeadButton_headButtonEnabledRadianLeftTop,
             0
         )
-        headEnabledRadianRightTop = typedArray.getDimensionPixelSize(
-            R.styleable.HeadButton_headEnabledRadianRightTop,
+        headButtonEnabledRadianRightTop = typedArray.getDimensionPixelSize(
+            R.styleable.HeadButton_headButtonEnabledRadianRightTop,
             0
         )
-        headEnabledRadianLeftBottom = typedArray.getDimensionPixelSize(
-            R.styleable.HeadButton_headEnabledRadianLeftBottom,
+        headButtonEnabledRadianLeftBottom = typedArray.getDimensionPixelSize(
+            R.styleable.HeadButton_headButtonEnabledRadianLeftBottom,
             0
         )
-        headEnabledRadianRightBottom = typedArray.getDimensionPixelSize(
-            R.styleable.HeadButton_headEnabledRadianRightBottom,
+        headButtonEnabledRadianRightBottom = typedArray.getDimensionPixelSize(
+            R.styleable.HeadButton_headButtonEnabledRadianRightBottom,
             0
         )
-        headEnabledStrokeColor = typedArray.getColor(
-            R.styleable.HeadButton_headEnabledStrokeColor,
+        headButtonEnabledStrokeColor = typedArray.getColor(
+            R.styleable.HeadButton_headButtonEnabledStrokeColor,
             -1
         )
-        headEnabledStrokeWidth = typedArray.getDimensionPixelSize(
-            R.styleable.HeadButton_headEnabledStrokeWidth,
+        headButtonEnabledStrokeWidth = typedArray.getDimensionPixelSize(
+            R.styleable.HeadButton_headButtonEnabledStrokeWidth,
             0
         )
-        headEnabledStrokeDashWidth = typedArray.getFloat(
-            R.styleable.HeadButton_headEnabledStrokeDashWidth,
+        headButtonEnabledStrokeDashWidth = typedArray.getFloat(
+            R.styleable.HeadButton_headButtonEnabledStrokeDashWidth,
             0F
         )
-        headEnabledStrokeDashGap = typedArray.getFloat(
-            R.styleable.HeadButton_headEnabledStrokeDashGap,
+        headButtonEnabledStrokeDashGap = typedArray.getFloat(
+            R.styleable.HeadButton_headButtonEnabledStrokeDashGap,
             0F
         )
 
         headButtonShape = typedArray.getInt(
             R.styleable.HeadButton_headButtonShape,
-            0
+            ButtonShape.RECTANGLE.ordinal
         )
 
 
@@ -267,45 +272,45 @@ class HeadButton : AppCompatButton {
                 android.R.attr.state_enabled
             ), TemplateDrawable(
                 context,
-                headNormalSupportGradient,
-                headNormalGradientFrom,
-                headNormalGradientTo,
-                headNormalBackgroundColor,
-                headNormalRadianLeftTop,
-                headNormalRadianLeftBottom,
-                headNormalRadianRightTop,
-                headNormalRadianRightBottom,
-                headNormalRadians,
-                headNormalStrokeWidth,
-                headNormalStrokeColor,
-                headNormalStrokeDashWidth,
-                headNormalStrokeDashGap
+                headButtonNormalSupportGradient,
+                headButtonNormalGradientFrom,
+                headButtonNormalGradientTo,
+                headButtonNormalBackgroundColor,
+                headButtonNormalRadianLeftTop,
+                headButtonNormalRadianLeftBottom,
+                headButtonNormalRadianRightTop,
+                headButtonNormalRadianRightBottom,
+                headButtonNormalRadians,
+                headButtonNormalStrokeWidth,
+                headButtonNormalStrokeColor,
+                headButtonNormalStrokeDashWidth,
+                headButtonNormalStrokeDashGap
             ).apply { shape = headButtonShape }
 
         )
         //按下状态
-        headPressedBackgroundColor =
-            if (headPressedBackgroundColor == 0 || headPressedBackgroundColor == -1) headNormalBackgroundColor else headPressedBackgroundColor
-        Log.e("====", "${headPressedBackgroundColor}")
+        headButtonPressedBackgroundColor =
+            if (headButtonPressedBackgroundColor == 0 || headButtonPressedBackgroundColor == -1) headButtonNormalBackgroundColor else headButtonPressedBackgroundColor
+        Log.e("====", "${headButtonPressedBackgroundColor}")
         addState(
             intArrayOf(
                 android.R.attr.state_pressed,
                 android.R.attr.state_enabled
             ), TemplateDrawable(
                 context,
-                headPressedSupportGradient,
-                headPressedGradientFrom,
-                headPressedGradientTo,
-                headPressedBackgroundColor,
-                headPressedRadianLeftTop,
-                headPressedRadianLeftBottom,
-                headPressedRadianRightTop,
-                headPressedRadianRightBottom,
-                headPressedRadians,
-                headPressedStrokeWidth,
-                headPressedStrokeColor,
-                headPressedStrokeDashWidth,
-                headPressedStrokeDashGap
+                headButtonPressedSupportGradient,
+                headButtonPressedGradientFrom,
+                headButtonPressedGradientTo,
+                headButtonPressedBackgroundColor,
+                headButtonPressedRadianLeftTop,
+                headButtonPressedRadianLeftBottom,
+                headButtonPressedRadianRightTop,
+                headButtonPressedRadianRightBottom,
+                headButtonPressedRadians,
+                headButtonPressedStrokeWidth,
+                headButtonPressedStrokeColor,
+                headButtonPressedStrokeDashWidth,
+                headButtonPressedStrokeDashGap
             ).apply { shape = headButtonShape }
 
         )
@@ -314,223 +319,222 @@ class HeadButton : AppCompatButton {
             intArrayOf(-android.R.attr.state_enabled),
             TemplateDrawable(
                 context,
-                headEnabledSupportGradient,
-                headEnabledGradientFrom,
-                headEnabledGradientTo,
-                headEnabledBackgroundColor,
-                headEnabledRadianLeftTop,
-                headEnabledRadianLeftBottom,
-                headEnabledRadianRightTop,
-                headEnabledRadianRightBottom,
-                headEnabledRadians,
-                headEnabledStrokeWidth,
-                headEnabledStrokeColor,
-                headEnabledStrokeDashWidth,
-                headEnabledStrokeDashGap
+                headButtonEnabledSupportGradient,
+                headButtonEnabledGradientFrom,
+                headButtonEnabledGradientTo,
+                headButtonEnabledBackgroundColor,
+                headButtonEnabledRadianLeftTop,
+                headButtonEnabledRadianLeftBottom,
+                headButtonEnabledRadianRightTop,
+                headButtonEnabledRadianRightBottom,
+                headButtonEnabledRadians,
+                headButtonEnabledStrokeWidth,
+                headButtonEnabledStrokeColor,
+                headButtonEnabledStrokeDashWidth,
+                headButtonEnabledStrokeDashGap
             ).apply { shape = headButtonShape }
         )
         invalidate()
     }
 
-    fun setHeadNormalBackgroundColor(headNormalBackgroundColor: Int) {
-        this.headNormalBackgroundColor = headNormalBackgroundColor
-        Log.e("====", headNormalBackgroundColor.toString());
+    fun setHeadButtonNormalBackgroundColor(headButtonNormalBackgroundColor: Int) {
+        this.headButtonNormalBackgroundColor = headButtonNormalBackgroundColor
         background = createDrawable()
     }
 
-    fun setHeadNormalSupportGradient(headNormalSupportGradient: Boolean) {
-        this.headNormalSupportGradient = headNormalSupportGradient
+    fun setHeadButtonNormalSupportGradient(headButtonNormalSupportGradient: Boolean) {
+        this.headButtonNormalSupportGradient = headButtonNormalSupportGradient
 
         background = createDrawable()
     }
 
-    fun setHeadNormalGradientFrom(headNormalGradientFrom: Int) {
-        this.headNormalGradientFrom = headNormalGradientFrom
+    fun setHeadButtonNormalGradientFrom(headButtonNormalGradientFrom: Int) {
+        this.headButtonNormalGradientFrom = headButtonNormalGradientFrom
         background = createDrawable()
     }
 
-    fun setHeadNormalGradientTo(headNormalGradientTo: Int) {
-        this.headNormalGradientTo = headNormalGradientTo
+    fun setHeadButtonNormalGradientTo(headButtonNormalGradientTo: Int) {
+        this.headButtonNormalGradientTo = headButtonNormalGradientTo
         background = createDrawable()
     }
 
-    fun setHeadNormalRadians(headNormalRadians: Int) {
-        this.headNormalRadians = headNormalRadians
+    fun setHeadButtonNormalRadians(headButtonNormalRadians: Int) {
+        this.headButtonNormalRadians = headButtonNormalRadians
         background = createDrawable()
     }
 
-    fun setHeadNormalRadianLeftTop(headNormalRadianLeftTop: Int) {
-        this.headNormalRadianLeftTop = headNormalRadianLeftTop
+    fun setHeadButtonNormalRadianLeftTop(headButtonNormalRadianLeftTop: Int) {
+        this.headButtonNormalRadianLeftTop = headButtonNormalRadianLeftTop
         background = createDrawable()
     }
 
-    fun setHeadNormalRadianRightTop(headNormalRadianRightTop: Int) {
-        this.headNormalRadianRightTop = headNormalRadianRightTop
+    fun setHeadButtonNormalRadianRightTop(headButtonNormalRadianRightTop: Int) {
+        this.headButtonNormalRadianRightTop = headButtonNormalRadianRightTop
         background = createDrawable()
     }
 
-    fun setHeadNormalRadianLeftBottom(headNormalRadianLeftBottom: Int) {
-        this.headNormalRadianLeftBottom = headNormalRadianLeftBottom
+    fun setHeadButtonNormalRadianLeftBottom(headButtonNormalRadianLeftBottom: Int) {
+        this.headButtonNormalRadianLeftBottom = headButtonNormalRadianLeftBottom
         background = createDrawable()
     }
 
-    fun setHeadNormalRadianRightBottom(headNormalRadianRightBottom: Int) {
-        this.headNormalRadianRightBottom = headNormalRadianRightBottom
+    fun setHeadButtonNormalRadianRightBottom(headButtonNormalRadianRightBottom: Int) {
+        this.headButtonNormalRadianRightBottom = headButtonNormalRadianRightBottom
         background = createDrawable()
     }
 
-    fun setHeadNormalStrokeWidth(headNormalStrokeWidth: Int) {
-        this.headNormalStrokeWidth = headNormalStrokeWidth
+    fun setHeadButtonNormalStrokeWidth(headButtonNormalStrokeWidth: Int) {
+        this.headButtonNormalStrokeWidth = headButtonNormalStrokeWidth
         background = createDrawable()
     }
 
-    fun setHeadNormalStrokeColor(headNormalStrokeColor: Int) {
-        this.headNormalStrokeColor = headNormalStrokeColor
+    fun setHeadButtonNormalStrokeColor(headButtonNormalStrokeColor: Int) {
+        this.headButtonNormalStrokeColor = headButtonNormalStrokeColor
         background = createDrawable()
     }
 
-    fun setHeadNormalStrokeDashWidth(headNormalStrokeDashWidth: Float) {
-        this.headNormalStrokeDashWidth = headNormalStrokeDashWidth
+    fun setHeadButtonNormalStrokeDashWidth(headButtonNormalStrokeDashWidth: Float) {
+        this.headButtonNormalStrokeDashWidth = headButtonNormalStrokeDashWidth
         background = createDrawable()
     }
 
-    fun setHeadNormalStrokeDashGap(headNormalStrokeDashGap: Float) {
-        this.headNormalStrokeDashGap = headNormalStrokeDashGap
+    fun setHeadButtonNormalStrokeDashGap(headButtonNormalStrokeDashGap: Float) {
+        this.headButtonNormalStrokeDashGap = headButtonNormalStrokeDashGap
         background = createDrawable()
     }
 
-    fun setHeadPressedBackgroundColor(headPressedBackgroundColor: Int) {
-        this.headPressedBackgroundColor = headPressedBackgroundColor
+    fun setHeadButtonPressedBackgroundColor(headButtonPressedBackgroundColor: Int) {
+        this.headButtonPressedBackgroundColor = headButtonPressedBackgroundColor
         background = createDrawable()
     }
 
-    fun setHeadPressedSupportGradient(headPressedSupportGradient: Boolean) {
-        this.headPressedSupportGradient = headPressedSupportGradient
+    fun setHeadButtonPressedSupportGradient(headButtonPressedSupportGradient: Boolean) {
+        this.headButtonPressedSupportGradient = headButtonPressedSupportGradient
         background = createDrawable()
     }
 
-    fun setHeadPressedGradientFrom(headPressedGradientFrom: Int) {
-        this.headPressedGradientFrom = headPressedGradientFrom
+    fun setHeadButtonPressedGradientFrom(headButtonPressedGradientFrom: Int) {
+        this.headButtonPressedGradientFrom = headButtonPressedGradientFrom
         background = createDrawable()
     }
 
-    fun setHeadPressedGradientTo(headPressedGradientTo: Int) {
-        this.headPressedGradientTo = headPressedGradientTo
+    fun setHeadButtonPressedGradientTo(headButtonPressedGradientTo: Int) {
+        this.headButtonPressedGradientTo = headButtonPressedGradientTo
         background = createDrawable()
     }
 
-    fun setHeadPressedRadians(headPressedRadians: Int) {
-        this.headPressedRadians = headPressedRadians
+    fun setHeadButtonPressedRadians(headButtonPressedRadians: Int) {
+        this.headButtonPressedRadians = headButtonPressedRadians
         background = createDrawable()
     }
 
-    fun setHeadPressedRadianLeftTop(headPressedRadianLeftTop: Int) {
-        this.headPressedRadianLeftTop = headPressedRadianLeftTop
+    fun setHeadButtonPressedRadianLeftTop(headButtonPressedRadianLeftTop: Int) {
+        this.headButtonPressedRadianLeftTop = headButtonPressedRadianLeftTop
         background = createDrawable()
     }
 
-    fun setHeadPressedRadianRightTop(headPressedRadianRightTop: Int) {
-        this.headPressedRadianRightTop = headPressedRadianRightTop
+    fun setHeadButtonPressedRadianRightTop(headButtonPressedRadianRightTop: Int) {
+        this.headButtonPressedRadianRightTop = headButtonPressedRadianRightTop
         background = createDrawable()
     }
 
-    fun setHeadPressedRadianLeftBottom(headPressedRadianLeftBottom: Int) {
-        this.headPressedRadianLeftBottom = headPressedRadianLeftBottom
+    fun setHeadButtonPressedRadianLeftBottom(headButtonPressedRadianLeftBottom: Int) {
+        this.headButtonPressedRadianLeftBottom = headButtonPressedRadianLeftBottom
         background = createDrawable()
     }
 
-    fun setHeadPressedRadianRightBottom(headPressedRadianRightBottom: Int) {
-        this.headPressedRadianRightBottom = headPressedRadianRightBottom
+    fun setHeadButtonPressedRadianRightBottom(headButtonPressedRadianRightBottom: Int) {
+        this.headButtonPressedRadianRightBottom = headButtonPressedRadianRightBottom
         background = createDrawable()
     }
 
-    fun setHeadPressedStrokeWidth(headPressedStrokeWidth: Int) {
-        this.headPressedStrokeWidth = headPressedStrokeWidth
+    fun setHeadButtonPressedStrokeWidth(headButtonPressedStrokeWidth: Int) {
+        this.headButtonPressedStrokeWidth = headButtonPressedStrokeWidth
         background = createDrawable()
     }
 
-    fun setHeadPressedStrokeColor(headPressedStrokeColor: Int) {
-        this.headPressedStrokeColor = headPressedStrokeColor
+    fun setHeadButtonPressedStrokeColor(headButtonPressedStrokeColor: Int) {
+        this.headButtonPressedStrokeColor = headButtonPressedStrokeColor
         background = createDrawable()
     }
 
-    fun setHeadPressedStrokeDashWidth(headPressedStrokeDashWidth: Float) {
-        this.headPressedStrokeDashWidth = headPressedStrokeDashWidth
+    fun setHeadButtonPressedStrokeDashWidth(headButtonPressedStrokeDashWidth: Float) {
+        this.headButtonPressedStrokeDashWidth = headButtonPressedStrokeDashWidth
         background = createDrawable()
     }
 
-    fun setHeadPressedStrokeDashGap(headPressedStrokeDashGap: Float) {
-        this.headPressedStrokeDashGap = headPressedStrokeDashGap
+    fun setHeadButtonPressedStrokeDashGap(headButtonPressedStrokeDashGap: Float) {
+        this.headButtonPressedStrokeDashGap = headButtonPressedStrokeDashGap
         background = createDrawable()
     }
 
-    fun setHeadEnabledBackgroundColor(headEnabledBackgroundColor: Int) {
-        this.headEnabledBackgroundColor = headEnabledBackgroundColor
+    fun setHeadButtonEnabledBackgroundColor(headButtonEnabledBackgroundColor: Int) {
+        this.headButtonEnabledBackgroundColor = headButtonEnabledBackgroundColor
         background = createDrawable()
     }
 
-    fun setHeadEnabledSupportGradient(headEnabledSupportGradient: Boolean) {
-        this.headEnabledSupportGradient = headEnabledSupportGradient
+    fun setHeadButtonEnabledSupportGradient(headButtonEnabledSupportGradient: Boolean) {
+        this.headButtonEnabledSupportGradient = headButtonEnabledSupportGradient
         background = createDrawable()
     }
 
-    fun setHeadEnabledGradientFrom(headEnabledGradientFrom: Int) {
-        this.headEnabledGradientFrom = headEnabledGradientFrom
+    fun setHeadButtonEnabledGradientFrom(headButtonEnabledGradientFrom: Int) {
+        this.headButtonEnabledGradientFrom = headButtonEnabledGradientFrom
         background = createDrawable()
     }
 
-    fun setHeadEnabledGradientTo(headEnabledGradientTo: Int) {
-        this.headEnabledGradientTo = headEnabledGradientTo
+    fun setHeadButtonEnabledGradientTo(headButtonEnabledGradientTo: Int) {
+        this.headButtonEnabledGradientTo = headButtonEnabledGradientTo
         background = createDrawable()
     }
 
-    fun setHeadEnabledRadians(headEnabledRadians: Int) {
-        this.headEnabledRadians = headEnabledRadians
+    fun setHeadButtonEnabledRadians(headButtonEnabledRadians: Int) {
+        this.headButtonEnabledRadians = headButtonEnabledRadians
         background = createDrawable()
     }
 
-    fun setHeadEnabledRadianLeftTop(headEnabledRadianLeftTop: Int) {
-        this.headEnabledRadianLeftTop = headEnabledRadianLeftTop
+    fun setHeadButtonEnabledRadianLeftTop(headButtonEnabledRadianLeftTop: Int) {
+        this.headButtonEnabledRadianLeftTop = headButtonEnabledRadianLeftTop
         background = createDrawable()
     }
 
-    fun setHeadEnabledRadianRightTop(headEnabledRadianRightTop: Int) {
-        this.headEnabledRadianRightTop = headEnabledRadianRightTop
+    fun setHeadButtonEnabledRadianRightTop(headButtonEnabledRadianRightTop: Int) {
+        this.headButtonEnabledRadianRightTop = headButtonEnabledRadianRightTop
         background = createDrawable()
     }
 
-    fun setHeadEnabledRadianLeftBottom(headEnabledRadianLeftBottom: Int) {
-        this.headEnabledRadianLeftBottom = headEnabledRadianLeftBottom
+    fun setHeadButtonEnabledRadianLeftBottom(headButtonEnabledRadianLeftBottom: Int) {
+        this.headButtonEnabledRadianLeftBottom = headButtonEnabledRadianLeftBottom
         background = createDrawable()
     }
 
-    fun setHeadEnabledRadianRightBottom(headEnabledRadianRightBottom: Int) {
-        this.headEnabledRadianRightBottom = headEnabledRadianRightBottom
+    fun setHeadButtonEnabledRadianRightBottom(headButtonEnabledRadianRightBottom: Int) {
+        this.headButtonEnabledRadianRightBottom = headButtonEnabledRadianRightBottom
         background = createDrawable()
     }
 
-    fun setHeadEnabledStrokeWidth(headEnabledStrokeWidth: Int) {
-        this.headEnabledStrokeWidth = headEnabledStrokeWidth
+    fun setHeadButtonEnabledStrokeWidth(headButtonEnabledStrokeWidth: Int) {
+        this.headButtonEnabledStrokeWidth = headButtonEnabledStrokeWidth
         background = createDrawable()
     }
 
-    fun setHeadEnabledStrokeColor(headEnabledStrokeColor: Int) {
-        this.headEnabledStrokeColor = headEnabledStrokeColor
+    fun setHeadButtonEnabledStrokeColor(headButtonEnabledStrokeColor: Int) {
+        this.headButtonEnabledStrokeColor = headButtonEnabledStrokeColor
         background = createDrawable()
     }
 
-    fun setHeadEnabledStrokeDashWidth(headEnabledStrokeDashWidth: Float) {
-        this.headEnabledStrokeDashWidth = headEnabledStrokeDashWidth
+    fun setHeadButtonEnabledStrokeDashWidth(headButtonEnabledStrokeDashWidth: Float) {
+        this.headButtonEnabledStrokeDashWidth = headButtonEnabledStrokeDashWidth
         background = createDrawable()
     }
 
-    fun setHeadEnabledStrokeDashGap(headEnabledStrokeDashGap: Float) {
-        this.headEnabledStrokeDashGap = headEnabledStrokeDashGap
+    fun setHeadButtonEnabledStrokeDashGap(headButtonEnabledStrokeDashGap: Float) {
+        this.headButtonEnabledStrokeDashGap = headButtonEnabledStrokeDashGap
         background = createDrawable()
     }
 
-    fun setHeadButtonShape(headButtonShape: Int) {
-        this.headButtonShape = headButtonShape
+    fun setHeadButtonShape(headButtonShape: ButtonShape) {
+        this.headButtonShape = headButtonShape.ordinal
         background = createDrawable()
     }
 

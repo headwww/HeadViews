@@ -1,17 +1,100 @@
 <?xml version="1.0" encoding="utf-8"?>
-<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
-    xmlns:tools="http://schemas.android.com/tools"
-    android:layout_width="match_parent"
-    android:layout_height="match_parent"
-    tools:context=".ui.spinner.SpinnerFragment">
+    xmlns:tools="http://schemas.android.com/tools">
 
-    <com.head.view.HeadSpinner
-        android:id="@+id/headSpinner"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="com.head.view.HeadSpinner"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
-</androidx.constraintlayout.widget.ConstraintLayout>
+    <data>
+
+    </data>
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        tools:context=".ui.spinner.SpinnerFragment">
+
+        <com.head.view.HeadSpinner
+            android:id="@+id/headSpinner"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:hint="基本使用"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:headSpinnerWidth="100dp"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
+
+        <com.head.view.HeadSpinner
+            android:id="@+id/headSpinner2"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="20dp"
+            android:hint="自定义弹出的宽高\相对锚点偏移值\对齐方式"
+            app:headSpinnerHeight="100dp"
+            app:headSpinnerHorizontalOffset="30dp"
+            app:headSpinnerVerticalOffset="30dp"
+            app:headSpinnerWidth="400dp"
+            app:headSpinnerDropDownGravity="LEFT"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintHorizontal_bias="0.496"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/headSpinner" />
+
+        <com.head.view.HeadSpinner
+            android:id="@+id/headSpinner3"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="24dp"
+            android:text="设置弹出窗的背景（支持渐变）\弧度\边框等，Item文本颜色/字体大小"
+            app:headSpinnerGradientFrom="#5E5E5E"
+            app:headSpinnerGradientTo="#6C6C6C"
+            app:headSpinnerRadians="12dp"
+            app:headSpinnerStrokeColor="#E4E4E4"
+            app:headSpinnerStrokeWidth="1dp"
+            app:headSpinnerSupportGradient="true"
+            app:headSpinnerWidth="300dp"
+            app:headSpinnerTextColor="#FFFFFF"
+            app:headSpinnerTextSize="15dp"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintHorizontal_bias="0.497"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/headSpinner2" />
+
+        <com.head.view.HeadSpinner
+            android:id="@+id/headSpinner4"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="20dp"
+            android:text="设置角标的颜色和显示状态/设置Item图标"
+            app:headSpinnerArrowColor="#FF9800"
+            app:headSpinnerArrowVisibility="visible"
+            app:headSpinnerWidth="300dp"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintHorizontal_bias="0.497"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/headSpinner3" />
+
+        <com.head.view.HeadSpinner
+            android:id="@+id/headSpinner5"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="20dp"
+            android:text="监听事件"
+            app:headSpinnerWidth="300dp"
+            app:headSpinnerArrowVisibility="gone"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintHorizontal_bias="0.497"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/headSpinner4" />
+
+        <com.head.view.HeadSpinner
+            android:id="@+id/headSpinner6"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            app:headSpinnerWidth="300dp"
+            android:layout_marginTop="20dp"
+            android:text="设置Item显示格式和Item默认值"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/headSpinner5" />
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
+</layout>

@@ -7,6 +7,7 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModelProvider
+import com.head.view.HeadEditTextView
 import com.head.views.TAG
 import com.head.views.databinding.FragmentEditTextBinding
 
@@ -30,20 +31,20 @@ class HomeFragment : Fragment() {
         binding.viewModel = editTextViewViewModel
         binding.lifecycleOwner = this
         binding.checkbox1.setOnCheckedChangeListener { buttonView, isChecked ->
-            if (isChecked) binding.headEditTextView.setHeadType(-2) else binding.headEditTextView.setHeadType(-1)
+            if (isChecked) binding.headEditTextView.setHeadEditTextType(HeadEditTextView.EditTextType.TEXTVIEW) else binding.headEditTextView.setHeadEditTextType(HeadEditTextView.EditTextType.EDITTEXT)
          }
         var i = 0
         binding.colorPickerView.addOnColorChangedListener {
             if (editTextViewViewModel.check1.value == true){
                 if (i==1){
-                    binding.headEditTextView.setHeadGradientFrom(it)
+                    binding.headEditTextView.setHeadEditTextGradientFrom(it)
                     i=0
                 }else{
-                    binding.headEditTextView.setHeadGradientTo(it)
+                    binding.headEditTextView.setHeadEditTextGradientTo(it)
                     i++
                 }
             }else{
-                binding.headEditTextView.setHeadBackgroundColor(it)
+                binding.headEditTextView.setHeadEditTextBackgroundColor(it)
             }
         }
         binding.headEditTextView.setOnLeftDrawableClickListener {

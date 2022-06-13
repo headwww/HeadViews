@@ -50,91 +50,95 @@ class HeadEditTextView :
         init(attrs, defStyleAttr)
     }
 
+    enum class EditTextType{
+        EDITTEXT,
+        TEXTVIEW
+    }
 
     /**
      * 背景色
      */
     @ColorInt
-    private var headBackgroundColor: Int = Color.TRANSPARENT
+    private var headEditTextBackgroundColor: Int = Color.TRANSPARENT
 
     /**
      * 是否支持渐变色
      */
-    private var headSupportGradient: Boolean = false
+    private var headEditTextSupportGradient: Boolean = false
 
     /**
      * 渐变色的起始色
      */
     @ColorInt
-    private var headGradientFrom: Int = Color.TRANSPARENT
+    private var headEditTextGradientFrom: Int = Color.TRANSPARENT
 
     /**
      * 渐变色的结束色
      */
     @ColorInt
-    private var headGradientTo: Int = Color.TRANSPARENT
+    private var headEditTextGradientTo: Int = Color.TRANSPARENT
 
     /**
      * 设置角的弧度数
      */
-    private var headRadians: Int = 0
+    private var headEditTextRadians: Int = 0
 
     /**
      * 设置左上角的弧度
      */
-    private var headRadianLeftTop: Int = 0
+    private var headEditTextRadianLeftTop: Int = 0
 
     /**
      * 设置右上角的弧度
      */
-    private var headRadianRightTop: Int = 0
+    private var headEditTextRadianRightTop: Int = 0
 
     /**
      * 设置左下角的弧度
      */
-    private var headRadianLeftBottom: Int = 0
+    private var headEditTextRadianLeftBottom: Int = 0
 
     /**
      * 设置右下角的弧度
      */
-    private var headRadianRightBottom: Int = 0
+    private var headEditTextRadianRightBottom: Int = 0
 
     /**
      * 是否开启清空文本的功能，默认关闭
      */
-    private var headClear: Boolean = false
+    private var headEditTextClear: Boolean = false
 
     /**
      * 设置右侧的清空内容按钮是否根据焦点来控制显示还是不显示，默认关闭这个开关
      */
-    private var headClearIcon: Boolean = false
+    private var headEditTextClearIcon: Boolean = false
 
 
     /**
      * 控件格式：文本-2或编辑框-1，默认为编辑框 -1，
      */
-    private var headType: Int = -1
+    private var headEditTextType: Int = EditTextType.EDITTEXT.ordinal
 
     /**
      * 设置边框
      */
     @ColorInt
-    private var headStrokeColor: Int = -1
+    private var headEditTextStrokeColor: Int = -1
 
     /**
      * 设置边框宽度
      */
-    private var headStrokeWidth: Int = 0
+    private var headEditTextStrokeWidth: Int = 0
 
     /**
      * 设置边框为虚线的长度
      */
-    private var headStrokeDashWidth: Float = 0F
+    private var headEditTextStrokeDashWidth: Float = 0F
 
     /**
      * 设置虚线之间的像素间距
      */
-    private var headStrokeDashGap: Float = 0F
+    private var headEditTextStrokeDashGap: Float = 0F
 
     /**
      * 左边图标的点击事件
@@ -178,69 +182,69 @@ class HeadEditTextView :
 
         val typedArray: TypedArray =
             context.obtainStyledAttributes(attrs, R.styleable.HeadEditTextView)
-        
-        headBackgroundColor = typedArray.getColor(
-            R.styleable.HeadEditTextView_headBackgroundColor,
+
+        headEditTextBackgroundColor = typedArray.getColor(
+            R.styleable.HeadEditTextView_headEditTextBackgroundColor,
             Color.TRANSPARENT
         )
-        headSupportGradient = typedArray.getBoolean(
-            R.styleable.HeadEditTextView_headSupportGradient,
+        headEditTextSupportGradient = typedArray.getBoolean(
+            R.styleable.HeadEditTextView_headEditTextSupportGradient,
             false
         )
-        headGradientFrom = typedArray.getColor(
-            R.styleable.HeadEditTextView_headGradientFrom,
+        headEditTextGradientFrom = typedArray.getColor(
+            R.styleable.HeadEditTextView_headEditTextGradientFrom,
             Color.TRANSPARENT
         )
-        headGradientTo = typedArray.getColor(
-            R.styleable.HeadEditTextView_headGradientTo,
+        headEditTextGradientTo = typedArray.getColor(
+            R.styleable.HeadEditTextView_headEditTextGradientTo,
             Color.TRANSPARENT
         )
-        headRadians = typedArray.getDimensionPixelSize(
-            R.styleable.HeadEditTextView_headRadians,
+        headEditTextRadians = typedArray.getDimensionPixelSize(
+            R.styleable.HeadEditTextView_headEditTextRadians,
             0
         )
-        headRadianLeftTop = typedArray.getDimensionPixelSize(
-            R.styleable.HeadEditTextView_headRadianLeftTop,
+        headEditTextRadianLeftTop = typedArray.getDimensionPixelSize(
+            R.styleable.HeadEditTextView_headEditTextRadianLeftTop,
             0
         )
-        headRadianRightTop = typedArray.getDimensionPixelSize(
-            R.styleable.HeadEditTextView_headRadianRightTop,
+        headEditTextRadianRightTop = typedArray.getDimensionPixelSize(
+            R.styleable.HeadEditTextView_headEditTextRadianRightTop,
             0
         )
-        headRadianLeftBottom = typedArray.getDimensionPixelSize(
-            R.styleable.HeadEditTextView_headRadianLeftBottom,
+        headEditTextRadianLeftBottom = typedArray.getDimensionPixelSize(
+            R.styleable.HeadEditTextView_headEditTextRadianLeftBottom,
             0
         )
-        headRadianRightBottom = typedArray.getDimensionPixelSize(
-            R.styleable.HeadEditTextView_headRadianRightBottom,
+        headEditTextRadianRightBottom = typedArray.getDimensionPixelSize(
+            R.styleable.HeadEditTextView_headEditTextRadianRightBottom,
             0
         )
-        headType = typedArray.getInt(
-            R.styleable.HeadEditTextView_headType,
+        headEditTextType = typedArray.getInt(
+            R.styleable.HeadEditTextView_headEditTextType,
+            EditTextType.EDITTEXT.ordinal
+        )
+        headEditTextStrokeColor = typedArray.getColor(
+            R.styleable.HeadEditTextView_headEditTextStrokeColor,
             -1
         )
-        headStrokeColor = typedArray.getColor(
-            R.styleable.HeadEditTextView_headStrokeColor,
-            -1
-        )
-        headStrokeWidth = typedArray.getDimensionPixelSize(
-            R.styleable.HeadEditTextView_headStrokeWidth,
+        headEditTextStrokeWidth = typedArray.getDimensionPixelSize(
+            R.styleable.HeadEditTextView_headEditTextStrokeWidth,
             0
         )
-        headStrokeDashWidth = typedArray.getFloat(
-            R.styleable.HeadEditTextView_headStrokeDashWidth,
+        headEditTextStrokeDashWidth = typedArray.getFloat(
+            R.styleable.HeadEditTextView_headEditTextStrokeDashWidth,
             0F
         )
-        headStrokeDashGap = typedArray.getFloat(
-            R.styleable.HeadEditTextView_headStrokeDashGap,
+        headEditTextStrokeDashGap = typedArray.getFloat(
+            R.styleable.HeadEditTextView_headEditTextStrokeDashGap,
             0F
         )
-        headClear = typedArray.getBoolean(
-            R.styleable.HeadEditTextView_headClear,
+        headEditTextClear = typedArray.getBoolean(
+            R.styleable.HeadEditTextView_headEditTextClear,
             false
         )
-        headClearIcon = typedArray.getBoolean(
-            R.styleable.HeadEditTextView_headClearIcon,
+        headEditTextClearIcon = typedArray.getBoolean(
+            R.styleable.HeadEditTextView_headEditTextClearIcon,
             false
         )
 
@@ -255,7 +259,7 @@ class HeadEditTextView :
      * 右边删除按钮
      */
     private fun isOpenClear() {
-        if (headClear) {
+        if (headEditTextClear) {
             this.drawableClear = if (drawableInitRight == null) ContextCompat.getDrawable(
                 context,
                 R.drawable.head_edit_text_clear
@@ -267,9 +271,12 @@ class HeadEditTextView :
                 drawableClear!!.intrinsicWidth,
                 drawableClear!!.intrinsicHeight
             )
-            this.onRightDrawableClickListener = if (this.onRightDrawableClickListener!=null) this.onRightDrawableClickListener else {{}}
+            this.onRightDrawableClickListener =
+                if (this.onRightDrawableClickListener != null) this.onRightDrawableClickListener else {
+                    {}
+                }
             setRightClearIcon(hasFocus() && length() != 0)
-            if (headClearIcon) {
+            if (headEditTextClearIcon) {
                 setRightClearIcon(true)
             }
 
@@ -287,10 +294,10 @@ class HeadEditTextView :
         lengthAfter: Int
     ) {
         super.onTextChanged(text, start, lengthBefore, lengthAfter)
-        if (headClear) {
+        if (headEditTextClear) {
             setRightClearIcon(hasFocus() && length() != 0)
         }
-        if (headClearIcon) {
+        if (headEditTextClearIcon) {
             setRightClearIcon(true && length() != 0)
         }
 
@@ -298,10 +305,10 @@ class HeadEditTextView :
 
     override fun onFocusChanged(focused: Boolean, direction: Int, previouslyFocusedRect: Rect?) {
         super.onFocusChanged(focused, direction, previouslyFocusedRect)
-        if (headClear) {
+        if (headEditTextClear) {
             setRightClearIcon(hasFocus() && length() != 0)
         }
-        if (headClearIcon) {
+        if (headEditTextClearIcon) {
             setRightClearIcon(true)
         }
 
@@ -367,7 +374,7 @@ class HeadEditTextView :
                 val rangeRightY =
                     yCenterPoint + deviationY - drawableRight.intrinsicHeight / 2..yCenterPoint + deviationY + drawableRight.intrinsicHeight / 2
                 if (eventX in rangeRightX && eventY in rangeRightY) {
-                    if (headClear) {
+                    if (headEditTextClear) {
                         setText("")
                     }
                     onRightDrawableClickListener?.invoke(this)
@@ -400,7 +407,7 @@ class HeadEditTextView :
             }
 
             //文本区域x轴方向，当不是编辑器时才触发
-            if (onTextareaClickListener != null && headType != -1) {
+            if (onTextareaClickListener != null && headEditTextType != 0) {
                 val rangeCenterX = paddingLeft + (drawableLeft?.intrinsicWidth
                     ?: 0) + (if (drawableLeft == null) 0 else compoundDrawablePadding)..width - paddingRight - (drawableRight?.intrinsicWidth
                     ?: 0) - (if (drawableRight == null) 0 else compoundDrawablePadding)
@@ -428,7 +435,7 @@ class HeadEditTextView :
      * 设置当前控件是文本框还是编辑框，默认为编辑框
      */
     private fun getViewType() {
-        if (headType == -1) {
+        if (headEditTextType == 0) {
             isClickable = false
             isFocusableInTouchMode = true
             isEnabled = true
@@ -444,30 +451,30 @@ class HeadEditTextView :
      */
     private fun getDrawable(): TemplateDrawable = TemplateDrawable(
         context,
-        headSupportGradient,
-        headGradientFrom,
-        headGradientTo,
-        headBackgroundColor,
-        headRadianLeftTop,
-        headRadianLeftBottom,
-        headRadianRightTop,
-        headRadianRightBottom,
-        headRadians,
-        headStrokeWidth,
-        headStrokeColor,
-        headStrokeDashWidth,
-        headStrokeDashGap
+        headEditTextSupportGradient,
+        headEditTextGradientFrom,
+        headEditTextGradientTo,
+        headEditTextBackgroundColor,
+        headEditTextRadianLeftTop,
+        headEditTextRadianLeftBottom,
+        headEditTextRadianRightTop,
+        headEditTextRadianRightBottom,
+        headEditTextRadians,
+        headEditTextStrokeWidth,
+        headEditTextStrokeColor,
+        headEditTextStrokeDashWidth,
+        headEditTextStrokeDashGap
     ).apply {
         this@HeadEditTextView.invalidate()
     }
 
 
-        /**
-         * 左边图标的点击事件
-         */
-        fun setOnLeftDrawableClickListener(onPositionDrawableClickListener: (v: HeadEditTextView) -> Unit) {
-            this.onLeftDrawableClickListener = onPositionDrawableClickListener
-        }
+    /**
+     * 左边图标的点击事件
+     */
+    fun setOnLeftDrawableClickListener(onPositionDrawableClickListener: (v: HeadEditTextView) -> Unit) {
+        this.onLeftDrawableClickListener = onPositionDrawableClickListener
+    }
 
 
     /**
@@ -501,80 +508,80 @@ class HeadEditTextView :
     /**
      * 设置背景色
      */
-    fun setHeadBackgroundColor(@ColorInt color: Int) {
-        headBackgroundColor = color
+    fun setHeadEditTextBackgroundColor(@ColorInt color: Int) {
+        headEditTextBackgroundColor = color
         background = getDrawable()
     }
 
     /**
      * 渐变支持
      */
-    fun setHeadSupportGradient(support: Boolean) {
-        headSupportGradient = support
+    fun setHeadEditTextSupportGradient(support: Boolean) {
+        headEditTextSupportGradient = support
         background = getDrawable()
     }
 
     /**
      * 渐变支持 起始色
      */
-    fun setHeadGradientFrom(@ColorInt color: Int) {
-        headGradientFrom = color
+    fun setHeadEditTextGradientFrom(@ColorInt color: Int) {
+        headEditTextGradientFrom = color
         background = getDrawable()
     }
 
     /**
      * 渐变支持 结束色
      */
-    fun setHeadGradientTo(@ColorInt color: Int) {
-        headGradientTo = color
+    fun setHeadEditTextGradientTo(@ColorInt color: Int) {
+        headEditTextGradientTo = color
         background = getDrawable()
     }
 
     /**
      * 设置圆弧角度
      */
-    fun setHeadRadians(radian: Int) {
-        headRadians = radian
+    fun setHeadEditTextRadians(radian: Int) {
+        headEditTextRadians = radian
         background = getDrawable()
     }
 
     /**
      * 设置圆弧LeftTop角度
      */
-    fun setHeadRadianLeftTop(radian: Int) {
-        headRadianLeftTop = radian
+    fun setHeadEditTextRadianLeftTop(radian: Int) {
+        headEditTextRadianLeftTop = radian
         background = getDrawable()
     }
 
     /**
      * 设置圆弧LeftBottom角度
      */
-    fun setHeadRadianLeftBottom(radian: Int) {
-        headRadianLeftBottom = radian
+    fun setHeadEditTextRadianLeftBottom(radian: Int) {
+        headEditTextRadianLeftBottom = radian
         background = getDrawable()
     }
 
     /**
      * 设置圆弧RightTop角度
      */
-    fun setHeadRadianRightTop(radian: Int) {
-        headRadianRightTop = radian
+    fun setHeadEditTextRadianRightTop(radian: Int) {
+        headEditTextRadianRightTop = radian
         background = getDrawable()
     }
 
     /**
      * 设置圆弧RightBottom角度
      */
-    fun setHeadRadianRightBottom(radian: Int) {
-        headRadianRightBottom = radian
+    fun setHeadEditTextRadianRightBottom(radian: Int) {
+        headEditTextRadianRightBottom = radian
         background = getDrawable()
     }
 
     /**
      * 控件类型
      */
-    fun setHeadType(type: Int) {
-        headType = type
+    fun setHeadEditTextType(type: EditTextType) {
+        headEditTextType = type.ordinal
         getViewType()
         invalidate()
     }
@@ -582,8 +589,8 @@ class HeadEditTextView :
     /**
      * 边框颜色
      */
-    fun setHeadStrokeColor(@ColorInt color: Int) {
-        headStrokeColor = color
+    fun setHeadEditTextStrokeColor(@ColorInt color: Int) {
+        headEditTextStrokeColor = color
         background = getDrawable()
     }
 
@@ -591,40 +598,40 @@ class HeadEditTextView :
     /**
      * 设置边框宽度
      */
-    fun setHeadStrokeWidth(width: Int) {
-        headStrokeWidth = width
+    fun setHeadEditTextStrokeWidth(width: Int) {
+        headEditTextStrokeWidth = width
         background = getDrawable()
     }
 
     /**
      * 设置边框为虚线的长度
      */
-    fun setHeadStrokeDashWidth(width: Float) {
-        headStrokeDashWidth = width
+    fun setHeadEditTextStrokeDashWidth(width: Float) {
+        headEditTextStrokeDashWidth = width
         background = getDrawable()
     }
 
     /**
      * 设置边框为虚线的长度
      */
-    fun setHeadStrokeDashGap(gap: Float) {
-        headStrokeDashGap = gap
+    fun setHeadEditTextStrokeDashGap(gap: Float) {
+        headEditTextStrokeDashGap = gap
         background = getDrawable()
     }
 
     /**
      * 右侧删除功能是否开启
      */
-    fun setHeadClear(clear: Boolean) {
-        headClear = clear
+    fun setHeadEditTextClear(clear: Boolean) {
+        headEditTextClear = clear
         isOpenClear()
     }
 
     /**
      * 右侧删除功能的图标是否常驻显示
      */
-    fun setHeadClearIcon(clear: Boolean) {
-        headClearIcon = clear
+    fun setHeadEditTextClearIcon(clear: Boolean) {
+        headEditTextClearIcon = clear
         isOpenClear()
     }
 

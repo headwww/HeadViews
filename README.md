@@ -57,22 +57,22 @@ binding.headEditTextView.setOnBottomDrawableClickListener {
 
 | attr                  | info                                                         | format    |
 | :-------------------- | :----------------------------------------------------------- | :-------- |
-| headBackgroundColor   | 背景色                                                       | color     |
-| headSupportGradient   | 是否支持渐变背景色                                           | boolean   |
-| headGradientFrom      | 渐变起始色                                                   | color     |
-| headGradientTo        | 渐变结束色                                                   | color     |
-| headRadians           | 设置四个角的弧度                                             | dimension |
-| headRadianLeftTop     | 设置左上角的弧度                                             | dimension |
-| headRadianRightTop    | 设置右上角的弧度                                             | dimension |
-| headRadianLeftBottom  | 设置左下角的弧度                                             | dimension |
-| headRadianRightBottom | 设置右下角的弧度                                             | dimension |
-| headStrokeColor       | 边框颜色                                                     | color     |
-| headStrokeWidth       | 设置边框宽度                                                 | dimension |
-| headStrokeDashWidth   | 设置虚线边框宽度                                             | float     |
-| headStrokeDashGap     | 设置虚线边框虚线的间隙                                       | float     |
-| headClear             | 开启右侧图标的清空内容功能 默认关闭这个功能                  | boolean   |
-| headClearIcon         | 设置开启右侧图标的清空功能按钮是否根据焦点来控制显示/隐藏 默认false | boolean   |
-| headType              | 控件类型(支持editText和textView，默认editText)               | enum      |
+| headEditTextBackgroundColor   | 背景色                                                       | color     |
+| headEditTextSupportGradient   | 是否支持渐变背景色                                           | boolean   |
+| headEditTextGradientFrom      | 渐变起始色                                                   | color     |
+| headEditTextGradientTo        | 渐变结束色                                                   | color     |
+| headEditTextRadians           | 设置四个角的弧度                                             | dimension |
+| headEditTextRadianLeftTop     | 设置左上角的弧度                                             | dimension |
+| headEditTextRadianRightTop    | 设置右上角的弧度                                             | dimension |
+| headEditTextRadianLeftBottom  | 设置左下角的弧度                                             | dimension |
+| headEditTextRadianRightBottom | 设置右下角的弧度                                             | dimension |
+| headEditTextStrokeColor       | 边框颜色                                                     | color     |
+| headEditTextStrokeWidth       | 设置边框宽度                                                 | dimension |
+| headEditTextStrokeDashWidth   | 设置虚线边框宽度                                             | float     |
+| headEditTextStrokeDashGap     | 设置虚线边框虚线的间隙                                       | float     |
+| headEditTextClear             | 开启右侧图标的清空内容功能 默认关闭这个功能                  | boolean   |
+| headEditTextClearIcon         | 设置开启右侧图标的清空功能按钮是否根据焦点来控制显示/隐藏 默认false | boolean   |
+| headEditTextType              | 控件类型(支持editText和textView，默认editText)               | enum      |
 
 ## HeadButton
 
@@ -94,19 +94,19 @@ binding.headEditTextView.setOnBottomDrawableClickListener {
 
 | attr                                | info                                                 | format    |
 | :---------------------------------- | :--------------------------------------------------- | :-------- |
-| head/*··········*/BackgroundColor   | 背景色                                               | color     |
-| head/*··········*/SupportGradient   | 是否支持渐变                                         | boolean   |
-| head/*··········*/GradientFrom      | 渐变起始色                                           | color     |
-| head/*··········*/GradientTo        | 渐变结束色                                           | color     |
-| head/*··········*/Radians           | 圆角弧度                                             | dimension |
-| head/*··········*/RadianLeftTop     | 设置左上角的弧度                                     | dimension |
-| head/*··········*/RadianRightTop    | 设置右上角的弧度                                     | dimension |
-| head/*··········*/RadianLeftBottom  | 设置左下角的弧度                                     | dimension |
-| head/*··········*/RadianRightBottom | 设置右下角的弧度                                     | dimension |
-| head/*··········*/StrokeColor       | 边框颜色                                             | color     |
-| head/*··········*/StrokeWidth       | 设置边框宽度                                         | dimension |
-| head/*··········*/StrokeDashWidth   | 设置虚线边框宽度                                     | float     |
-| head/*··········*/StrokeDashGap     | 设置虚线边框虚线的间隙                               | float     |
+| headButton/*··········*/BackgroundColor   | 背景色                                               | color     |
+| headButton/*··········*/SupportGradient   | 是否支持渐变                                         | boolean   |
+| headButton/*··········*/GradientFrom      | 渐变起始色                                           | color     |
+| headButton/*··········*/GradientTo        | 渐变结束色                                           | color     |
+| headButton/*··········*/Radians           | 圆角弧度                                             | dimension |
+| headButton/*··········*/RadianLeftTop     | 设置左上角的弧度                                     | dimension |
+| headButton/*··········*/RadianRightTop    | 设置右上角的弧度                                     | dimension |
+| headButton/*··········*/RadianLeftBottom  | 设置左下角的弧度                                     | dimension |
+| headButton/*··········*/RadianRightBottom | 设置右下角的弧度                                     | dimension |
+| headButton/*··········*/StrokeColor       | 边框颜色                                             | color     |
+| headButton/*··········*/StrokeWidth       | 设置边框宽度                                         | dimension |
+| headButton/*··········*/StrokeDashWidth   | 设置虚线边框宽度                                     | float     |
+| headButton/*··········*/StrokeDashGap     | 设置虚线边框虚线的间隙                               | float     |
 | headButtonShape                     | 设置按钮是矩形还是椭圆形 默认矩形（rectangle，oval） | enum      |
 
 # How to

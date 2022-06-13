@@ -8,6 +8,7 @@ import android.view.ViewGroup
 import android.widget.TextView
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModelProvider
+import com.head.view.HeadButton
 import com.head.views.databinding.FragmentButtonBinding
 
 class ButtonFragment : Fragment() {
@@ -35,42 +36,42 @@ class ButtonFragment : Fragment() {
         binding.colorPickerView1.addOnColorChangedListener {
             if (buttonViewModel.check1.value == true){
                 if (i==1){
-                    binding.headButton.setHeadNormalGradientFrom(it)
+                    binding.headButton.setHeadButtonNormalGradientFrom(it)
                     i=0
                 }else{
-                    binding.headButton.setHeadNormalGradientTo(it)
+                    binding.headButton.setHeadButtonNormalGradientTo(it)
                     i++
                 }
             }else{
-                binding.headButton.setHeadNormalBackgroundColor(it)
+                binding.headButton.setHeadButtonNormalBackgroundColor(it)
             }
         }
         binding.colorPickerView2.addOnColorChangedListener {
             if (buttonViewModel.check1.value == true){
                 if (i==1){
-                    binding.headButton.setHeadPressedGradientFrom(it)
+                    binding.headButton.setHeadButtonPressedGradientFrom(it)
                     i=0
                 }else{
-                    binding.headButton.setHeadPressedGradientTo(it)
+                    binding.headButton.setHeadButtonPressedGradientTo(it)
                     i++
                 }
             }else{
-                binding.headButton.setHeadPressedBackgroundColor(it)
+                binding.headButton.setHeadButtonPressedBackgroundColor(it)
             }
         }
         binding.checkBox11.setOnCheckedChangeListener { buttonView, isChecked ->
             if (isChecked){
-                binding.headButton.setHeadNormalStrokeColor(Color.RED)
-                binding.headButton.setHeadPressedStrokeColor(Color.YELLOW)
-                binding.headButton.setHeadNormalStrokeWidth(6)
-                binding.headButton.setHeadPressedStrokeWidth(6)
-                binding.headButton.setHeadPressedStrokeDashWidth(12F)
-                binding.headButton.setHeadPressedStrokeDashGap(12F)
+                binding.headButton.setHeadButtonNormalStrokeColor(Color.RED)
+                binding.headButton.setHeadButtonPressedStrokeColor(Color.YELLOW)
+                binding.headButton.setHeadButtonNormalStrokeWidth(6)
+                binding.headButton.setHeadButtonPressedStrokeWidth(6)
+                binding.headButton.setHeadButtonPressedStrokeDashWidth(12F)
+                binding.headButton.setHeadButtonPressedStrokeDashGap(12F)
             }else{
-                binding.headButton.setHeadNormalStrokeWidth(0)
-                binding.headButton.setHeadPressedStrokeWidth(0)
-                binding.headButton.setHeadPressedStrokeDashWidth(0F)
-                binding.headButton.setHeadPressedStrokeDashGap(0F)
+                binding.headButton.setHeadButtonNormalStrokeWidth(0)
+                binding.headButton.setHeadButtonPressedStrokeWidth(0)
+                binding.headButton.setHeadButtonPressedStrokeDashWidth(0F)
+                binding.headButton.setHeadButtonPressedStrokeDashGap(0F)
             }
         }
 
