@@ -16,4 +16,9 @@
         android:icon="@drawable/ic_baseline_keyboard_arrow_down_24"
         android:title="@string/title_notifications" />
 
+    <item
+        android:id="@+id/navigation_title"
+        android:icon="@drawable/ic_baseline_subtitles_24"
+        android:title="@string/title_title" />
+
 </menu>
