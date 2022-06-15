@@ -291,7 +291,6 @@ class HeadButton : AppCompatButton {
         //按下状态
         headButtonPressedBackgroundColor =
             if (headButtonPressedBackgroundColor == 0 || headButtonPressedBackgroundColor == -1) headButtonNormalBackgroundColor else headButtonPressedBackgroundColor
-        Log.e("====", "${headButtonPressedBackgroundColor}")
         addState(
             intArrayOf(
                 android.R.attr.state_pressed,

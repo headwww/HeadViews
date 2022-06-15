@@ -1,14 +1,13 @@
 package com.head.view
 
 import android.content.Context
+import android.content.res.TypedArray
 import android.graphics.Color
-import android.graphics.drawable.ColorDrawable
 import android.util.AttributeSet
-import android.view.Gravity
-import android.view.ViewGroup
+import android.view.LayoutInflater
+import android.view.View
 import android.widget.FrameLayout
-import android.widget.LinearLayout
-import android.widget.TextView
+import com.head.view.utils.TemplateDrawable
 
 /**
  *
@@ -47,100 +46,74 @@ class HeadTitleBar : FrameLayout {
         init(attrs, defStyleAttr)
     }
 
-    /**
-     * 左侧视图布局
-     */
-    private lateinit var leftTextView: TextView
+    private var headTitleBarGradientFrom: Int = Color.WHITE
+    private var headTitleBarGradientTo: Int = Color.WHITE
+    private var headTitleBarSupportGradient: Boolean = false
+    private var headTitleBarBackgroundColor: Int = Color.WHITE
 
-    /**
-     * 右侧视图布局
-     */
-    private lateinit var rightTextView: TextView
 
-    /**
-     * 中间视图布局
-     */
-    private lateinit var centerLinearLayout: LinearLayout
+    private var customView: View? = null
 
-    /**
-     * 中间视图的主标题
-     */
-    private lateinit var centerMainTitleTextView: TextView
-
-    /**
-     * 中间视图的副标题
-     */
-    private lateinit var centerSubtitleTextView: TextView
-
+    private var headTitleBarCustomViewRes: Int = 0
 
     private fun init(attrs: AttributeSet? = null, defStyleAttr: Int? = null) {
+        val typedArray: TypedArray = context.obtainStyledAttributes(attrs, R.styleable.HeadTitleBar)
+        headTitleBarCustomViewRes =
+            typedArray.getResourceId(R.styleable.HeadTitleBar_headTitleBarCustomView, 0)
 
-
-        leftTextView = TextView(context)
-        leftTextView.text = "左边"
-        leftTextView.textSize = 30F
-        leftTextView.setTextColor(Color.BLACK)
-        leftTextView.layoutParams = FrameLayout.LayoutParams(
-            ViewGroup.LayoutParams.WRAP_CONTENT,
-            ViewGroup.LayoutParams.MATCH_PARENT,
-            Gravity.START
+        headTitleBarBackgroundColor = typedArray.getColor(
+            R.styleable.HeadTitleBar_headTitleBarBackgroundColor,
+            Color.WHITE
         )
-        leftTextView.gravity = Gravity.CENTER_VERTICAL
-//        leftTextView.setPadding(50,0,50,0)
-
-
-        rightTextView = TextView(context)
-        rightTextView.text = "右边"
-        rightTextView.textSize = 30F
-//        rightTextView.setPadding(50,0,50,0)
-        rightTextView.layoutParams = FrameLayout.LayoutParams(
-            ViewGroup.LayoutParams.WRAP_CONTENT,
-            ViewGroup.LayoutParams.MATCH_PARENT,
-            Gravity.END
+        headTitleBarSupportGradient = typedArray.getBoolean(
+            R.styleable.HeadTitleBar_headTitleBarSupportGradient,
+            false
         )
-        rightTextView.gravity = Gravity.CENTER_VERTICAL
-
-
-        centerLinearLayout = LinearLayout(context)
-        centerLinearLayout.background = ColorDrawable(Color.RED)
-        centerLinearLayout.layoutParams = FrameLayout.LayoutParams(
-            ViewGroup.LayoutParams.WRAP_CONTENT,
-            ViewGroup.LayoutParams.MATCH_PARENT,
-            Gravity.CENTER
+        headTitleBarGradientFrom = typedArray.getColor(
+            R.styleable.HeadTitleBar_headTitleBarGradientFrom,
+            Color.WHITE
         )
-        centerLinearLayout.orientation = LinearLayout.VERTICAL
-        centerLinearLayout.gravity = Gravity.CENTER
-
-
-        centerMainTitleTextView = TextView(context)
-        centerMainTitleTextView.text = "center main-------------------------------------------"
-        centerMainTitleTextView.maxLines = 1
-        centerMainTitleTextView.maxEms = 10
-
-        centerMainTitleTextView.textSize = 30F
-        centerMainTitleTextView.setPadding(50,0,50,0)
-        centerMainTitleTextView.layoutParams = LinearLayout.LayoutParams(
-            ViewGroup.LayoutParams.WRAP_CONTENT,
-            ViewGroup.LayoutParams.WRAP_CONTENT,
+        headTitleBarGradientTo = typedArray.getColor(
+            R.styleable.HeadTitleBar_headTitleBarGradientTo,
+            Color.WHITE
         )
-        centerLinearLayout.addView(centerMainTitleTextView)
 
+        if (headTitleBarCustomViewRes != 0) {
+            customView =
+                LayoutInflater.from(context).inflate(headTitleBarCustomViewRes, null, false)
+            removeAllViews()
+            addView(customView, 0)
+        }
 
-        centerSubtitleTextView = TextView(context)
-        centerSubtitleTextView.text = "center sub"
-        centerSubtitleTextView.textSize = 30F
-//        rightTextView.setPadding(50,0,50,0)
-        centerSubtitleTextView.layoutParams = LinearLayout.LayoutParams(
-            ViewGroup.LayoutParams.WRAP_CONTENT,
-            ViewGroup.LayoutParams.WRAP_CONTENT,
-        )
-        centerLinearLayout.addView(centerSubtitleTextView)
-
-        addView(centerLinearLayout)
-        addView(leftTextView)
-        addView(rightTextView)
-
-
+        background = getDrawable()
     }
+
+    private fun getDrawable(): TemplateDrawable = TemplateDrawable(
+        context,
+        headTitleBarSupportGradient,
+        headTitleBarGradientFrom,
+        headTitleBarGradientTo,
+        headTitleBarBackgroundColor,
+    ).apply {
+        this@HeadTitleBar.invalidate()
+    }
+
+    fun getCustomView(): View? {
+        return customView
+    }
+
+    fun addCustomView(headTitleBarCustomViewRes: Int, onBind: (view: View?) -> Unit) {
+        this.headTitleBarCustomViewRes = headTitleBarCustomViewRes
+        customView = LayoutInflater.from(context).inflate(headTitleBarCustomViewRes, null, false)
+        removeAllViews()
+        addView(customView)
+        onBind(customView)
+    }
+
+    fun onBindViewClick(onBind: (view: View?) -> Unit) {
+        if (customView != null)
+            onBind(customView)
+    }
+
 
 }

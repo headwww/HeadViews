@@ -191,5 +191,17 @@
         <attr name="headSpinnerArrowColor" format="color" />
 
     </declare-styleable>
+    <declare-styleable name="HeadTitleBar">
+        <!--标题布局-->
+        <attr name="headTitleBarCustomView" format="reference"/>
+        <!--背景色-->
+        <attr name="headTitleBarBackgroundColor" format="color" />
+        <!--是否支持渐变-->
+        <attr name="headTitleBarSupportGradient" format="boolean" />
+        <!--渐变起始色-->
+        <attr name="headTitleBarGradientFrom" format="color" />
+        <!--渐变结束色-->
+        <attr name="headTitleBarGradientTo" format="color" />
+    </declare-styleable>
 
 </resources>

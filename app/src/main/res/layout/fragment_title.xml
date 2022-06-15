@@ -12,11 +12,16 @@
         android:layout_height="match_parent"
         tools:context=".ui.title.TitleFragment">
 
-        <com.head.view.HeadTitleBar
-            android:layout_width="match_parent"
-            android:layout_height="80dp"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent" />
+<!--        <com.head.view.HeadTitleBar-->
+<!--            android:layout_width="match_parent"-->
+<!--            android:id="@+id/headTitleBar"-->
+<!--            android:layout_height="80dp"-->
+<!--            app:headTitleBarSupportGradient="true"-->
+<!--            app:headTitleBarGradientFrom="#2BB3F1"-->
+<!--            app:headTitleBarGradientTo="#008EFF"-->
+<!--            app:headTitleBarCustomView="@layout/item_title"-->
+<!--            app:layout_constraintEnd_toEndOf="parent"-->
+<!--            app:layout_constraintStart_toStartOf="parent"-->
+<!--            app:layout_constraintTop_toTopOf="parent" />-->
     </androidx.constraintlayout.widget.ConstraintLayout>
 </layout>
