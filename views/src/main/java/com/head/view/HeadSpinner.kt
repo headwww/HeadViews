@@ -262,7 +262,7 @@ class HeadSpinner<T> : AppCompatTextView, AdapterView.OnItemClickListener {
     override fun onSaveInstanceState(): Parcelable? {
         val bundle = Bundle()
         val parcelable = super.onSaveInstanceState()
-        bundle.putParcelable(SUPER_HEAD_SPINNER, parcelable)
+        bundle.putParcelable(HEAD_SPINNER, parcelable)
         bundle.putSerializable(SAVE_SPINNER_TEXT, text.toString())
         bundle.putSerializable(SAVE_SPINNER_SELECTION, position)
         return bundle
@@ -270,7 +270,7 @@ class HeadSpinner<T> : AppCompatTextView, AdapterView.OnItemClickListener {
 
     override fun onRestoreInstanceState(state: Parcelable?) {
         val bundle = (state as Bundle)
-        val parcelable: Parcelable? = bundle.getParcelable(SUPER_HEAD_SPINNER)
+        val parcelable: Parcelable? = bundle.getParcelable(HEAD_SPINNER)
         text = bundle.getSerializable(SAVE_SPINNER_TEXT).toString()
         position = bundle.getSerializable(SAVE_SPINNER_SELECTION) as Int
         super.onRestoreInstanceState(parcelable)
@@ -530,7 +530,7 @@ class HeadSpinner<T> : AppCompatTextView, AdapterView.OnItemClickListener {
 
 }
 
-private const val SUPER_HEAD_SPINNER = "super_head_spinner"
+private const val HEAD_SPINNER = "head_spinner"
 
 private const val SAVE_SPINNER_TEXT = "save_head_spinner_text"
 

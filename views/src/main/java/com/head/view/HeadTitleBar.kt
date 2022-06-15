@@ -7,6 +7,8 @@ import android.util.AttributeSet
 import android.view.LayoutInflater
 import android.view.View
 import android.widget.FrameLayout
+import android.widget.TextView
+import com.head.view.style.GeneralModeTitle
 import com.head.view.utils.TemplateDrawable
 
 /**
@@ -28,7 +30,7 @@ import com.head.view.utils.TemplateDrawable
  * 创建时间：2022/6/14 10:47 <br/>
  * @version
  */
-class HeadTitleBar : FrameLayout {
+class HeadTitleBar : FrameLayout, View.OnLayoutChangeListener {
 
     constructor(context: Context) : super(context) {
         init()
@@ -78,14 +80,22 @@ class HeadTitleBar : FrameLayout {
             Color.WHITE
         )
 
-        if (headTitleBarCustomViewRes != 0) {
-            customView =
-                LayoutInflater.from(context).inflate(headTitleBarCustomViewRes, null, false)
-            removeAllViews()
-            addView(customView, 0)
-        }
+//        if (headTitleBarCustomViewRes != 0) {
+//            customView =
+//                LayoutInflater.from(context).inflate(headTitleBarCustomViewRes, null, false)
+//            removeAllViews()
+//            addView(customView, 0)
+//        }
+        customView =
+            GeneralModeTitle(context)
+                .Builder()
+                .setLeftViewIcon(R.drawable.head_edit_text_clear)
+                .setLeftViewText("舒文")
+                .build()
 
+        addView(customView)
         background = getDrawable()
+        addOnLayoutChangeListener(this)
     }
 
     private fun getDrawable(): TemplateDrawable = TemplateDrawable(
@@ -97,6 +107,9 @@ class HeadTitleBar : FrameLayout {
     ).apply {
         this@HeadTitleBar.invalidate()
     }
+fun setGeneralModeTitle(text:String){
+    customView?.findViewById<TextView>(R.id.general_mode_title_left_textview)?.text = text
+}
 
     fun getCustomView(): View? {
         return customView
@@ -113,6 +126,21 @@ class HeadTitleBar : FrameLayout {
     fun onBindViewClick(onBind: (view: View?) -> Unit) {
         if (customView != null)
             onBind(customView)
+    }
+
+    override fun onLayoutChange(
+        v: View?,
+        left: Int,
+        top: Int,
+        right: Int,
+        bottom: Int,
+        oldLeft: Int,
+        oldTop: Int,
+        oldRight: Int,
+        oldBottom: Int
+    ) {
+
+
     }
 
 
