@@ -225,6 +225,26 @@
         <attr name="headTitleGeneralRightTextSize" format="dimension"/>
         <!--通用标题模版右侧文字颜色-->
         <attr name="headTitleGeneralRightTextColor" format="color"/>
+
+        <!--通用标题模版中间主标题文本-->
+        <attr name="headTitleGeneralCenterMainText" format="string"/>
+        <!--通用标题模版中间主标题文字大小-->
+        <attr name="headTitleGeneralCenterMainTextSize" format="dimension"/>
+        <!--通用标题模版中间主标题文字颜色-->
+        <attr name="headTitleGeneralCenterMainTextColor" format="color"/>
+        <!--通用标题模版中间主标题是否开启跑马灯效果-->
+        <attr name="headTitleGeneralCenterMainMarquee" format="boolean"/>
+        <!--通用标题模版中间次标题文本-->
+        <attr name="headTitleGeneralCenterSubText" format="string"/>
+        <!--通用标题模版中间次标题文字大小-->
+        <attr name="headTitleGeneralCenterSubTextSize" format="dimension"/>
+        <!--通用标题模版中间次标题文字颜色-->
+        <attr name="headTitleGeneralCenterSubTextColor" format="color"/>
+        <!--通用标题模版中间次标题是否开启跑马灯效果-->
+        <attr name="headTitleGeneralCenterSubMarquee" format="boolean"/>
+
+
+
     </declare-styleable>
 
 </resources>

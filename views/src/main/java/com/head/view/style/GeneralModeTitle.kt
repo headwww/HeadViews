@@ -24,53 +24,80 @@ import kotlin.math.max
  */
 data class GeneralModeTitle(
     var mContext: Context? = null,
+
     var leftText: String = "",
     var leftTextColor: Int = Color.WHITE,
     var leftTextSize: Float = 0F,
     var leftIcon: Int = 0,
+
     var rightText: String = "",
     var rightTextColor: Int = Color.WHITE,
     var rightTextSize: Float = 0F,
     var rightIcon: Int = 0,
+
+    var centerMainTitleText: String = "",
+    var centerMainTitleTextColor: Int = Color.WHITE,
+    var centerMainTitleTextSize: Float = 0F,
+    var isCenterMainTitleMarquee: Boolean = false,
+
+    var centerSubTitleText: String = "",
+    var centerSubTitleTextColor: Int = Color.WHITE,
+    var centerSubTitleTextSize: Float = 0F,
+    var isCenterSubTitleMarquee: Boolean = false,
+
+
     var layoutChange: LayoutChange? = null
 
-) {
-    val leftTextView: TextView by lazy { TextView(mContext).apply {
-        layoutParams = FrameLayout.LayoutParams(
-            ViewGroup.LayoutParams.WRAP_CONTENT,
-            ViewGroup.LayoutParams.WRAP_CONTENT,
-            Gravity.CENTER_VERTICAL
-        )
-        isSingleLine = true
-        ellipsize = null;
-    } }
-    val centerLinearLayout: LinearLayout by lazy { LinearLayout(mContext).apply {
-        layoutParams = FrameLayout.LayoutParams(
-            ViewGroup.LayoutParams.WRAP_CONTENT,
-            ViewGroup.LayoutParams.MATCH_PARENT,
-            Gravity.CENTER
-        )
-        orientation = LinearLayout.VERTICAL
-        gravity = Gravity.CENTER
-    } }
-    val rightTextView: TextView by lazy { TextView(mContext).apply {
-        layoutParams = FrameLayout.LayoutParams(
-            ViewGroup.LayoutParams.WRAP_CONTENT,
-            ViewGroup.LayoutParams.WRAP_CONTENT,
-            Gravity.CENTER_VERTICAL or Gravity.RIGHT
-        )
-        isSingleLine = true
-        ellipsize = null;
-    } }
-    val centerMainTitleTextView: TextView by lazy { TextView(mContext).apply {
-        ellipsize = null;
-        isSingleLine = true;
 
-    } }
-    val centerSubTitleTextView: TextView by lazy { TextView(mContext).apply {
-        isSingleLine = true
-        ellipsize = null;
-    } }
+) {
+    val leftTextView: TextView by lazy {
+        TextView(mContext).apply {
+            layoutParams = FrameLayout.LayoutParams(
+                ViewGroup.LayoutParams.WRAP_CONTENT,
+                ViewGroup.LayoutParams.WRAP_CONTENT,
+                Gravity.CENTER_VERTICAL
+            )
+            isSingleLine = true
+            ellipsize = null
+        }
+    }
+    val centerLinearLayout: LinearLayout by lazy {
+        LinearLayout(mContext).apply {
+            layoutParams = FrameLayout.LayoutParams(
+                ViewGroup.LayoutParams.WRAP_CONTENT,
+                ViewGroup.LayoutParams.MATCH_PARENT,
+                Gravity.CENTER
+            )
+            orientation = LinearLayout.VERTICAL
+            gravity = Gravity.CENTER
+        }
+    }
+    val rightTextView: TextView by lazy {
+        TextView(mContext).apply {
+            layoutParams = FrameLayout.LayoutParams(
+                ViewGroup.LayoutParams.WRAP_CONTENT,
+                ViewGroup.LayoutParams.WRAP_CONTENT,
+                Gravity.CENTER_VERTICAL or Gravity.RIGHT
+            )
+            isSingleLine = true
+            ellipsize = null
+        }
+    }
+    val centerMainTitleTextView: TextView by lazy {
+        TextView(mContext).apply {
+            gravity =Gravity.CENTER
+//            ellipsize = null
+            isSingleLine = true
+
+        }
+    }
+    val centerSubTitleTextView: TextView by lazy {
+        TextView(mContext).apply {
+            gravity =Gravity.CENTER
+            isSingleLine = true
+//            ellipsize = null
+        }
+    }
 
 }
 
@@ -84,11 +111,10 @@ fun modifyBuilderGeneralModeTitle(
     generalModeTitle: GeneralModeTitle,
     modifyAction: GeneralModeTitle.() -> GeneralModeTitle
 ) = generalModeTitle.apply {
-    Log.e("TAG", "modifyBuilderGeneralModeTitle: ")
     loadView()(modifyAction(generalModeTitle))
     centerLinearLayout.removeAllViews()
     centerLinearLayout.addView(centerMainTitleTextView)
-    centerLinearLayout.addView(centerSubTitleTextView)
+    if (centerSubTitleText != "") centerLinearLayout.addView(centerSubTitleTextView)
 
 }
 
@@ -135,12 +161,35 @@ private fun loadView(): GeneralModeTitle.() -> Unit {
         rightTextView.setTextColor(rightTextColor)
 
         // 中间视图
-        centerMainTitleTextView.text = "主标题"
-        centerSubTitleTextView.text = "次标题"
+        //主标题
+        centerMainTitleTextView.text = centerMainTitleText
+        centerMainTitleTextView.setTextColor(centerMainTitleTextColor)
+        centerMainTitleTextView.paint.textSize = centerMainTitleTextSize
+        if (isCenterMainTitleMarquee) {
+            //跑马灯
+            centerMainTitleTextView.ellipsize = TextUtils.TruncateAt.MARQUEE
+            centerMainTitleTextView.marqueeRepeatLimit = -1
+            centerMainTitleTextView.requestFocus()
+            centerMainTitleTextView.isSelected = true
+        }
+
+        //次要标题
+        centerSubTitleTextView.text = centerSubTitleText
+        centerSubTitleTextView.setTextColor(centerSubTitleTextColor)
+        centerSubTitleTextView.paint.textSize = centerSubTitleTextSize
+        if (isCenterSubTitleMarquee) {
+            //跑马灯
+            centerSubTitleTextView.ellipsize = TextUtils.TruncateAt.MARQUEE
+            centerSubTitleTextView.marqueeRepeatLimit = -1
+            centerSubTitleTextView.requestFocus()
+            centerSubTitleTextView.isSelected = true
+        }
 
 
         //测量左中右的位置
         if (layoutChange != null) {
+            Log.e("TAG", "loadView: $layoutChange", )
+
             if (leftTextView.maxWidth != Int.MAX_VALUE && rightTextView.maxWidth != Int.MAX_VALUE && centerMainTitleTextView.maxWidth != Int.MAX_VALUE) {
                 leftTextView.maxWidth = Int.MAX_VALUE
                 rightTextView.maxWidth = Int.MAX_VALUE

@@ -39,15 +39,26 @@ class HeadTitleBar : FrameLayout, View.OnLayoutChangeListener {
         init(attrs, defStyleAttr)
     }
 
+    private var headTitleGeneralCenterMainTextSize: Int = 0
+    private var headTitleGeneralCenterMainTextColor: Int=Color.WHITE
+    private var headTitleGeneralCenterMainMarquee: Boolean =false
+    private var headTitleGeneralCenterMainText: String = ""
+
+
+    private var headTitleGeneralCenterSubTextSize: Int = 0
+    private var headTitleGeneralCenterSubTextColor: Int=Color.WHITE
+    private var headTitleGeneralCenterSubMarquee: Boolean =false
+    private var headTitleGeneralCenterSubText: String = ""
+
     private var headTitleGeneralLeftTextSize: Int = 0
     private var headTitleGeneralLeftTextColor: Int = Color.WHITE
     private var headTitleGeneralLeftIcon: Int = 0
-    private var headTitleGeneralLeftText: String? = ""
+    private var headTitleGeneralLeftText: String = ""
 
     private var headTitleGeneralRightTextSize: Int = 0
     private var headTitleGeneralRightTextColor: Int = Color.WHITE
     private var headTitleGeneralRightIcon: Int = 0
-    private var headTitleGeneralRightText: String? = ""
+    private var headTitleGeneralRightText: String = ""
 
 
     private lateinit var generalModeTitle: GeneralModeTitle
@@ -88,7 +99,7 @@ class HeadTitleBar : FrameLayout, View.OnLayoutChangeListener {
 
         headTitleGeneralLeftText = typedArray.getString(
             R.styleable.HeadTitleBar_headTitleGeneralLeftText,
-        )
+        )?:""
         headTitleGeneralLeftIcon = typedArray.getResourceId(
             R.styleable.HeadTitleBar_headTitleGeneralLeftIcon,
             0
@@ -104,8 +115,8 @@ class HeadTitleBar : FrameLayout, View.OnLayoutChangeListener {
 
 
         headTitleGeneralRightText = typedArray.getString(
-            R.styleable.HeadTitleBar_headTitleGeneralRightText,
-        )
+            R.styleable.HeadTitleBar_headTitleGeneralRightText
+        )?:""
         headTitleGeneralRightIcon = typedArray.getResourceId(
             R.styleable.HeadTitleBar_headTitleGeneralRightIcon,
             0
@@ -119,18 +130,61 @@ class HeadTitleBar : FrameLayout, View.OnLayoutChangeListener {
             context.resources.getDimension(R.dimen.head_right_textview_size).toInt()
         )
 
+        headTitleGeneralCenterMainText = typedArray.getString(
+            R.styleable.HeadTitleBar_headTitleGeneralCenterMainText
+        )?:""
+        headTitleGeneralCenterMainMarquee = typedArray.getBoolean(
+            R.styleable.HeadTitleBar_headTitleGeneralCenterMainMarquee,
+            false
+        )
+        headTitleGeneralCenterMainTextColor = typedArray.getColor(
+            R.styleable.HeadTitleBar_headTitleGeneralCenterMainTextColor,
+            Color.WHITE
+        )
+        headTitleGeneralCenterMainTextSize = typedArray.getDimensionPixelSize(
+            R.styleable.HeadTitleBar_headTitleGeneralCenterMainTextSize,
+            context.resources.getDimension(R.dimen.head_right_textview_size).toInt()
+        )
+
+        headTitleGeneralCenterSubText = typedArray.getString(
+            R.styleable.HeadTitleBar_headTitleGeneralCenterSubText,
+        )?:""
+        headTitleGeneralCenterSubMarquee = typedArray.getBoolean(
+            R.styleable.HeadTitleBar_headTitleGeneralCenterSubMarquee,
+            false
+        )
+        headTitleGeneralCenterSubTextColor = typedArray.getColor(
+            R.styleable.HeadTitleBar_headTitleGeneralCenterSubTextColor,
+            Color.WHITE
+        )
+        headTitleGeneralCenterSubTextSize = typedArray.getDimensionPixelSize(
+            R.styleable.HeadTitleBar_headTitleGeneralCenterSubTextSize,
+            context.resources.getDimension(R.dimen.head_right_textview_size).toInt()
+        )
         //通用的标题模版
         if (headTitleStyle == 0) {
             generalModeTitle = builderGeneralModeTitle(context) {
-                leftText = headTitleGeneralLeftText!!
+                leftText = headTitleGeneralLeftText
                 leftIcon = headTitleGeneralLeftIcon
                 leftTextColor = headTitleGeneralLeftTextColor
                 leftTextSize = headTitleGeneralLeftTextSize.toFloat()
 
-                rightText = headTitleGeneralRightText!!
+                rightText = headTitleGeneralRightText
                 rightIcon = headTitleGeneralRightIcon
                 rightTextColor = headTitleGeneralRightTextColor
                 rightTextSize = headTitleGeneralRightTextSize.toFloat()
+
+                centerMainTitleText = headTitleGeneralCenterMainText
+                centerMainTitleTextColor = headTitleGeneralCenterMainTextColor
+                centerMainTitleTextSize = headTitleGeneralCenterMainTextSize.toFloat()
+                isCenterMainTitleMarquee = headTitleGeneralCenterMainMarquee
+
+                centerSubTitleText = headTitleGeneralCenterSubText
+                centerSubTitleTextColor = headTitleGeneralCenterSubTextColor
+                centerSubTitleTextSize = headTitleGeneralCenterSubTextSize.toFloat()
+                isCenterSubTitleMarquee = headTitleGeneralCenterSubMarquee
+
+
 
                 this@HeadTitleBar.addView(leftTextView)
                 this@HeadTitleBar.addView(rightTextView)
@@ -169,7 +223,6 @@ class HeadTitleBar : FrameLayout, View.OnLayoutChangeListener {
         this@HeadTitleBar.invalidate()
     }
 
-
     fun getCustomView(): View? {
         return customView
     }
@@ -201,8 +254,9 @@ class HeadTitleBar : FrameLayout, View.OnLayoutChangeListener {
         // 先移除当前的监听，因为子View在setMaxWidth时候会重新触发监听，解决递归
         removeOnLayoutChangeListener(this)
         if (headTitleStyle == 0 && generalModeTitle != null) {
-            modifyBuilderGeneralModeTitle(generalModeTitle){
-                layoutChange = LayoutChange(left,top,right,bottom,oldLeft,oldTop,oldRight,oldBottom)
+            modifyBuilderGeneralModeTitle(generalModeTitle) {
+                layoutChange =
+                    LayoutChange(left, top, right, bottom, oldLeft, oldTop, oldRight, oldBottom)
                 this
             }
 
