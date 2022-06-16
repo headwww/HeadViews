@@ -2,4 +2,6 @@
 <resources>
     <dimen name="spinner_item_padding">12dp</dimen>
     <dimen name="spinner_item_default_text_size">15sp</dimen>
+    <dimen name="head_left_textview_size">15sp</dimen>
+    <dimen name="head_right_textview_size">15sp</dimen>
 </resources>

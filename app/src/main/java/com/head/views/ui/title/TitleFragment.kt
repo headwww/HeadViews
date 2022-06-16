@@ -10,7 +10,6 @@ import android.widget.TextView
 import androidx.databinding.DataBindingUtil
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModelProvider
-import com.head.view.style.GeneralModeTitle
 import com.head.views.R
 import com.head.views.databinding.FragmentTitleBinding
 import com.head.views.databinding.ItemTitleBinding

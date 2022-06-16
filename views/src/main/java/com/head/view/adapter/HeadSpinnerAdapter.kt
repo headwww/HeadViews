@@ -53,7 +53,7 @@ class HeadSpinnerAdapter<T>(
             HeadSpinner.Gravity.RIGHT.ordinal -> Gravity.RIGHT
             else -> Gravity.CENTER
         }
-        textView.setTextSize(TypedValue.COMPLEX_UNIT_PX, size)
+        textView.paint.textSize =size
         textView.setTextColor(color)
 
         if (drawables.size > position) {

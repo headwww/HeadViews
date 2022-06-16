@@ -7,25 +7,16 @@ import android.util.AttributeSet
 import android.view.LayoutInflater
 import android.view.View
 import android.widget.FrameLayout
-import android.widget.TextView
 import com.head.view.style.GeneralModeTitle
+import com.head.view.style.LayoutChange
+import com.head.view.style.builderGeneralModeTitle
+import com.head.view.style.modifyBuilderGeneralModeTitle
 import com.head.view.utils.TemplateDrawable
 
 /**
  *
  * 类名称：HeadTitleBar.kt <br/>
  * 类描述：自定义标题栏 <br/>
- * 适配各种机型刘海屏，水滴屏，全面屏，折叠屏
- * 支持左、中、右常规标题栏设置
- * 支持自定义视图
- * 支持沉浸式标题栏
- * 支持自定义标题栏颜色、渐变色
- * 支持控制状态栏的状态
- * 支持带分割线的标题栏
- * 支持带搜索框标题栏
- * 支持全局配置标题栏的样式
- * 支持折叠效果CoordinatorLayout
- *
  * 创建人：shuwen <br/>
  * 创建时间：2022/6/14 10:47 <br/>
  * @version
@@ -48,15 +39,26 @@ class HeadTitleBar : FrameLayout, View.OnLayoutChangeListener {
         init(attrs, defStyleAttr)
     }
 
+    private var headTitleGeneralLeftTextSize: Int = 0
+    private var headTitleGeneralLeftTextColor: Int = Color.WHITE
+    private var headTitleGeneralLeftIcon: Int = 0
+    private var headTitleGeneralLeftText: String? = ""
+
+    private var headTitleGeneralRightTextSize: Int = 0
+    private var headTitleGeneralRightTextColor: Int = Color.WHITE
+    private var headTitleGeneralRightIcon: Int = 0
+    private var headTitleGeneralRightText: String? = ""
+
+
+    private lateinit var generalModeTitle: GeneralModeTitle
     private var headTitleBarGradientFrom: Int = Color.WHITE
     private var headTitleBarGradientTo: Int = Color.WHITE
     private var headTitleBarSupportGradient: Boolean = false
     private var headTitleBarBackgroundColor: Int = Color.WHITE
-
+    private var headTitleBarCustomViewRes: Int = 0
+    private var headTitleStyle: Int = -1
 
     private var customView: View? = null
-
-    private var headTitleBarCustomViewRes: Int = 0
 
     private fun init(attrs: AttributeSet? = null, defStyleAttr: Int? = null) {
         val typedArray: TypedArray = context.obtainStyledAttributes(attrs, R.styleable.HeadTitleBar)
@@ -79,24 +81,83 @@ class HeadTitleBar : FrameLayout, View.OnLayoutChangeListener {
             R.styleable.HeadTitleBar_headTitleBarGradientTo,
             Color.WHITE
         )
+        headTitleStyle = typedArray.getInt(
+            R.styleable.HeadTitleBar_headTitleStyle,
+            -1
+        )
 
-//        if (headTitleBarCustomViewRes != 0) {
-//            customView =
-//                LayoutInflater.from(context).inflate(headTitleBarCustomViewRes, null, false)
-//            removeAllViews()
-//            addView(customView, 0)
-//        }
-        customView =
-            GeneralModeTitle(context)
-                .Builder()
-                .setLeftViewIcon(R.drawable.head_edit_text_clear)
-                .setLeftViewText("舒文")
-                .build()
+        headTitleGeneralLeftText = typedArray.getString(
+            R.styleable.HeadTitleBar_headTitleGeneralLeftText,
+        )
+        headTitleGeneralLeftIcon = typedArray.getResourceId(
+            R.styleable.HeadTitleBar_headTitleGeneralLeftIcon,
+            0
+        )
+        headTitleGeneralLeftTextColor = typedArray.getColor(
+            R.styleable.HeadTitleBar_headTitleGeneralLeftTextColor,
+            Color.WHITE
+        )
+        headTitleGeneralLeftTextSize = typedArray.getDimensionPixelSize(
+            R.styleable.HeadTitleBar_headTitleGeneralLeftTextSize,
+            context.resources.getDimension(R.dimen.head_left_textview_size).toInt()
+        )
 
-        addView(customView)
+
+        headTitleGeneralRightText = typedArray.getString(
+            R.styleable.HeadTitleBar_headTitleGeneralRightText,
+        )
+        headTitleGeneralRightIcon = typedArray.getResourceId(
+            R.styleable.HeadTitleBar_headTitleGeneralRightIcon,
+            0
+        )
+        headTitleGeneralRightTextColor = typedArray.getColor(
+            R.styleable.HeadTitleBar_headTitleGeneralRightTextColor,
+            Color.WHITE
+        )
+        headTitleGeneralRightTextSize = typedArray.getDimensionPixelSize(
+            R.styleable.HeadTitleBar_headTitleGeneralRightTextSize,
+            context.resources.getDimension(R.dimen.head_right_textview_size).toInt()
+        )
+
+        //通用的标题模版
+        if (headTitleStyle == 0) {
+            generalModeTitle = builderGeneralModeTitle(context) {
+                leftText = headTitleGeneralLeftText!!
+                leftIcon = headTitleGeneralLeftIcon
+                leftTextColor = headTitleGeneralLeftTextColor
+                leftTextSize = headTitleGeneralLeftTextSize.toFloat()
+
+                rightText = headTitleGeneralRightText!!
+                rightIcon = headTitleGeneralRightIcon
+                rightTextColor = headTitleGeneralRightTextColor
+                rightTextSize = headTitleGeneralRightTextSize.toFloat()
+
+                this@HeadTitleBar.addView(leftTextView)
+                this@HeadTitleBar.addView(rightTextView)
+                this@HeadTitleBar.addView(centerLinearLayout)
+                this
+            }
+            addOnLayoutChangeListener(this)
+        }
+
+        //搜索模式
+        if (headTitleStyle == 1) {
+
+        }
+
+        //自定义模版
+        if (headTitleStyle == 3 && headTitleBarCustomViewRes != 0) {
+            customView =
+                LayoutInflater.from(context).inflate(headTitleBarCustomViewRes, null, false)
+            removeAllViews()
+            addView(customView, 0)
+        }
+
         background = getDrawable()
-        addOnLayoutChangeListener(this)
+
+
     }
+
 
     private fun getDrawable(): TemplateDrawable = TemplateDrawable(
         context,
@@ -107,9 +168,7 @@ class HeadTitleBar : FrameLayout, View.OnLayoutChangeListener {
     ).apply {
         this@HeadTitleBar.invalidate()
     }
-fun setGeneralModeTitle(text:String){
-    customView?.findViewById<TextView>(R.id.general_mode_title_left_textview)?.text = text
-}
+
 
     fun getCustomView(): View? {
         return customView
@@ -139,9 +198,18 @@ fun setGeneralModeTitle(text:String){
         oldRight: Int,
         oldBottom: Int
     ) {
+        // 先移除当前的监听，因为子View在setMaxWidth时候会重新触发监听，解决递归
+        removeOnLayoutChangeListener(this)
+        if (headTitleStyle == 0 && generalModeTitle != null) {
+            modifyBuilderGeneralModeTitle(generalModeTitle){
+                layoutChange = LayoutChange(left,top,right,bottom,oldLeft,oldTop,oldRight,oldBottom)
+                this
+            }
 
-
+        }
+        post {
+            // 这里再次监听需要延迟，否则会导致递归的情况发生
+            addOnLayoutChangeListener(this@HeadTitleBar)
+        }
     }
-
-
 }
