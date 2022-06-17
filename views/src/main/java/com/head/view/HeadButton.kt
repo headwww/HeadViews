@@ -6,8 +6,8 @@ import android.graphics.Color
 import android.graphics.drawable.StateListDrawable
 import android.util.AttributeSet
 import androidx.appcompat.widget.AppCompatButton
+import com.head.view.utils.StatusBarUtil
 import com.head.view.utils.TemplateDrawable
-import com.head.view.utils.builderHeadDrawable
 
 
 /**
@@ -261,6 +261,8 @@ class HeadButton : AppCompatButton {
 
 
         background = createDrawable()
+        typedArray.recycle()
+
     }
 
 

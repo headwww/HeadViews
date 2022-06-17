@@ -3,7 +3,6 @@ package com.head.view.utils
 import android.content.Context
 import android.graphics.Color
 import android.graphics.drawable.GradientDrawable
-import com.head.view.utils.Utils
 
 /**
  *

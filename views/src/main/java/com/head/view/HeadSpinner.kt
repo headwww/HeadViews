@@ -527,11 +527,12 @@ class HeadSpinner<T> : AppCompatTextView, AdapterView.OnItemClickListener {
     ).apply {
         this@HeadSpinner.invalidate()
     }
+    companion object{
+        private const val HEAD_SPINNER = "head_spinner"
+
+        private const val SAVE_SPINNER_TEXT = "save_head_spinner_text"
+
+        private const val SAVE_SPINNER_SELECTION = "save_head_spinner_selection"
+    }
 
 }
-
-private const val HEAD_SPINNER = "head_spinner"
-
-private const val SAVE_SPINNER_TEXT = "save_head_spinner_text"
-
-private const val SAVE_SPINNER_SELECTION = "save_head_spinner_selection"

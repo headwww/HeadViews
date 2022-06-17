@@ -7,6 +7,7 @@ import android.util.Log
 import android.view.Gravity
 import android.view.View.MeasureSpec
 import android.view.ViewGroup
+import android.view.ViewTreeObserver
 import android.widget.FrameLayout
 import android.widget.LinearLayout
 import android.widget.TextView
@@ -85,17 +86,25 @@ data class GeneralModeTitle(
     }
     val centerMainTitleTextView: TextView by lazy {
         TextView(mContext).apply {
-            gravity =Gravity.CENTER
-//            ellipsize = null
+            layoutParams = FrameLayout.LayoutParams(
+                ViewGroup.LayoutParams.WRAP_CONTENT,
+                ViewGroup.LayoutParams.WRAP_CONTENT,
+                Gravity.CENTER
+            )
+            ellipsize = null
             isSingleLine = true
 
         }
     }
     val centerSubTitleTextView: TextView by lazy {
         TextView(mContext).apply {
-            gravity =Gravity.CENTER
+            layoutParams = FrameLayout.LayoutParams(
+                ViewGroup.LayoutParams.WRAP_CONTENT,
+                ViewGroup.LayoutParams.WRAP_CONTENT,
+                Gravity.CENTER
+            )
+            ellipsize = null
             isSingleLine = true
-//            ellipsize = null
         }
     }
 
@@ -165,6 +174,7 @@ private fun loadView(): GeneralModeTitle.() -> Unit {
         centerMainTitleTextView.text = centerMainTitleText
         centerMainTitleTextView.setTextColor(centerMainTitleTextColor)
         centerMainTitleTextView.paint.textSize = centerMainTitleTextSize
+
         if (isCenterMainTitleMarquee) {
             //跑马灯
             centerMainTitleTextView.ellipsize = TextUtils.TruncateAt.MARQUEE
@@ -177,6 +187,7 @@ private fun loadView(): GeneralModeTitle.() -> Unit {
         centerSubTitleTextView.text = centerSubTitleText
         centerSubTitleTextView.setTextColor(centerSubTitleTextColor)
         centerSubTitleTextView.paint.textSize = centerSubTitleTextSize
+
         if (isCenterSubTitleMarquee) {
             //跑马灯
             centerSubTitleTextView.ellipsize = TextUtils.TruncateAt.MARQUEE
@@ -188,71 +199,86 @@ private fun loadView(): GeneralModeTitle.() -> Unit {
 
         //测量左中右的位置
         if (layoutChange != null) {
-            Log.e("TAG", "loadView: $layoutChange", )
+            centerLinearLayout.viewTreeObserver.addOnGlobalLayoutListener(object :
+                ViewTreeObserver.OnGlobalLayoutListener {
+                override fun onGlobalLayout() {
+                    centerLinearLayout.viewTreeObserver.removeOnGlobalLayoutListener(this)
+                    if (leftTextView.maxWidth != Int.MAX_VALUE && rightTextView.maxWidth != Int.MAX_VALUE && centerMainTitleTextView.maxWidth != Int.MAX_VALUE && centerMainTitleTextView.maxWidth != Int.MAX_VALUE) {
+                        leftTextView.maxWidth = Int.MAX_VALUE
+                        rightTextView.maxWidth = Int.MAX_VALUE
+                        centerMainTitleTextView.maxWidth = Int.MAX_VALUE
+                        centerSubTitleTextView.maxWidth = Int.MAX_VALUE
+                        leftTextView.measure(
+                            MeasureSpec.makeMeasureSpec(0, MeasureSpec.UNSPECIFIED),
+                            MeasureSpec.makeMeasureSpec(0, MeasureSpec.UNSPECIFIED)
+                        )
+                        rightTextView.measure(
+                            MeasureSpec.makeMeasureSpec(0, MeasureSpec.UNSPECIFIED),
+                            MeasureSpec.makeMeasureSpec(0, MeasureSpec.UNSPECIFIED)
+                        )
+                        centerMainTitleTextView.measure(
+                            MeasureSpec.makeMeasureSpec(0, MeasureSpec.UNSPECIFIED),
+                            MeasureSpec.makeMeasureSpec(0, MeasureSpec.UNSPECIFIED)
+                        )
+                        centerSubTitleTextView.measure(
+                            MeasureSpec.makeMeasureSpec(0, MeasureSpec.UNSPECIFIED),
+                            MeasureSpec.makeMeasureSpec(0, MeasureSpec.UNSPECIFIED)
+                        )
+                    }
 
-            if (leftTextView.maxWidth != Int.MAX_VALUE && rightTextView.maxWidth != Int.MAX_VALUE && centerMainTitleTextView.maxWidth != Int.MAX_VALUE) {
-                leftTextView.maxWidth = Int.MAX_VALUE
-                rightTextView.maxWidth = Int.MAX_VALUE
-                centerMainTitleTextView.maxWidth = Int.MAX_VALUE
-                centerSubTitleTextView.maxWidth = Int.MAX_VALUE
-                leftTextView.measure(
-                    MeasureSpec.makeMeasureSpec(0, MeasureSpec.UNSPECIFIED),
-                    MeasureSpec.makeMeasureSpec(0, MeasureSpec.UNSPECIFIED)
-                )
-                rightTextView.measure(
-                    MeasureSpec.makeMeasureSpec(0, MeasureSpec.UNSPECIFIED),
-                    MeasureSpec.makeMeasureSpec(0, MeasureSpec.UNSPECIFIED)
-                )
-                centerMainTitleTextView.measure(
-                    MeasureSpec.makeMeasureSpec(0, MeasureSpec.UNSPECIFIED),
-                    MeasureSpec.makeMeasureSpec(0, MeasureSpec.UNSPECIFIED)
-                )
-                centerSubTitleTextView.measure(
-                    MeasureSpec.makeMeasureSpec(0, MeasureSpec.UNSPECIFIED),
-                    MeasureSpec.makeMeasureSpec(0, MeasureSpec.UNSPECIFIED)
-                )
-            }
-            // 标题栏子 View 最大宽度限制算法
-            val barWidth: Int = layoutChange!!.right - layoutChange!!.left
-            val sideWidth: Int = max(leftTextView.measuredWidth, rightTextView.measuredWidth)
-            val maxWidth: Int = sideWidth * 2 + centerMainTitleTextView.measuredWidth
-            // 算出来子 View 的宽大于标题栏的宽度
-            if (maxWidth >= barWidth) {
-                // 判断是左右项太长还是标题项太长
-                if (sideWidth > barWidth / 3) {
-                    // 如果是左右项太长，那么按照比例进行划分
-                    leftTextView.maxWidth = barWidth / 4
-                    centerMainTitleTextView.maxWidth = barWidth / 2
-                    centerSubTitleTextView.maxWidth = barWidth / 2
-                    rightTextView.maxWidth = barWidth / 4
-                } else {
-                    // 如果是标题项太长，那么就进行动态计算
-                    leftTextView.maxWidth = sideWidth
-                    centerMainTitleTextView.maxWidth = barWidth - sideWidth * 2
-                    centerSubTitleTextView.maxWidth = barWidth - sideWidth * 2
-                    rightTextView.maxWidth = sideWidth
-                }
-            } else {
-                if (leftTextView.maxWidth != Int.MAX_VALUE && centerMainTitleTextView.maxWidth != Int.MAX_VALUE && rightTextView.maxWidth != Int.MAX_VALUE) {
-                    // 不限制子 View 的最大宽度
-                    leftTextView.maxWidth = Int.MAX_VALUE
-                    centerMainTitleTextView.maxWidth = Int.MAX_VALUE
-                    centerSubTitleTextView.maxWidth = Int.MAX_VALUE
-                    rightTextView.maxWidth = Int.MAX_VALUE
-                }
-            }
+                    // 标题栏子 View 最大宽度限制算法
+                    val barWidth: Int = layoutChange!!.right - layoutChange!!.left
+                    val sideWidth: Int =
+                        max(leftTextView.measuredWidth, rightTextView.measuredWidth)
 
+                    val maxWidth: Int = sideWidth * 2 + max(
+                        centerMainTitleTextView.measuredWidth,
+                        centerSubTitleTextView.measuredWidth
+                    )
+                    // 算出来子 View 的宽大于标题栏的宽度
+                    if (maxWidth >= barWidth) {
+                        // 判断是左右项太长还是标题项太长
+                        if (sideWidth > barWidth / 3) {
+                            // 如果是左右项太长，那么按照比例进行划分
+                            leftTextView.maxWidth = barWidth / 4
+                            centerMainTitleTextView.maxWidth =
+                                barWidth / 2 - layoutChange!!.paddingLeft - layoutChange!!.paddingRight
+                            centerSubTitleTextView.maxWidth =
+                                barWidth / 2 - layoutChange!!.paddingLeft - layoutChange!!.paddingRight
+                            rightTextView.maxWidth = barWidth / 4
+                        } else {
+                            // 如果是标题项太长，那么就进行动态计算
+                            leftTextView.maxWidth = sideWidth
+                            centerMainTitleTextView.maxWidth =
+                                barWidth - sideWidth * 2 - layoutChange!!.paddingLeft - layoutChange!!.paddingRight
+                            centerSubTitleTextView.maxWidth =
+                                barWidth - sideWidth * 2 - layoutChange!!.paddingLeft - layoutChange!!.paddingRight
+                            rightTextView.maxWidth = sideWidth
+                        }
+                    } else {
+                        if (leftTextView.maxWidth != Int.MAX_VALUE && centerMainTitleTextView.maxWidth != Int.MAX_VALUE && rightTextView.maxWidth != Int.MAX_VALUE) {
+                            // 不限制子 View 的最大宽度
+                            leftTextView.maxWidth = Int.MAX_VALUE
+                            centerMainTitleTextView.maxWidth = Int.MAX_VALUE
+                            centerSubTitleTextView.maxWidth = Int.MAX_VALUE
+                            rightTextView.maxWidth = Int.MAX_VALUE
+                        }
+                    }
+
+                    centerLinearLayout.post {
+                        centerLinearLayout.viewTreeObserver.addOnGlobalLayoutListener(this)
+                    }
+
+                }
+            })
         }
     }
 }
 
 data class LayoutChange(
     val left: Int,
-    val top: Int,
     val right: Int,
-    val bottom: Int,
-    val oldLeft: Int,
-    val oldTop: Int,
-    val oldRight: Int,
-    val oldBottom: Int
+    val paddingLeft: Int,
+    val paddingRight: Int,
 )
+

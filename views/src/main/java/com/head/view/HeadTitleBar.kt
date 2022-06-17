@@ -1,17 +1,23 @@
 package com.head.view
 
+import android.app.Activity
 import android.content.Context
 import android.content.res.TypedArray
 import android.graphics.Color
+import android.graphics.drawable.LayerDrawable
 import android.util.AttributeSet
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.widget.FrameLayout
+import com.google.android.material.shape.MaterialShapeDrawable
 import com.head.view.style.GeneralModeTitle
 import com.head.view.style.LayoutChange
 import com.head.view.style.builderGeneralModeTitle
 import com.head.view.style.modifyBuilderGeneralModeTitle
+import com.head.view.utils.StatusBarUtil
 import com.head.view.utils.TemplateDrawable
+
 
 /**
  *
@@ -40,14 +46,14 @@ class HeadTitleBar : FrameLayout, View.OnLayoutChangeListener {
     }
 
     private var headTitleGeneralCenterMainTextSize: Int = 0
-    private var headTitleGeneralCenterMainTextColor: Int=Color.WHITE
-    private var headTitleGeneralCenterMainMarquee: Boolean =false
+    private var headTitleGeneralCenterMainTextColor: Int = Color.WHITE
+    private var headTitleGeneralCenterMainMarquee: Boolean = false
     private var headTitleGeneralCenterMainText: String = ""
 
 
     private var headTitleGeneralCenterSubTextSize: Int = 0
-    private var headTitleGeneralCenterSubTextColor: Int=Color.WHITE
-    private var headTitleGeneralCenterSubMarquee: Boolean =false
+    private var headTitleGeneralCenterSubTextColor: Int = Color.WHITE
+    private var headTitleGeneralCenterSubMarquee: Boolean = false
     private var headTitleGeneralCenterSubText: String = ""
 
     private var headTitleGeneralLeftTextSize: Int = 0
@@ -99,7 +105,7 @@ class HeadTitleBar : FrameLayout, View.OnLayoutChangeListener {
 
         headTitleGeneralLeftText = typedArray.getString(
             R.styleable.HeadTitleBar_headTitleGeneralLeftText,
-        )?:""
+        ) ?: ""
         headTitleGeneralLeftIcon = typedArray.getResourceId(
             R.styleable.HeadTitleBar_headTitleGeneralLeftIcon,
             0
@@ -116,7 +122,7 @@ class HeadTitleBar : FrameLayout, View.OnLayoutChangeListener {
 
         headTitleGeneralRightText = typedArray.getString(
             R.styleable.HeadTitleBar_headTitleGeneralRightText
-        )?:""
+        ) ?: ""
         headTitleGeneralRightIcon = typedArray.getResourceId(
             R.styleable.HeadTitleBar_headTitleGeneralRightIcon,
             0
@@ -132,7 +138,7 @@ class HeadTitleBar : FrameLayout, View.OnLayoutChangeListener {
 
         headTitleGeneralCenterMainText = typedArray.getString(
             R.styleable.HeadTitleBar_headTitleGeneralCenterMainText
-        )?:""
+        ) ?: ""
         headTitleGeneralCenterMainMarquee = typedArray.getBoolean(
             R.styleable.HeadTitleBar_headTitleGeneralCenterMainMarquee,
             false
@@ -148,7 +154,7 @@ class HeadTitleBar : FrameLayout, View.OnLayoutChangeListener {
 
         headTitleGeneralCenterSubText = typedArray.getString(
             R.styleable.HeadTitleBar_headTitleGeneralCenterSubText,
-        )?:""
+        ) ?: ""
         headTitleGeneralCenterSubMarquee = typedArray.getBoolean(
             R.styleable.HeadTitleBar_headTitleGeneralCenterSubMarquee,
             false
@@ -184,8 +190,6 @@ class HeadTitleBar : FrameLayout, View.OnLayoutChangeListener {
                 centerSubTitleTextSize = headTitleGeneralCenterSubTextSize.toFloat()
                 isCenterSubTitleMarquee = headTitleGeneralCenterSubMarquee
 
-
-
                 this@HeadTitleBar.addView(leftTextView)
                 this@HeadTitleBar.addView(rightTextView)
                 this@HeadTitleBar.addView(centerLinearLayout)
@@ -207,8 +211,27 @@ class HeadTitleBar : FrameLayout, View.OnLayoutChangeListener {
             addView(customView, 0)
         }
 
-        background = getDrawable()
+        //在设置了elevation并且getDrawable为偏白色一些的时候会出现Material悬浮的效果
+        var layerDrawable = LayerDrawable(arrayOf(
+            getDrawable(),
+            MaterialShapeDrawable().apply {
+                setTint(Color.TRANSPARENT)
+                elevation = this@HeadTitleBar.elevation
+            }
+        ))
 
+        Log.e("TAG", "init: ${StatusBarUtil.supportTransparentStatusBar()}", )
+        if (StatusBarUtil.supportTransparentStatusBar()) {
+            setPadding(
+                paddingLeft,
+                paddingTop + StatusBarUtil.getStatusBarHeight(context),
+                paddingLeft,
+                paddingBottom
+            )
+        }
+
+        background = layerDrawable
+        typedArray.recycle()
 
     }
 
@@ -255,15 +278,21 @@ class HeadTitleBar : FrameLayout, View.OnLayoutChangeListener {
         removeOnLayoutChangeListener(this)
         if (headTitleStyle == 0 && generalModeTitle != null) {
             modifyBuilderGeneralModeTitle(generalModeTitle) {
-                layoutChange =
-                    LayoutChange(left, top, right, bottom, oldLeft, oldTop, oldRight, oldBottom)
+                layoutChange = LayoutChange(left, right, paddingLeft, paddingRight)
                 this
             }
-
         }
         post {
             // 这里再次监听需要延迟，否则会导致递归的情况发生
             addOnLayoutChangeListener(this@HeadTitleBar)
         }
     }
+
+    override fun onAttachedToWindow() {
+        super.onAttachedToWindow()
+        // 设置状态栏背景透明
+        StatusBarUtil.transparentStatusBar(context as Activity)
+
+    }
+
 }
