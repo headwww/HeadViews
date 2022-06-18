@@ -3,8 +3,8 @@ package com.head.view.style
 import android.content.Context
 import android.graphics.Color
 import android.text.TextUtils
-import android.util.Log
 import android.view.Gravity
+import android.view.View
 import android.view.View.MeasureSpec
 import android.view.ViewGroup
 import android.view.ViewTreeObserver
@@ -26,31 +26,33 @@ import kotlin.math.max
 data class GeneralModeTitle(
     var mContext: Context? = null,
 
-    var leftText: String = "",
+    var leftText: CharSequence = "",
     var leftTextColor: Int = Color.WHITE,
     var leftTextSize: Float = 0F,
     var leftIcon: Int = 0,
 
-    var rightText: String = "",
+    var rightText: CharSequence = "",
     var rightTextColor: Int = Color.WHITE,
     var rightTextSize: Float = 0F,
     var rightIcon: Int = 0,
 
-    var centerMainTitleText: String = "",
+    var centerMainTitleText: CharSequence = "",
     var centerMainTitleTextColor: Int = Color.WHITE,
     var centerMainTitleTextSize: Float = 0F,
     var isCenterMainTitleMarquee: Boolean = false,
 
-    var centerSubTitleText: String = "",
+    var centerSubTitleText: CharSequence = "",
     var centerSubTitleTextColor: Int = Color.WHITE,
     var centerSubTitleTextSize: Float = 0F,
     var isCenterSubTitleMarquee: Boolean = false,
-
-
+    var leftListener:( (v: View) -> Unit)? = null,
+    var rightListener:( (v: View) -> Unit)? = null,
+    var centerMainListener:( (v: View) -> Unit)? = null,
+    var centerSubListener:( (v: View) -> Unit)? = null,
     var layoutChange: LayoutChange? = null
 
 
-) {
+) : GeneralModeState {
     val leftTextView: TextView by lazy {
         TextView(mContext).apply {
             layoutParams = FrameLayout.LayoutParams(
@@ -93,7 +95,6 @@ data class GeneralModeTitle(
             )
             ellipsize = null
             isSingleLine = true
-
         }
     }
     val centerSubTitleTextView: TextView by lazy {
@@ -108,7 +109,181 @@ data class GeneralModeTitle(
         }
     }
 
+    override fun leftText(text: CharSequence): GeneralModeState {
+        leftText = text
+        leftTextView.text = leftText
+        return this
+    }
+
+    override fun leftIcon(icon: Int): GeneralModeState {
+        leftIcon = icon
+        val drawableLeft = if (leftIcon == 0) null else ContextCompat.getDrawable(
+            mContext!!,
+            leftIcon
+        )
+        drawableLeft?.let {
+            it.setBounds(
+                0,
+                0,
+                it.intrinsicWidth,
+                it.intrinsicHeight
+            )
+        }
+        leftTextView.setCompoundDrawables(drawableLeft, null, null, null)
+        return this
+    }
+
+    override fun leftTextSize(size: Float): GeneralModeState {
+        leftTextSize = size
+        leftTextView.paint.textSize = if (leftTextSize == 0F) mContext!!
+            .resources.getDimension(R.dimen.head_left_textview_size)
+        else leftTextSize
+        return this
+    }
+
+    override fun leftTextColor(color: Int): GeneralModeState {
+        leftTextColor = color
+        leftTextView.setTextColor(leftTextColor)
+        return this
+    }
+
+    override fun setOnLeftListener(listener: (v: View) -> Unit): GeneralModeState {
+        this.leftListener = listener
+        leftTextView.setOnClickListener(leftListener)
+        return this
+    }
+
+    override fun rightText(text: CharSequence): GeneralModeState {
+        rightText = text
+        rightTextView.text = rightText
+        return this
+    }
+
+    override fun rightIcon(icon: Int): GeneralModeState {
+        rightIcon =icon
+        val drawableRight = if (rightIcon == 0) null else ContextCompat.getDrawable(
+            mContext!!,
+            rightIcon
+        )
+        drawableRight?.let {
+            it.setBounds(
+                0,
+                0,
+                it.intrinsicWidth,
+                it.intrinsicHeight
+            )
+        }
+        rightTextView.setCompoundDrawables(null, null, drawableRight, null)
+        return this
+    }
+
+    override fun rightTextSize(size: Float): GeneralModeState {
+        rightTextSize =size
+        rightTextView.paint.textSize =
+            if (rightTextSize == 0F) mContext!!.resources.getDimension(R.dimen.head_right_textview_size) else rightTextSize
+
+        return this
+    }
+
+    override fun rightTextColor(color: Int): GeneralModeState {
+        rightTextColor =color
+        rightTextView.setTextColor(rightTextColor)
+        return this
+    }
+
+    override fun setOnRightListener(listener: (v: View) -> Unit): GeneralModeState {
+        this.rightListener = listener
+        rightTextView.setOnClickListener(rightListener)
+        return this
+    }
+
+    override fun centerMainText(text: CharSequence): GeneralModeState {
+        centerMainTitleText  = text
+        centerMainTitleTextView.text = centerMainTitleText
+
+
+        return this
+    }
+
+    override fun centerMainTextSize(size: Float): GeneralModeState {
+        centerMainTitleTextSize =size
+        centerMainTitleTextView.paint.textSize =
+            if (centerMainTitleTextSize == 0F) mContext!!.resources.getDimension(R.dimen.head_center_main_textview_size) else centerMainTitleTextSize
+
+        return this
+
+    }
+
+    override fun centerMainTextColor(color: Int): GeneralModeState {
+        centerMainTitleTextColor =color
+        centerMainTitleTextView.setTextColor(centerMainTitleTextColor)
+
+        return this
+
+    }
+
+    override fun centerMainMarquee(isMarquee: Boolean): GeneralModeState {
+        isCenterMainTitleMarquee =isMarquee
+        if (isCenterMainTitleMarquee) {
+            centerMainTitleTextView.ellipsize = TextUtils.TruncateAt.MARQUEE
+            centerMainTitleTextView.marqueeRepeatLimit = -1
+            centerMainTitleTextView.requestFocus()
+            centerMainTitleTextView.isSelected = true
+        }
+
+        return this
+
+    }
+
+    override fun setOnCenterMainListener(listener: (v: View) -> Unit): GeneralModeState {
+        this.centerMainListener = listener
+        centerMainTitleTextView.setOnClickListener(centerMainListener)
+        return this
+    }
+
+    override fun centerSubText(text: CharSequence): GeneralModeState {
+        centerSubTitleText  = text
+        centerSubTitleTextView.text = centerSubTitleText
+        return this
+    }
+
+    override fun centerSubTextSize(size: Float): GeneralModeState {
+        centerSubTitleTextSize =size
+        centerSubTitleTextView.paint.textSize =
+            if (centerSubTitleTextSize == 0F) mContext!!.resources.getDimension(R.dimen.head_center_sub_textview_size) else centerSubTitleTextSize
+
+        return this
+
+    }
+
+    override fun centerSubTextColor(color: Int): GeneralModeState {
+        centerSubTitleTextColor =color
+        centerSubTitleTextView.setTextColor(centerSubTitleTextColor)
+
+        return this
+
+    }
+
+    override fun centerSubMarquee(isMarquee: Boolean): GeneralModeState {
+        isCenterSubTitleMarquee =isMarquee
+        if (isCenterSubTitleMarquee) {
+            centerSubTitleTextView.ellipsize = TextUtils.TruncateAt.MARQUEE
+            centerSubTitleTextView.marqueeRepeatLimit = -1
+            centerSubTitleTextView.requestFocus()
+            centerSubTitleTextView.isSelected = true
+        }
+        return this
+
+    }
+
+    override fun setOnCenterSubListener(listener: (v: View) -> Unit): GeneralModeState {
+        this.centerSubListener = listener
+        centerSubTitleTextView.setOnClickListener(centerSubListener)
+        return this
+    }
 }
+
+
 
 fun builderGeneralModeTitle(context: Context?, builder: GeneralModeTitle.() -> GeneralModeTitle) =
     GeneralModeTitle().apply {
@@ -129,72 +304,30 @@ fun modifyBuilderGeneralModeTitle(
 
 private fun loadView(): GeneralModeTitle.() -> Unit {
     return {
-
-
         //左边视图
-        leftTextView.text = leftText
-        val drawableLeft = if (leftIcon == 0) null else ContextCompat.getDrawable(
-            mContext!!,
-            leftIcon
-        )
-        drawableLeft?.let {
-            it.setBounds(
-                0,
-                0,
-                it.intrinsicWidth,
-                it.intrinsicHeight
-            )
-        }
-        leftTextView.setCompoundDrawables(drawableLeft, null, null, null)
-        leftTextView.paint.textSize =
-            if (leftTextSize == 0F) mContext!!.resources.getDimension(R.dimen.head_left_textview_size) else leftTextSize
-        leftTextView.setTextColor(leftTextColor)
+        this.leftText(leftText)
+            .leftIcon(leftIcon)
+            .leftTextSize(leftTextSize)
+            .leftTextColor(leftTextColor)
 
         //右边视图
-        rightTextView.text = rightText
-        val drawableRight = if (rightIcon == 0) null else ContextCompat.getDrawable(
-            mContext!!,
-            rightIcon
-        )
-        drawableRight?.let {
-            it.setBounds(
-                0,
-                0,
-                it.intrinsicWidth,
-                it.intrinsicHeight
-            )
-        }
-        rightTextView.setCompoundDrawables(null, null, drawableRight, null)
-        rightTextView.paint.textSize =
-            if (rightTextSize == 0F) mContext!!.resources.getDimension(R.dimen.head_right_textview_size) else rightTextSize
-        rightTextView.setTextColor(rightTextColor)
+        this.rightText(rightText)
+            .rightIcon(rightIcon)
+            .rightTextSize(rightTextSize)
+            .rightTextColor(rightTextColor)
 
         // 中间视图
         //主标题
-        centerMainTitleTextView.text = centerMainTitleText
-        centerMainTitleTextView.setTextColor(centerMainTitleTextColor)
-        centerMainTitleTextView.paint.textSize = centerMainTitleTextSize
-
-        if (isCenterMainTitleMarquee) {
-            //跑马灯
-            centerMainTitleTextView.ellipsize = TextUtils.TruncateAt.MARQUEE
-            centerMainTitleTextView.marqueeRepeatLimit = -1
-            centerMainTitleTextView.requestFocus()
-            centerMainTitleTextView.isSelected = true
-        }
+        this.centerMainText(centerMainTitleText)
+            .centerMainTextColor(centerMainTitleTextColor)
+            .centerMainTextSize(centerMainTitleTextSize)
+            .centerMainMarquee(isCenterMainTitleMarquee)
 
         //次要标题
-        centerSubTitleTextView.text = centerSubTitleText
-        centerSubTitleTextView.setTextColor(centerSubTitleTextColor)
-        centerSubTitleTextView.paint.textSize = centerSubTitleTextSize
-
-        if (isCenterSubTitleMarquee) {
-            //跑马灯
-            centerSubTitleTextView.ellipsize = TextUtils.TruncateAt.MARQUEE
-            centerSubTitleTextView.marqueeRepeatLimit = -1
-            centerSubTitleTextView.requestFocus()
-            centerSubTitleTextView.isSelected = true
-        }
+        this.centerSubText(centerSubTitleText)
+            .centerSubTextColor(centerSubTitleTextColor)
+            .centerSubTextSize(centerSubTitleTextSize)
+            .centerSubMarquee(isCenterSubTitleMarquee)
 
 
         //测量左中右的位置
@@ -268,7 +401,6 @@ private fun loadView(): GeneralModeTitle.() -> Unit {
                     centerLinearLayout.post {
                         centerLinearLayout.viewTreeObserver.addOnGlobalLayoutListener(this)
                     }
-
                 }
             })
         }

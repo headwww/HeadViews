@@ -6,15 +6,12 @@ import android.content.res.TypedArray
 import android.graphics.Color
 import android.graphics.drawable.LayerDrawable
 import android.util.AttributeSet
-import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.widget.FrameLayout
+import androidx.annotation.ColorInt
 import com.google.android.material.shape.MaterialShapeDrawable
-import com.head.view.style.GeneralModeTitle
-import com.head.view.style.LayoutChange
-import com.head.view.style.builderGeneralModeTitle
-import com.head.view.style.modifyBuilderGeneralModeTitle
+import com.head.view.style.*
 import com.head.view.utils.StatusBarUtil
 import com.head.view.utils.TemplateDrawable
 
@@ -28,6 +25,17 @@ import com.head.view.utils.TemplateDrawable
  * @version
  */
 class HeadTitleBar : FrameLayout, View.OnLayoutChangeListener {
+
+    enum class HeadTitleStyle {
+        GENERAL,
+        SEARCH,
+        CUSTOM
+    }
+
+    enum class Theme {
+        LIGHT, DARK
+
+    }
 
     constructor(context: Context) : super(context) {
         init()
@@ -45,6 +53,11 @@ class HeadTitleBar : FrameLayout, View.OnLayoutChangeListener {
         init(attrs, defStyleAttr)
     }
 
+    private var headTitleBarTheme: Int = -1
+    private var headTitleBarFillColorAlpha: Int = 1
+    private var headTitleBarFillColor: Int = -1
+    private var headTitleBarFill: Boolean = false
+    private var headTitleBarTransparent: Boolean = false
     private var headTitleGeneralCenterMainTextSize: Int = 0
     private var headTitleGeneralCenterMainTextColor: Int = Color.WHITE
     private var headTitleGeneralCenterMainMarquee: Boolean = false
@@ -102,6 +115,25 @@ class HeadTitleBar : FrameLayout, View.OnLayoutChangeListener {
             R.styleable.HeadTitleBar_headTitleStyle,
             -1
         )
+        headTitleBarTransparent = typedArray.getBoolean(
+            R.styleable.HeadTitleBar_headTitleBarTransparent,
+            false
+        )
+        headTitleBarFill = typedArray.getBoolean(
+            R.styleable.HeadTitleBar_headTitleBarFill,
+            false
+        )
+
+        headTitleBarFillColor = typedArray.getColor(
+            R.styleable.HeadTitleBar_headTitleBarFillColor,
+            -1
+        )
+        headTitleBarFillColorAlpha = typedArray.getInt(
+            R.styleable.HeadTitleBar_headTitleBarFillColorAlpha,
+            1
+        )
+
+        headTitleBarTheme = typedArray.getInt(R.styleable.HeadTitleBar_headTitleBarTheme, -1)
 
         headTitleGeneralLeftText = typedArray.getString(
             R.styleable.HeadTitleBar_headTitleGeneralLeftText,
@@ -167,6 +199,8 @@ class HeadTitleBar : FrameLayout, View.OnLayoutChangeListener {
             R.styleable.HeadTitleBar_headTitleGeneralCenterSubTextSize,
             context.resources.getDimension(R.dimen.head_right_textview_size).toInt()
         )
+
+
         //通用的标题模版
         if (headTitleStyle == 0) {
             generalModeTitle = builderGeneralModeTitle(context) {
@@ -211,17 +245,8 @@ class HeadTitleBar : FrameLayout, View.OnLayoutChangeListener {
             addView(customView, 0)
         }
 
-        //在设置了elevation并且getDrawable为偏白色一些的时候会出现Material悬浮的效果
-        var layerDrawable = LayerDrawable(arrayOf(
-            getDrawable(),
-            MaterialShapeDrawable().apply {
-                setTint(Color.TRANSPARENT)
-                elevation = this@HeadTitleBar.elevation
-            }
-        ))
-
-        Log.e("TAG", "init: ${StatusBarUtil.supportTransparentStatusBar()}", )
-        if (StatusBarUtil.supportTransparentStatusBar()) {
+        //是否支持透明状态栏
+        if (headTitleBarFill) {
             setPadding(
                 paddingLeft,
                 paddingTop + StatusBarUtil.getStatusBarHeight(context),
@@ -230,38 +255,30 @@ class HeadTitleBar : FrameLayout, View.OnLayoutChangeListener {
             )
         }
 
-        background = layerDrawable
+        background = getLayerBackground()
         typedArray.recycle()
 
     }
 
-
-    private fun getDrawable(): TemplateDrawable = TemplateDrawable(
-        context,
-        headTitleBarSupportGradient,
-        headTitleBarGradientFrom,
-        headTitleBarGradientTo,
-        headTitleBarBackgroundColor,
-    ).apply {
+    /**
+     * 在设置了elevation并且TemplateDrawable为偏白色一些的时候会出现Material设计感觉
+     */
+    private fun getLayerBackground(): LayerDrawable = LayerDrawable(arrayOf(
+        TemplateDrawable(
+            context,
+            headTitleBarSupportGradient,
+            headTitleBarGradientFrom,
+            headTitleBarGradientTo,
+            headTitleBarBackgroundColor,
+        ),
+        MaterialShapeDrawable().apply {
+            setTint(Color.TRANSPARENT)
+            elevation = this@HeadTitleBar.elevation
+        }
+    )).apply {
         this@HeadTitleBar.invalidate()
     }
 
-    fun getCustomView(): View? {
-        return customView
-    }
-
-    fun addCustomView(headTitleBarCustomViewRes: Int, onBind: (view: View?) -> Unit) {
-        this.headTitleBarCustomViewRes = headTitleBarCustomViewRes
-        customView = LayoutInflater.from(context).inflate(headTitleBarCustomViewRes, null, false)
-        removeAllViews()
-        addView(customView)
-        onBind(customView)
-    }
-
-    fun onBindViewClick(onBind: (view: View?) -> Unit) {
-        if (customView != null)
-            onBind(customView)
-    }
 
     override fun onLayoutChange(
         v: View?,
@@ -290,9 +307,120 @@ class HeadTitleBar : FrameLayout, View.OnLayoutChangeListener {
 
     override fun onAttachedToWindow() {
         super.onAttachedToWindow()
-        // 设置状态栏背景透明
-        StatusBarUtil.transparentStatusBar(context as Activity)
-
+        if (headTitleBarTransparent && StatusBarUtil.supportTransparentStatusBar() && headTitleBarFillColor == -1) {
+            StatusBarUtil.transparentStatusBar(context as Activity)
+        } else if (headTitleBarFillColor != -1) {
+            StatusBarUtil.setStatusBarColor(
+                context as Activity,
+                headTitleBarFillColor,
+                headTitleBarFillColorAlpha
+            )
+        }
+        //开启这个后标题栏会被遮挡，建议把状态栏填充也开着
+        if (headTitleBarTheme == Theme.LIGHT.ordinal) {
+            StatusBarUtil.setLightMode(context as Activity)
+        } else if (headTitleBarTheme == Theme.DARK.ordinal) {
+            StatusBarUtil.setDarkMode(context as Activity)
+        }
     }
 
+    fun getCustomView(): View? {
+        return customView
+    }
+
+    fun addCustomView(headTitleBarCustomViewRes: Int, onBind: (view: View?) -> Unit) {
+        this.headTitleBarCustomViewRes = headTitleBarCustomViewRes
+        customView = LayoutInflater.from(context).inflate(headTitleBarCustomViewRes, null, false)
+        removeAllViews()
+        addView(customView)
+        onBind(customView)
+    }
+
+    fun onBindViewClick(onBind: (view: View?) -> Unit) {
+        if (customView != null)
+            onBind(customView)
+    }
+
+    fun setHeadTitleBarBackgroundColor(@ColorInt headTitleBarBackgroundColor: Int) {
+        this.headTitleBarBackgroundColor = headTitleBarBackgroundColor
+        background = getLayerBackground()
+    }
+
+    fun setHeadTitleBarSupportGradient(headTitleBarSupportGradient: Boolean) {
+        this.headTitleBarSupportGradient = headTitleBarSupportGradient
+        background = getLayerBackground()
+    }
+
+    fun setHeadTitleBarGradientFrom(@ColorInt headTitleBarGradientFrom: Int) {
+        this.headTitleBarGradientFrom = headTitleBarGradientFrom
+        background = getLayerBackground()
+    }
+
+    fun setHeadTitleBarGradientTo(@ColorInt headTitleBarGradientTo: Int) {
+        this.headTitleBarGradientTo = headTitleBarGradientTo
+        background = getLayerBackground()
+    }
+
+    fun setHeadTitleStyle(style: HeadTitleStyle) {
+        this.headTitleStyle = style.ordinal
+    }
+
+    fun getGeneralModeTitle(): GeneralModeState {
+        return generalModeTitle
+    }
+
+    fun setHeadTitleBarTransparent() {
+        this.headTitleBarTransparent = true
+        if (headTitleBarTransparent && StatusBarUtil.supportTransparentStatusBar() && headTitleBarFillColor == -1) {
+            StatusBarUtil.transparentStatusBar(context as Activity)
+        }
+    }
+
+    fun setHeadTitleBarFill(headTitleBarFill:Boolean) {
+        this.headTitleBarFill = headTitleBarFill
+        if (headTitleBarFill) {
+            setPadding(
+                paddingLeft,
+                paddingTop + StatusBarUtil.getStatusBarHeight(context),
+                paddingLeft,
+                paddingBottom
+            )
+        }else{
+            setPadding(
+                paddingLeft,
+                paddingTop - StatusBarUtil.getStatusBarHeight(context),
+                paddingLeft,
+                paddingBottom
+            )
+
+        }
+    }
+
+    fun setHeadTitleBarFillColor(@ColorInt headTitleBarFillColor:Int){
+        this.headTitleBarFillColor=headTitleBarFillColor
+        StatusBarUtil.setStatusBarColor(
+            context as Activity,
+            headTitleBarFillColor,
+            this.headTitleBarFillColorAlpha
+        )
+
+    }
+    fun setHeadTitleBarFillColorAlpha(headTitleBarFillColorAlpha:Int){
+        this.headTitleBarFillColorAlpha=headTitleBarFillColorAlpha
+        StatusBarUtil.setStatusBarColor(
+            context as Activity,
+            headTitleBarFillColor,
+            this.headTitleBarFillColorAlpha
+        )
+
+    }
+    fun setHeadTitleBarTheme(theme:Theme){
+        this.headTitleBarTheme = theme.ordinal
+        //开启这个后标题栏会被遮挡，建议把状态栏填充也开着
+        if (headTitleBarTheme == Theme.LIGHT.ordinal) {
+            StatusBarUtil.setLightMode(context as Activity)
+        } else if (headTitleBarTheme == Theme.DARK.ordinal) {
+            StatusBarUtil.setDarkMode(context as Activity)
+        }
+    }
 }

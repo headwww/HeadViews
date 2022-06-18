@@ -4,4 +4,6 @@
     <dimen name="spinner_item_default_text_size">15sp</dimen>
     <dimen name="head_left_textview_size">15sp</dimen>
     <dimen name="head_right_textview_size">15sp</dimen>
+    <dimen name="head_center_main_textview_size">15sp</dimen>
+    <dimen name="head_center_sub_textview_size">13sp</dimen>
 </resources>

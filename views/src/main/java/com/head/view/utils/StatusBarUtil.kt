@@ -137,10 +137,10 @@ object StatusBarUtil {
      * @param alpha
      */
     fun setStatusBarColor(
-        window: Window, @ColorInt color: Int,
+        activity: Activity, @ColorInt color: Int,
         alpha: Int
     ) {
-        window.statusBarColor = calculateStatusColor(color, alpha)
+        activity.window.statusBarColor = calculateStatusColor(color, alpha)
     }
 
 
