@@ -28,15 +28,10 @@ class MainActivity : AppCompatActivity() {
         // Passing each menu ID as a set of Ids because each
         // menu should be considered as top level destinations.
         binding.headTitleBar.getGeneralModeTitle()
-            .leftText("推出")
-            .leftIcon(R.drawable.ic_baseline_search_24)
-            .leftTextColor(Color.RED)
-            .rightText("所搜")
-            .rightIcon(R.drawable.ic_baseline_arrow_back_ios_24)
-            .rightTextColor(Color.RED)
-            .centerSubText("-----------------------------次标题---------------------------")
+            .centerSubText("-----------------------------------------------------------------------------------次标题--------------------------------------------------------------------次标题--------------------------------------------------------------------次标题---------------------------")
             .centerSubTextColor(Color.WHITE)
             .centerSubMarquee(true)
+            .rightText("搜索").leftIcon(R.drawable.ic_baseline_arrow_back_ios_24)
             .centerMainText("-------------------主标题-------------------")
             .centerMainMarquee(true)
             .setOnLeftListener {
@@ -45,8 +40,16 @@ class MainActivity : AppCompatActivity() {
                 Toast.makeText(this, "setOnCenterSubListener", Toast.LENGTH_SHORT).show()
             }.setOnCenterMainListener {
                 Toast.makeText(this, "setOnCenterMainListener", Toast.LENGTH_SHORT).show()
-            }.setOnRightListener {
+            }
+            .setOnRightListener {
                 Toast.makeText(this, "setOnRightListener", Toast.LENGTH_SHORT).show()
+            }.setOnRightSearchListener { v, text ->
+                Toast.makeText(this, text, Toast.LENGTH_SHORT).show()
+            }.setOnSearchActionListener { v, text ->
+                Toast.makeText(this, text, Toast.LENGTH_SHORT).show()
+            }.setOnSearchClearListener {
+                Toast.makeText(this, "删除了", Toast.LENGTH_SHORT).show()
+
             }
         binding.headTitleBar.setHeadTitleBarTransparent()
         navView.setupWithNavController(navController)

@@ -80,7 +80,7 @@ class HeadTitleBar : FrameLayout, View.OnLayoutChangeListener {
     private var headTitleGeneralRightText: String = ""
 
 
-    private lateinit var generalModeTitle: GeneralModeTitle
+    private lateinit var generalModeTitle: BuiltInStyle
     private var headTitleBarGradientFrom: Int = Color.WHITE
     private var headTitleBarGradientTo: Int = Color.WHITE
     private var headTitleBarSupportGradient: Boolean = false
@@ -200,10 +200,10 @@ class HeadTitleBar : FrameLayout, View.OnLayoutChangeListener {
             context.resources.getDimension(R.dimen.head_right_textview_size).toInt()
         )
 
-
         //通用的标题模版
-        if (headTitleStyle == 0) {
-            generalModeTitle = builderGeneralModeTitle(context) {
+        if (headTitleStyle == HeadTitleStyle.GENERAL.ordinal||headTitleStyle == HeadTitleStyle.SEARCH.ordinal) {
+            generalModeTitle = builderTitle(context) {
+                style = headTitleStyle
                 leftText = headTitleGeneralLeftText
                 leftIcon = headTitleGeneralLeftIcon
                 leftTextColor = headTitleGeneralLeftTextColor
@@ -232,13 +232,9 @@ class HeadTitleBar : FrameLayout, View.OnLayoutChangeListener {
             addOnLayoutChangeListener(this)
         }
 
-        //搜索模式
-        if (headTitleStyle == 1) {
-
-        }
 
         //自定义模版
-        if (headTitleStyle == 3 && headTitleBarCustomViewRes != 0) {
+        if (headTitleStyle == HeadTitleStyle.CUSTOM.ordinal && headTitleBarCustomViewRes != 0) {
             customView =
                 LayoutInflater.from(context).inflate(headTitleBarCustomViewRes, null, false)
             removeAllViews()
@@ -293,16 +289,16 @@ class HeadTitleBar : FrameLayout, View.OnLayoutChangeListener {
     ) {
         // 先移除当前的监听，因为子View在setMaxWidth时候会重新触发监听，解决递归
         removeOnLayoutChangeListener(this)
-        if (headTitleStyle == 0 && generalModeTitle != null) {
-            modifyBuilderGeneralModeTitle(generalModeTitle) {
+        if (generalModeTitle != null) {
+            modifyTitle(generalModeTitle) {
                 layoutChange = LayoutChange(left, right, paddingLeft, paddingRight)
                 this
             }
         }
-        post {
-            // 这里再次监听需要延迟，否则会导致递归的情况发生
-            addOnLayoutChangeListener(this@HeadTitleBar)
-        }
+//        post {
+//            // 这里再次监听需要延迟，否则会导致递归的情况发生
+//            addOnLayoutChangeListener(this@HeadTitleBar)
+//        }
     }
 
     override fun onAttachedToWindow() {
@@ -365,7 +361,7 @@ class HeadTitleBar : FrameLayout, View.OnLayoutChangeListener {
         this.headTitleStyle = style.ordinal
     }
 
-    fun getGeneralModeTitle(): GeneralModeState {
+    fun getGeneralModeTitle(): BuiltInImpl {
         return generalModeTitle
     }
 

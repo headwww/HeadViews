@@ -8,24 +8,28 @@ import android.view.View
 import android.view.View.MeasureSpec
 import android.view.ViewGroup
 import android.view.ViewTreeObserver
+import android.view.inputmethod.EditorInfo
 import android.widget.FrameLayout
 import android.widget.LinearLayout
 import android.widget.TextView
 import androidx.core.content.ContextCompat
+import com.head.view.HeadEditTextView
+import com.head.view.HeadTitleBar
 import com.head.view.R
+import com.head.view.utils.ScreenUtil
 import kotlin.math.max
 
 /**
  *
  * 类名称： GeneralModeTitle<br/>
- * 类描述： 通用标题<br/>
+ * 类描述： 内置了两种方式的标题，通用模式和搜索模式<br/>
  * 创建人： <br/>
  * 创建时间：  <br/>
  * @version
  */
-data class GeneralModeTitle(
+data class BuiltInStyle(
     var mContext: Context? = null,
-
+    var style: Int = HeadTitleBar.HeadTitleStyle.GENERAL.ordinal,
     var leftText: CharSequence = "",
     var leftTextColor: Int = Color.WHITE,
     var leftTextSize: Float = 0F,
@@ -45,14 +49,17 @@ data class GeneralModeTitle(
     var centerSubTitleTextColor: Int = Color.WHITE,
     var centerSubTitleTextSize: Float = 0F,
     var isCenterSubTitleMarquee: Boolean = false,
-    var leftListener:( (v: View) -> Unit)? = null,
-    var rightListener:( (v: View) -> Unit)? = null,
-    var centerMainListener:( (v: View) -> Unit)? = null,
-    var centerSubListener:( (v: View) -> Unit)? = null,
+    var leftListener: ((v: View) -> Unit)? = null,
+    var rightListener: ((v: View) -> Unit)? = null,
+    var rightTextListener: ((v: View, text: String) -> Unit)? = null,
+    var onEditorActionListener: ((v: View, text: String) -> Unit)? = null,
+    var onSearchClearListener: ((v: View) -> Unit)? = null,
+    var centerMainListener: ((v: View) -> Unit)? = null,
+    var centerSubListener: ((v: View) -> Unit)? = null,
     var layoutChange: LayoutChange? = null
 
 
-) : GeneralModeState {
+) : BuiltInImpl {
     val leftTextView: TextView by lazy {
         TextView(mContext).apply {
             layoutParams = FrameLayout.LayoutParams(
@@ -108,14 +115,32 @@ data class GeneralModeTitle(
             isSingleLine = true
         }
     }
+    val centerSearchView: HeadEditTextView by lazy {
+        HeadEditTextView(mContext!!).apply {
+            layoutParams = FrameLayout.LayoutParams(
+                ViewGroup.LayoutParams.MATCH_PARENT,
+                ViewGroup.LayoutParams.MATCH_PARENT,
+                Gravity.CENTER
+            )
 
-    override fun leftText(text: CharSequence): GeneralModeState {
+            imeOptions = EditorInfo.IME_ACTION_SEARCH
+
+            setHeadEditTextClear(true)
+            setHeadEditTextClearIcon(true)
+            setHeadEditTextRadians(resources.getDimension(R.dimen.head_center_search_radio).toInt())
+            setPadding(30, paddingTop, 30, paddingBottom)
+            ellipsize = null
+            isSingleLine = true
+        }
+    }
+
+    override fun leftText(text: CharSequence): BuiltInImpl {
         leftText = text
         leftTextView.text = leftText
         return this
     }
 
-    override fun leftIcon(icon: Int): GeneralModeState {
+    override fun leftIcon(icon: Int): BuiltInImpl {
         leftIcon = icon
         val drawableLeft = if (leftIcon == 0) null else ContextCompat.getDrawable(
             mContext!!,
@@ -133,7 +158,7 @@ data class GeneralModeTitle(
         return this
     }
 
-    override fun leftTextSize(size: Float): GeneralModeState {
+    override fun leftTextSize(size: Float): BuiltInImpl {
         leftTextSize = size
         leftTextView.paint.textSize = if (leftTextSize == 0F) mContext!!
             .resources.getDimension(R.dimen.head_left_textview_size)
@@ -141,26 +166,26 @@ data class GeneralModeTitle(
         return this
     }
 
-    override fun leftTextColor(color: Int): GeneralModeState {
+    override fun leftTextColor(color: Int): BuiltInImpl {
         leftTextColor = color
         leftTextView.setTextColor(leftTextColor)
         return this
     }
 
-    override fun setOnLeftListener(listener: (v: View) -> Unit): GeneralModeState {
+    override fun setOnLeftListener(listener: (v: View) -> Unit): BuiltInImpl {
         this.leftListener = listener
         leftTextView.setOnClickListener(leftListener)
         return this
     }
 
-    override fun rightText(text: CharSequence): GeneralModeState {
+    override fun rightText(text: CharSequence): BuiltInImpl {
         rightText = text
         rightTextView.text = rightText
         return this
     }
 
-    override fun rightIcon(icon: Int): GeneralModeState {
-        rightIcon =icon
+    override fun rightIcon(icon: Int): BuiltInImpl {
+        rightIcon = icon
         val drawableRight = if (rightIcon == 0) null else ContextCompat.getDrawable(
             mContext!!,
             rightIcon
@@ -177,36 +202,63 @@ data class GeneralModeTitle(
         return this
     }
 
-    override fun rightTextSize(size: Float): GeneralModeState {
-        rightTextSize =size
+    override fun rightTextSize(size: Float): BuiltInImpl {
+        rightTextSize = size
         rightTextView.paint.textSize =
             if (rightTextSize == 0F) mContext!!.resources.getDimension(R.dimen.head_right_textview_size) else rightTextSize
 
         return this
     }
 
-    override fun rightTextColor(color: Int): GeneralModeState {
-        rightTextColor =color
+    override fun rightTextColor(color: Int): BuiltInImpl {
+        rightTextColor = color
         rightTextView.setTextColor(rightTextColor)
         return this
     }
 
-    override fun setOnRightListener(listener: (v: View) -> Unit): GeneralModeState {
+    override fun setOnRightListener(listener: (v: View) -> Unit): BuiltInImpl {
         this.rightListener = listener
         rightTextView.setOnClickListener(rightListener)
         return this
     }
 
-    override fun centerMainText(text: CharSequence): GeneralModeState {
-        centerMainTitleText  = text
-        centerMainTitleTextView.text = centerMainTitleText
-
-
+    override fun setOnRightSearchListener(listener: (v: View, text: String) -> Unit): BuiltInImpl {
+        this.rightTextListener = listener
+        rightTextView.setOnClickListener {
+            rightTextListener?.invoke(it, centerSearchView.text.toString())
+        }
         return this
     }
 
-    override fun centerMainTextSize(size: Float): GeneralModeState {
-        centerMainTitleTextSize =size
+    override fun setOnSearchActionListener(listener: (v: View, text: String) -> Unit): BuiltInImpl {
+        this.onEditorActionListener = listener
+        centerSearchView.setOnEditorActionListener { _, actionId, keyEvent ->
+            if ((actionId == EditorInfo.IME_ACTION_UNSPECIFIED || actionId == EditorInfo.IME_ACTION_SEARCH) && keyEvent != null) {
+                //点击搜索要做的操作
+                onEditorActionListener?.invoke(centerSearchView, centerSearchView.text.toString())
+                true
+            }
+            false
+        }
+        return this
+    }
+
+    override fun setOnSearchClearListener(listener: (v: View) -> Unit): BuiltInImpl {
+        this.onSearchClearListener = listener
+        centerSearchView.setOnRightDrawableClickListener {
+            onSearchClearListener?.invoke(it)
+        }
+        return this
+    }
+
+    override fun centerMainText(text: CharSequence): BuiltInImpl {
+        centerMainTitleText  = text
+        centerMainTitleTextView.text = centerMainTitleText
+        return this
+    }
+
+    override fun centerMainTextSize(size: Float): BuiltInImpl {
+        centerMainTitleTextSize = size
         centerMainTitleTextView.paint.textSize =
             if (centerMainTitleTextSize == 0F) mContext!!.resources.getDimension(R.dimen.head_center_main_textview_size) else centerMainTitleTextSize
 
@@ -214,16 +266,16 @@ data class GeneralModeTitle(
 
     }
 
-    override fun centerMainTextColor(color: Int): GeneralModeState {
-        centerMainTitleTextColor =color
+    override fun centerMainTextColor(color: Int): BuiltInImpl {
+        centerMainTitleTextColor = color
         centerMainTitleTextView.setTextColor(centerMainTitleTextColor)
 
         return this
 
     }
 
-    override fun centerMainMarquee(isMarquee: Boolean): GeneralModeState {
-        isCenterMainTitleMarquee =isMarquee
+    override fun centerMainMarquee(isMarquee: Boolean): BuiltInImpl {
+        isCenterMainTitleMarquee = isMarquee
         if (isCenterMainTitleMarquee) {
             centerMainTitleTextView.ellipsize = TextUtils.TruncateAt.MARQUEE
             centerMainTitleTextView.marqueeRepeatLimit = -1
@@ -235,20 +287,20 @@ data class GeneralModeTitle(
 
     }
 
-    override fun setOnCenterMainListener(listener: (v: View) -> Unit): GeneralModeState {
+    override fun setOnCenterMainListener(listener: (v: View) -> Unit): BuiltInImpl {
         this.centerMainListener = listener
         centerMainTitleTextView.setOnClickListener(centerMainListener)
         return this
     }
 
-    override fun centerSubText(text: CharSequence): GeneralModeState {
-        centerSubTitleText  = text
+    override fun centerSubText(text: CharSequence): BuiltInImpl {
+        centerSubTitleText = text
         centerSubTitleTextView.text = centerSubTitleText
         return this
     }
 
-    override fun centerSubTextSize(size: Float): GeneralModeState {
-        centerSubTitleTextSize =size
+    override fun centerSubTextSize(size: Float): BuiltInImpl {
+        centerSubTitleTextSize = size
         centerSubTitleTextView.paint.textSize =
             if (centerSubTitleTextSize == 0F) mContext!!.resources.getDimension(R.dimen.head_center_sub_textview_size) else centerSubTitleTextSize
 
@@ -256,16 +308,16 @@ data class GeneralModeTitle(
 
     }
 
-    override fun centerSubTextColor(color: Int): GeneralModeState {
-        centerSubTitleTextColor =color
+    override fun centerSubTextColor(color: Int): BuiltInImpl {
+        centerSubTitleTextColor = color
         centerSubTitleTextView.setTextColor(centerSubTitleTextColor)
 
         return this
 
     }
 
-    override fun centerSubMarquee(isMarquee: Boolean): GeneralModeState {
-        isCenterSubTitleMarquee =isMarquee
+    override fun centerSubMarquee(isMarquee: Boolean): BuiltInImpl {
+        isCenterSubTitleMarquee = isMarquee
         if (isCenterSubTitleMarquee) {
             centerSubTitleTextView.ellipsize = TextUtils.TruncateAt.MARQUEE
             centerSubTitleTextView.marqueeRepeatLimit = -1
@@ -276,34 +328,17 @@ data class GeneralModeTitle(
 
     }
 
-    override fun setOnCenterSubListener(listener: (v: View) -> Unit): GeneralModeState {
+    override fun setOnCenterSubListener(listener: (v: View) -> Unit): BuiltInImpl {
         this.centerSubListener = listener
         centerSubTitleTextView.setOnClickListener(centerSubListener)
         return this
     }
 }
 
-
-
-fun builderGeneralModeTitle(context: Context?, builder: GeneralModeTitle.() -> GeneralModeTitle) =
-    GeneralModeTitle().apply {
+fun builderTitle(context: Context?, builder: BuiltInStyle.() -> BuiltInStyle) =
+    BuiltInStyle().apply {
         mContext = context
-        loadView()(builder(this))
-    }
-
-fun modifyBuilderGeneralModeTitle(
-    generalModeTitle: GeneralModeTitle,
-    modifyAction: GeneralModeTitle.() -> GeneralModeTitle
-) = generalModeTitle.apply {
-    loadView()(modifyAction(generalModeTitle))
-    centerLinearLayout.removeAllViews()
-    centerLinearLayout.addView(centerMainTitleTextView)
-    if (centerSubTitleText != "") centerLinearLayout.addView(centerSubTitleTextView)
-
-}
-
-private fun loadView(): GeneralModeTitle.() -> Unit {
-    return {
+        builder(this)
         //左边视图
         this.leftText(leftText)
             .leftIcon(leftIcon)
@@ -316,26 +351,94 @@ private fun loadView(): GeneralModeTitle.() -> Unit {
             .rightTextSize(rightTextSize)
             .rightTextColor(rightTextColor)
 
-        // 中间视图
-        //主标题
-        this.centerMainText(centerMainTitleText)
-            .centerMainTextColor(centerMainTitleTextColor)
-            .centerMainTextSize(centerMainTitleTextSize)
-            .centerMainMarquee(isCenterMainTitleMarquee)
+        if (style == HeadTitleBar.HeadTitleStyle.GENERAL.ordinal) {
+            // 中间视图
+            //主标题
+            this.centerMainText(centerMainTitleText)
+                .centerMainTextColor(centerMainTitleTextColor)
+                .centerMainTextSize(centerMainTitleTextSize)
+                .centerMainMarquee(isCenterMainTitleMarquee)
 
-        //次要标题
-        this.centerSubText(centerSubTitleText)
-            .centerSubTextColor(centerSubTitleTextColor)
-            .centerSubTextSize(centerSubTitleTextSize)
-            .centerSubMarquee(isCenterSubTitleMarquee)
+            //次要标题
+            this.centerSubText(centerSubTitleText)
+                .centerSubTextColor(centerSubTitleTextColor)
+                .centerSubTextSize(centerSubTitleTextSize)
+                .centerSubMarquee(isCenterSubTitleMarquee)
+        }
+
+    }
+
+fun modifyTitle(
+    generalModeTitle: BuiltInStyle,
+    modifyAction: BuiltInStyle.() -> BuiltInStyle
+) = generalModeTitle.apply {
+    centerLinearLayout.removeAllViews()
+    if (style == HeadTitleBar.HeadTitleStyle.GENERAL.ordinal) {
+        measureGeneral()(modifyAction(generalModeTitle))
+        centerLinearLayout.addView(centerMainTitleTextView)
+        if (centerSubTitleText != "") centerLinearLayout.addView(centerSubTitleTextView)
+    }
+    if (style == HeadTitleBar.HeadTitleStyle.SEARCH.ordinal) {
+        measureSearch()(modifyAction(generalModeTitle))
+
+        centerSearchView.postDelayed({
+            centerSearchView.isFocusable = true
+            centerSearchView.isFocusableInTouchMode = true
+            centerSearchView.requestFocus()
+            ScreenUtil.showSoftInputKeyBoard(mContext!!, centerSearchView)
+        }, 300)
+        centerSearchView.setHeadEditTextBackgroundColor(Color.BLACK)
 
 
+        centerLinearLayout.addView(centerSearchView)
+    }
+
+}
+
+private fun measureSearch(): BuiltInStyle.() -> Unit {
+    return {
+        layoutChange?.let {
+            val barWidth: Int = it.right - it.left
+            centerSearchView.maxWidth = barWidth
+            centerSearchView.minWidth = barWidth
+            var centerLayoutPaddingLeft = 0
+            var centerLayoutPaddingRight = 0
+            //如果左侧的view小于1/5则宽度取本身的width，如果大于
+
+            if (leftTextView.width <= barWidth / 5) {
+                centerLayoutPaddingLeft = leftTextView.width
+                leftTextView.maxWidth = leftTextView.width
+            } else {
+                centerLayoutPaddingLeft = barWidth / 5
+                leftTextView.maxWidth = barWidth / 5
+            }
+            if (rightTextView.width <= barWidth / 5) {
+                centerLayoutPaddingRight = rightTextView.width
+                rightTextView.maxWidth = rightTextView.width
+            } else {
+                centerLayoutPaddingRight = barWidth / 5
+                rightTextView.maxWidth = barWidth / 5
+            }
+            centerLinearLayout.setPadding(
+                centerLayoutPaddingLeft + it.paddingLeft,
+                0,
+                centerLayoutPaddingRight + it.paddingRight,
+                0
+            )
+
+        }
+    }
+}
+
+private fun measureGeneral(): BuiltInStyle.() -> Unit {
+    return {
         //测量左中右的位置
-        if (layoutChange != null) {
+        layoutChange?.let {
             centerLinearLayout.viewTreeObserver.addOnGlobalLayoutListener(object :
                 ViewTreeObserver.OnGlobalLayoutListener {
                 override fun onGlobalLayout() {
                     centerLinearLayout.viewTreeObserver.removeOnGlobalLayoutListener(this)
+                    //屏幕后重新测量
                     if (leftTextView.maxWidth != Int.MAX_VALUE && rightTextView.maxWidth != Int.MAX_VALUE && centerMainTitleTextView.maxWidth != Int.MAX_VALUE && centerMainTitleTextView.maxWidth != Int.MAX_VALUE) {
                         leftTextView.maxWidth = Int.MAX_VALUE
                         rightTextView.maxWidth = Int.MAX_VALUE
@@ -360,7 +463,7 @@ private fun loadView(): GeneralModeTitle.() -> Unit {
                     }
 
                     // 标题栏子 View 最大宽度限制算法
-                    val barWidth: Int = layoutChange!!.right - layoutChange!!.left
+                    val barWidth: Int = it.right - it.left
                     val sideWidth: Int =
                         max(leftTextView.measuredWidth, rightTextView.measuredWidth)
 
@@ -375,17 +478,17 @@ private fun loadView(): GeneralModeTitle.() -> Unit {
                             // 如果是左右项太长，那么按照比例进行划分
                             leftTextView.maxWidth = barWidth / 4
                             centerMainTitleTextView.maxWidth =
-                                barWidth / 2 - layoutChange!!.paddingLeft - layoutChange!!.paddingRight
+                                barWidth / 2 - it.paddingLeft - it.paddingRight
                             centerSubTitleTextView.maxWidth =
-                                barWidth / 2 - layoutChange!!.paddingLeft - layoutChange!!.paddingRight
+                                barWidth / 2 - it.paddingLeft - it.paddingRight
                             rightTextView.maxWidth = barWidth / 4
                         } else {
                             // 如果是标题项太长，那么就进行动态计算
                             leftTextView.maxWidth = sideWidth
                             centerMainTitleTextView.maxWidth =
-                                barWidth - sideWidth * 2 - layoutChange!!.paddingLeft - layoutChange!!.paddingRight
+                                barWidth - sideWidth * 2 - it.paddingLeft - it.paddingRight
                             centerSubTitleTextView.maxWidth =
-                                barWidth - sideWidth * 2 - layoutChange!!.paddingLeft - layoutChange!!.paddingRight
+                                barWidth - sideWidth * 2 - it.paddingLeft - it.paddingRight
                             rightTextView.maxWidth = sideWidth
                         }
                     } else {
