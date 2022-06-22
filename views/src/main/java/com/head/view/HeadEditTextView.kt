@@ -83,27 +83,27 @@ class HeadEditTextView :
     /**
      * 设置角的弧度数
      */
-    private var headEditTextRadians: Int = 0
+    private var headEditTextRadians: Float = 0F
 
     /**
      * 设置左上角的弧度
      */
-    private var headEditTextRadianLeftTop: Int = 0
+    private var headEditTextRadianLeftTop: Float = 0F
 
     /**
      * 设置右上角的弧度
      */
-    private var headEditTextRadianRightTop: Int = 0
+    private var headEditTextRadianRightTop: Float = 0F
 
     /**
      * 设置左下角的弧度
      */
-    private var headEditTextRadianLeftBottom: Int = 0
+    private var headEditTextRadianLeftBottom: Float = 0F
 
     /**
      * 设置右下角的弧度
      */
-    private var headEditTextRadianRightBottom: Int = 0
+    private var headEditTextRadianRightBottom: Float = 0F
 
     /**
      * 是否开启清空文本的功能，默认关闭
@@ -130,7 +130,7 @@ class HeadEditTextView :
     /**
      * 设置边框宽度
      */
-    private var headEditTextStrokeWidth: Int = 0
+    private var headEditTextStrokeWidth: Float = 0F
 
     /**
      * 设置边框为虚线的长度
@@ -202,33 +202,33 @@ class HeadEditTextView :
             R.styleable.HeadEditTextView_headEditTextGradientTo,
             Color.TRANSPARENT
         )
-        headEditTextRadians = typedArray.getDimensionPixelSize(
+        headEditTextRadians = typedArray.getDimension(
             R.styleable.HeadEditTextView_headEditTextRadians,
-            0
+            0F
         )
-        headEditTextRadianLeftTop = typedArray.getDimensionPixelSize(
+        headEditTextRadianLeftTop = typedArray.getDimension(
             R.styleable.HeadEditTextView_headEditTextRadianLeftTop,
-            0
+            0F
         )
-        headEditTextRadianRightTop = typedArray.getDimensionPixelSize(
+        headEditTextRadianRightTop = typedArray.getDimension(
             R.styleable.HeadEditTextView_headEditTextRadianRightTop,
-            0
+            0F
         )
-        headEditTextRadianLeftBottom = typedArray.getDimensionPixelSize(
+        headEditTextRadianLeftBottom = typedArray.getDimension(
             R.styleable.HeadEditTextView_headEditTextRadianLeftBottom,
-            0
+            0F
         )
-        headEditTextRadianRightBottom = typedArray.getDimensionPixelSize(
+        headEditTextRadianRightBottom = typedArray.getDimension(
             R.styleable.HeadEditTextView_headEditTextRadianRightBottom,
-            0
+            0F
         )
         headEditTextStrokeColor = typedArray.getColor(
             R.styleable.HeadEditTextView_headEditTextStrokeColor,
             -1
         )
-        headEditTextStrokeWidth = typedArray.getDimensionPixelSize(
+        headEditTextStrokeWidth = typedArray.getDimension(
             R.styleable.HeadEditTextView_headEditTextStrokeWidth,
-            0
+            0F
         )
         headEditTextStrokeDashWidth = typedArray.getFloat(
             R.styleable.HeadEditTextView_headEditTextStrokeDashWidth,
@@ -548,7 +548,7 @@ class HeadEditTextView :
     /**
      * 设置圆弧角度
      */
-    fun setHeadEditTextRadians(radian: Int) {
+    fun setHeadEditTextRadians(radian: Float) {
         headEditTextRadians = radian
         background = modifyDrawable(templateDrawable){
             setRadians(headEditTextRadians.toFloat())
@@ -559,7 +559,7 @@ class HeadEditTextView :
     /**
      * 设置圆弧LeftTop角度
      */
-    fun setHeadEditTextRadianLeftTop(radian: Int) {
+    fun setHeadEditTextRadianLeftTop(radian: Float) {
         headEditTextRadianLeftTop = radian
         background = modifyDrawable(templateDrawable){
             setRadianLeftTop(headEditTextRadianLeftTop.toFloat())
@@ -570,7 +570,7 @@ class HeadEditTextView :
     /**
      * 设置圆弧LeftBottom角度
      */
-    fun setHeadEditTextRadianLeftBottom(radian: Int) {
+    fun setHeadEditTextRadianLeftBottom(radian: Float) {
         headEditTextRadianLeftBottom = radian
         background = modifyDrawable(templateDrawable){
             setRadianLeftBottom(headEditTextRadianLeftBottom.toFloat())
@@ -581,7 +581,7 @@ class HeadEditTextView :
     /**
      * 设置圆弧RightTop角度
      */
-    fun setHeadEditTextRadianRightTop(radian: Int) {
+    fun setHeadEditTextRadianRightTop(radian: Float) {
         headEditTextRadianRightTop = radian
         background = modifyDrawable(templateDrawable){
             setRadianRightTop(headEditTextRadianRightTop.toFloat())
@@ -592,7 +592,7 @@ class HeadEditTextView :
     /**
      * 设置圆弧RightBottom角度
      */
-    fun setHeadEditTextRadianRightBottom(radian: Int) {
+    fun setHeadEditTextRadianRightBottom(radian: Float) {
         headEditTextRadianRightBottom = radian
         background = modifyDrawable(templateDrawable){
             setRadianRightBottom(headEditTextRadianRightBottom.toFloat())
@@ -624,7 +624,7 @@ class HeadEditTextView :
     /**
      * 设置边框宽度
      */
-    fun setHeadEditTextStrokeWidth(width: Int) {
+    fun setHeadEditTextStrokeWidth(width: Float) {
         headEditTextStrokeWidth = width
         background = modifyDrawable(templateDrawable){
             setStrokeWidth(headEditTextStrokeWidth)

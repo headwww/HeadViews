@@ -48,12 +48,12 @@ class HeadButton : AppCompatButton {
     private var headButtonNormalSupportGradient: Boolean = false
     private var headButtonNormalGradientFrom: Int = Color.TRANSPARENT
     private var headButtonNormalGradientTo: Int = Color.TRANSPARENT
-    private var headButtonNormalRadians: Int = 0
-    private var headButtonNormalRadianLeftTop: Int = 0
-    private var headButtonNormalRadianRightTop: Int = 0
-    private var headButtonNormalRadianLeftBottom: Int = 0
-    private var headButtonNormalRadianRightBottom: Int = 0
-    private var headButtonNormalStrokeWidth: Int = 0
+    private var headButtonNormalRadians: Float = 0F
+    private var headButtonNormalRadianLeftTop: Float = 0F
+    private var headButtonNormalRadianRightTop: Float = 0F
+    private var headButtonNormalRadianLeftBottom: Float = 0F
+    private var headButtonNormalRadianRightBottom: Float = 0F
+    private var headButtonNormalStrokeWidth: Float = 0F
     private var headButtonNormalStrokeColor: Int = -1
     private var headButtonNormalStrokeDashWidth: Float = 0F
     private var headButtonNormalStrokeDashGap: Float = 0F
@@ -62,12 +62,12 @@ class HeadButton : AppCompatButton {
     private var headButtonPressedSupportGradient: Boolean = false
     private var headButtonPressedGradientFrom: Int = headButtonNormalGradientFrom
     private var headButtonPressedGradientTo: Int = headButtonNormalGradientTo
-    private var headButtonPressedRadians: Int = headButtonNormalRadians
-    private var headButtonPressedRadianLeftTop: Int = headButtonNormalRadianLeftTop
-    private var headButtonPressedRadianRightTop: Int = headButtonNormalRadianRightTop
-    private var headButtonPressedRadianLeftBottom: Int = headButtonNormalRadianLeftBottom
-    private var headButtonPressedRadianRightBottom: Int = headButtonNormalRadianRightBottom
-    private var headButtonPressedStrokeWidth: Int = headButtonNormalStrokeWidth
+    private var headButtonPressedRadians: Float = headButtonNormalRadians
+    private var headButtonPressedRadianLeftTop: Float = headButtonNormalRadianLeftTop
+    private var headButtonPressedRadianRightTop: Float = headButtonNormalRadianRightTop
+    private var headButtonPressedRadianLeftBottom: Float = headButtonNormalRadianLeftBottom
+    private var headButtonPressedRadianRightBottom: Float = headButtonNormalRadianRightBottom
+    private var headButtonPressedStrokeWidth: Float = headButtonNormalStrokeWidth
     private var headButtonPressedStrokeColor: Int = headButtonNormalStrokeColor
     private var headButtonPressedStrokeDashWidth: Float = headButtonNormalStrokeDashWidth
     private var headButtonPressedStrokeDashGap: Float = headButtonNormalStrokeDashGap
@@ -76,12 +76,12 @@ class HeadButton : AppCompatButton {
     private var headButtonEnabledSupportGradient: Boolean = false
     private var headButtonEnabledGradientFrom: Int = headButtonNormalGradientFrom
     private var headButtonEnabledGradientTo: Int = headButtonNormalGradientTo
-    private var headButtonEnabledRadians: Int = headButtonNormalRadians
-    private var headButtonEnabledRadianLeftTop: Int = headButtonNormalRadianLeftTop
-    private var headButtonEnabledRadianRightTop: Int = headButtonNormalRadianRightTop
-    private var headButtonEnabledRadianLeftBottom: Int = headButtonNormalRadianLeftBottom
-    private var headButtonEnabledRadianRightBottom: Int = headButtonNormalRadianRightBottom
-    private var headButtonEnabledStrokeWidth: Int = headButtonNormalStrokeWidth
+    private var headButtonEnabledRadians: Float = headButtonNormalRadians
+    private var headButtonEnabledRadianLeftTop: Float = headButtonNormalRadianLeftTop
+    private var headButtonEnabledRadianRightTop: Float = headButtonNormalRadianRightTop
+    private var headButtonEnabledRadianLeftBottom: Float = headButtonNormalRadianLeftBottom
+    private var headButtonEnabledRadianRightBottom: Float = headButtonNormalRadianRightBottom
+    private var headButtonEnabledStrokeWidth: Float = headButtonNormalStrokeWidth
     private var headButtonEnabledStrokeColor: Int = headButtonNormalStrokeColor
     private var headButtonEnabledStrokeDashWidth: Float = headButtonNormalStrokeDashWidth
     private var headButtonEnabledStrokeDashGap: Float = headButtonNormalStrokeDashGap
@@ -105,33 +105,33 @@ class HeadButton : AppCompatButton {
             R.styleable.HeadButton_headButtonNormalGradientTo,
             Color.TRANSPARENT
         )
-        headButtonNormalRadians = typedArray.getDimensionPixelSize(
+        headButtonNormalRadians = typedArray.getDimension(
             R.styleable.HeadButton_headButtonNormalRadians,
-            0
+            0F
         )
-        headButtonNormalRadianLeftTop = typedArray.getDimensionPixelSize(
+        headButtonNormalRadianLeftTop = typedArray.getDimension(
             R.styleable.HeadButton_headButtonNormalRadianLeftTop,
-            0
+            0F
         )
-        headButtonNormalRadianRightTop = typedArray.getDimensionPixelSize(
+        headButtonNormalRadianRightTop = typedArray.getDimension(
             R.styleable.HeadButton_headButtonNormalRadianRightTop,
-            0
+            0F
         )
-        headButtonNormalRadianLeftBottom = typedArray.getDimensionPixelSize(
+        headButtonNormalRadianLeftBottom = typedArray.getDimension(
             R.styleable.HeadButton_headButtonNormalRadianLeftBottom,
-            0
+            0F
         )
-        headButtonNormalRadianRightBottom = typedArray.getDimensionPixelSize(
+        headButtonNormalRadianRightBottom = typedArray.getDimension(
             R.styleable.HeadButton_headButtonNormalRadianRightBottom,
-            0
+            0F
         )
         headButtonNormalStrokeColor = typedArray.getColor(
             R.styleable.HeadButton_headButtonNormalStrokeColor,
             -1
         )
-        headButtonNormalStrokeWidth = typedArray.getDimensionPixelSize(
+        headButtonNormalStrokeWidth = typedArray.getDimension(
             R.styleable.HeadButton_headButtonNormalStrokeWidth,
-            0
+            0F
         )
         headButtonNormalStrokeDashWidth = typedArray.getFloat(
             R.styleable.HeadButton_headButtonNormalStrokeDashWidth,
@@ -160,33 +160,33 @@ class HeadButton : AppCompatButton {
             R.styleable.HeadButton_headButtonPressedGradientTo,
             Color.TRANSPARENT
         )
-        headButtonPressedRadians = typedArray.getDimensionPixelSize(
+        headButtonPressedRadians = typedArray.getDimension(
             R.styleable.HeadButton_headButtonPressedRadians,
-            0
+            0F
         )
-        headButtonPressedRadianLeftTop = typedArray.getDimensionPixelSize(
+        headButtonPressedRadianLeftTop = typedArray.getDimension(
             R.styleable.HeadButton_headButtonPressedRadianLeftTop,
-            0
+            0F
         )
-        headButtonPressedRadianRightTop = typedArray.getDimensionPixelSize(
+        headButtonPressedRadianRightTop = typedArray.getDimension(
             R.styleable.HeadButton_headButtonPressedRadianRightTop,
-            0
+            0F
         )
-        headButtonPressedRadianLeftBottom = typedArray.getDimensionPixelSize(
+        headButtonPressedRadianLeftBottom = typedArray.getDimension(
             R.styleable.HeadButton_headButtonPressedRadianLeftBottom,
-            0
+            0F
         )
-        headButtonPressedRadianRightBottom = typedArray.getDimensionPixelSize(
+        headButtonPressedRadianRightBottom = typedArray.getDimension(
             R.styleable.HeadButton_headButtonPressedRadianRightBottom,
-            0
+            0F
         )
         headButtonPressedStrokeColor = typedArray.getColor(
             R.styleable.HeadButton_headButtonPressedStrokeColor,
             -1
         )
-        headButtonPressedStrokeWidth = typedArray.getDimensionPixelSize(
+        headButtonPressedStrokeWidth = typedArray.getDimension(
             R.styleable.HeadButton_headButtonPressedStrokeWidth,
-            0
+            0F
         )
         headButtonPressedStrokeDashWidth = typedArray.getFloat(
             R.styleable.HeadButton_headButtonPressedStrokeDashWidth,
@@ -216,33 +216,33 @@ class HeadButton : AppCompatButton {
             R.styleable.HeadButton_headButtonEnabledGradientTo,
             Color.TRANSPARENT
         )
-        headButtonEnabledRadians = typedArray.getDimensionPixelSize(
+        headButtonEnabledRadians = typedArray.getDimension(
             R.styleable.HeadButton_headButtonEnabledRadians,
-            0
+            0F
         )
-        headButtonEnabledRadianLeftTop = typedArray.getDimensionPixelSize(
+        headButtonEnabledRadianLeftTop = typedArray.getDimension(
             R.styleable.HeadButton_headButtonEnabledRadianLeftTop,
-            0
+            0F
         )
-        headButtonEnabledRadianRightTop = typedArray.getDimensionPixelSize(
+        headButtonEnabledRadianRightTop = typedArray.getDimension(
             R.styleable.HeadButton_headButtonEnabledRadianRightTop,
-            0
+            0F
         )
-        headButtonEnabledRadianLeftBottom = typedArray.getDimensionPixelSize(
+        headButtonEnabledRadianLeftBottom = typedArray.getDimension(
             R.styleable.HeadButton_headButtonEnabledRadianLeftBottom,
-            0
+            0F
         )
-        headButtonEnabledRadianRightBottom = typedArray.getDimensionPixelSize(
+        headButtonEnabledRadianRightBottom = typedArray.getDimension(
             R.styleable.HeadButton_headButtonEnabledRadianRightBottom,
-            0
+            0F
         )
         headButtonEnabledStrokeColor = typedArray.getColor(
             R.styleable.HeadButton_headButtonEnabledStrokeColor,
             -1
         )
-        headButtonEnabledStrokeWidth = typedArray.getDimensionPixelSize(
+        headButtonEnabledStrokeWidth = typedArray.getDimension(
             R.styleable.HeadButton_headButtonEnabledStrokeWidth,
-            0
+            0F
         )
         headButtonEnabledStrokeDashWidth = typedArray.getFloat(
             R.styleable.HeadButton_headButtonEnabledStrokeDashWidth,
@@ -358,32 +358,32 @@ class HeadButton : AppCompatButton {
         background = createDrawable()
     }
 
-    fun setHeadButtonNormalRadians(headButtonNormalRadians: Int) {
+    fun setHeadButtonNormalRadians(headButtonNormalRadians: Float) {
         this.headButtonNormalRadians = headButtonNormalRadians
         background = createDrawable()
     }
 
-    fun setHeadButtonNormalRadianLeftTop(headButtonNormalRadianLeftTop: Int) {
+    fun setHeadButtonNormalRadianLeftTop(headButtonNormalRadianLeftTop: Float) {
         this.headButtonNormalRadianLeftTop = headButtonNormalRadianLeftTop
         background = createDrawable()
     }
 
-    fun setHeadButtonNormalRadianRightTop(headButtonNormalRadianRightTop: Int) {
+    fun setHeadButtonNormalRadianRightTop(headButtonNormalRadianRightTop: Float) {
         this.headButtonNormalRadianRightTop = headButtonNormalRadianRightTop
         background = createDrawable()
     }
 
-    fun setHeadButtonNormalRadianLeftBottom(headButtonNormalRadianLeftBottom: Int) {
+    fun setHeadButtonNormalRadianLeftBottom(headButtonNormalRadianLeftBottom: Float) {
         this.headButtonNormalRadianLeftBottom = headButtonNormalRadianLeftBottom
         background = createDrawable()
     }
 
-    fun setHeadButtonNormalRadianRightBottom(headButtonNormalRadianRightBottom: Int) {
+    fun setHeadButtonNormalRadianRightBottom(headButtonNormalRadianRightBottom: Float) {
         this.headButtonNormalRadianRightBottom = headButtonNormalRadianRightBottom
         background = createDrawable()
     }
 
-    fun setHeadButtonNormalStrokeWidth(headButtonNormalStrokeWidth: Int) {
+    fun setHeadButtonNormalStrokeWidth(headButtonNormalStrokeWidth: Float) {
         this.headButtonNormalStrokeWidth = headButtonNormalStrokeWidth
         background = createDrawable()
     }
@@ -423,32 +423,32 @@ class HeadButton : AppCompatButton {
         background = createDrawable()
     }
 
-    fun setHeadButtonPressedRadians(headButtonPressedRadians: Int) {
+    fun setHeadButtonPressedRadians(headButtonPressedRadians: Float) {
         this.headButtonPressedRadians = headButtonPressedRadians
         background = createDrawable()
     }
 
-    fun setHeadButtonPressedRadianLeftTop(headButtonPressedRadianLeftTop: Int) {
+    fun setHeadButtonPressedRadianLeftTop(headButtonPressedRadianLeftTop: Float) {
         this.headButtonPressedRadianLeftTop = headButtonPressedRadianLeftTop
         background = createDrawable()
     }
 
-    fun setHeadButtonPressedRadianRightTop(headButtonPressedRadianRightTop: Int) {
+    fun setHeadButtonPressedRadianRightTop(headButtonPressedRadianRightTop: Float) {
         this.headButtonPressedRadianRightTop = headButtonPressedRadianRightTop
         background = createDrawable()
     }
 
-    fun setHeadButtonPressedRadianLeftBottom(headButtonPressedRadianLeftBottom: Int) {
+    fun setHeadButtonPressedRadianLeftBottom(headButtonPressedRadianLeftBottom: Float) {
         this.headButtonPressedRadianLeftBottom = headButtonPressedRadianLeftBottom
         background = createDrawable()
     }
 
-    fun setHeadButtonPressedRadianRightBottom(headButtonPressedRadianRightBottom: Int) {
+    fun setHeadButtonPressedRadianRightBottom(headButtonPressedRadianRightBottom: Float) {
         this.headButtonPressedRadianRightBottom = headButtonPressedRadianRightBottom
         background = createDrawable()
     }
 
-    fun setHeadButtonPressedStrokeWidth(headButtonPressedStrokeWidth: Int) {
+    fun setHeadButtonPressedStrokeWidth(headButtonPressedStrokeWidth: Float) {
         this.headButtonPressedStrokeWidth = headButtonPressedStrokeWidth
         background = createDrawable()
     }
@@ -488,32 +488,32 @@ class HeadButton : AppCompatButton {
         background = createDrawable()
     }
 
-    fun setHeadButtonEnabledRadians(headButtonEnabledRadians: Int) {
+    fun setHeadButtonEnabledRadians(headButtonEnabledRadians: Float) {
         this.headButtonEnabledRadians = headButtonEnabledRadians
         background = createDrawable()
     }
 
-    fun setHeadButtonEnabledRadianLeftTop(headButtonEnabledRadianLeftTop: Int) {
+    fun setHeadButtonEnabledRadianLeftTop(headButtonEnabledRadianLeftTop: Float) {
         this.headButtonEnabledRadianLeftTop = headButtonEnabledRadianLeftTop
         background = createDrawable()
     }
 
-    fun setHeadButtonEnabledRadianRightTop(headButtonEnabledRadianRightTop: Int) {
+    fun setHeadButtonEnabledRadianRightTop(headButtonEnabledRadianRightTop: Float) {
         this.headButtonEnabledRadianRightTop = headButtonEnabledRadianRightTop
         background = createDrawable()
     }
 
-    fun setHeadButtonEnabledRadianLeftBottom(headButtonEnabledRadianLeftBottom: Int) {
+    fun setHeadButtonEnabledRadianLeftBottom(headButtonEnabledRadianLeftBottom: Float) {
         this.headButtonEnabledRadianLeftBottom = headButtonEnabledRadianLeftBottom
         background = createDrawable()
     }
 
-    fun setHeadButtonEnabledRadianRightBottom(headButtonEnabledRadianRightBottom: Int) {
+    fun setHeadButtonEnabledRadianRightBottom(headButtonEnabledRadianRightBottom: Float) {
         this.headButtonEnabledRadianRightBottom = headButtonEnabledRadianRightBottom
         background = createDrawable()
     }
 
-    fun setHeadButtonEnabledStrokeWidth(headButtonEnabledStrokeWidth: Int) {
+    fun setHeadButtonEnabledStrokeWidth(headButtonEnabledStrokeWidth: Float) {
         this.headButtonEnabledStrokeWidth = headButtonEnabledStrokeWidth
         background = createDrawable()
     }

@@ -55,7 +55,7 @@ class HeadTitleBar : FrameLayout, View.OnLayoutChangeListener {
         init(attrs, defStyleAttr)
     }
 
-    private var headTitleSearchTextSize: Int = 0
+    private var headTitleSearchTextSize: Float = 0F
     private var headTitleSearchTextColor: Int = Color.WHITE
     private var headTitleSearchLeftIcon: Int = -1
     private var headTitleSearchHint: String = ""
@@ -66,23 +66,23 @@ class HeadTitleBar : FrameLayout, View.OnLayoutChangeListener {
     private var headTitleBarFillColor: Int = -1
     private var headTitleBarFill: Boolean = false
     private var headTitleBarTransparent: Boolean = false
-    private var headTitleGeneralCenterMainTextSize: Int = 0
+    private var headTitleGeneralCenterMainTextSize: Float = 0F
     private var headTitleGeneralCenterMainTextColor: Int = Color.WHITE
     private var headTitleGeneralCenterMainMarquee: Boolean = false
     private var headTitleGeneralCenterMainText: String = ""
 
 
-    private var headTitleGeneralCenterSubTextSize: Int = 0
+    private var headTitleGeneralCenterSubTextSize: Float = 0F
     private var headTitleGeneralCenterSubTextColor: Int = Color.WHITE
     private var headTitleGeneralCenterSubMarquee: Boolean = false
     private var headTitleGeneralCenterSubText: String = ""
 
-    private var headTitleGeneralLeftTextSize: Int = 0
+    private var headTitleGeneralLeftTextSize: Float = 0F
     private var headTitleGeneralLeftTextColor: Int = Color.WHITE
     private var headTitleGeneralLeftIcon: Int = 0
     private var headTitleGeneralLeftText: String = ""
 
-    private var headTitleGeneralRightTextSize: Int = 0
+    private var headTitleGeneralRightTextSize: Float = 0F
     private var headTitleGeneralRightTextColor: Int = Color.WHITE
     private var headTitleGeneralRightIcon: Int = 0
     private var headTitleGeneralRightText: String = ""
@@ -103,14 +103,14 @@ class HeadTitleBar : FrameLayout, View.OnLayoutChangeListener {
     private var headTitleSearchGradientFrom: Int = Color.TRANSPARENT
     @ColorInt
     private var headTitleSearchGradientTo: Int = Color.TRANSPARENT
-    private var headTitleSearchRadians: Int = 0
-    private var headTitleSearchRadianLeftTop: Int = 0
-    private var headTitleSearchRadianRightTop: Int = 0
-    private var headTitleSearchRadianLeftBottom: Int = 0
-    private var headTitleSearchRadianRightBottom: Int = 0
+    private var headTitleSearchRadians: Float = 0F
+    private var headTitleSearchRadianLeftTop: Float = 0F
+    private var headTitleSearchRadianRightTop: Float = 0F
+    private var headTitleSearchRadianLeftBottom: Float = 0F
+    private var headTitleSearchRadianRightBottom: Float = 0F
     @ColorInt
     private var headTitleSearchStrokeColor: Int = -1
-    private var headTitleSearchStrokeWidth: Int = 0
+    private var headTitleSearchStrokeWidth: Float = 0F
     private var headTitleSearchStrokeDashWidth: Float = 0F
     private var headTitleSearchStrokeDashGap: Float = 0F
 
@@ -174,9 +174,9 @@ class HeadTitleBar : FrameLayout, View.OnLayoutChangeListener {
             R.styleable.HeadTitleBar_headTitleGeneralLeftTextColor,
             Color.WHITE
         )
-        headTitleGeneralLeftTextSize = typedArray.getDimensionPixelSize(
+        headTitleGeneralLeftTextSize = typedArray.getDimension(
             R.styleable.HeadTitleBar_headTitleGeneralLeftTextSize,
-            context.resources.getDimension(R.dimen.head_left_textview_size).toInt()
+            context.resources.getDimension(R.dimen.head_left_textview_size)
         )
 
 
@@ -191,9 +191,9 @@ class HeadTitleBar : FrameLayout, View.OnLayoutChangeListener {
             R.styleable.HeadTitleBar_headTitleGeneralRightTextColor,
             Color.WHITE
         )
-        headTitleGeneralRightTextSize = typedArray.getDimensionPixelSize(
+        headTitleGeneralRightTextSize = typedArray.getDimension(
             R.styleable.HeadTitleBar_headTitleGeneralRightTextSize,
-            context.resources.getDimension(R.dimen.head_right_textview_size).toInt()
+            context.resources.getDimension(R.dimen.head_right_textview_size)
         )
 
         headTitleGeneralCenterMainText = typedArray.getString(
@@ -207,9 +207,9 @@ class HeadTitleBar : FrameLayout, View.OnLayoutChangeListener {
             R.styleable.HeadTitleBar_headTitleGeneralCenterMainTextColor,
             Color.WHITE
         )
-        headTitleGeneralCenterMainTextSize = typedArray.getDimensionPixelSize(
+        headTitleGeneralCenterMainTextSize = typedArray.getDimension(
             R.styleable.HeadTitleBar_headTitleGeneralCenterMainTextSize,
-            context.resources.getDimension(R.dimen.head_right_textview_size).toInt()
+            context.resources.getDimension(R.dimen.head_right_textview_size)
         )
 
         headTitleGeneralCenterSubText = typedArray.getString(
@@ -223,9 +223,9 @@ class HeadTitleBar : FrameLayout, View.OnLayoutChangeListener {
             R.styleable.HeadTitleBar_headTitleGeneralCenterSubTextColor,
             Color.WHITE
         )
-        headTitleGeneralCenterSubTextSize = typedArray.getDimensionPixelSize(
+        headTitleGeneralCenterSubTextSize = typedArray.getDimension(
             R.styleable.HeadTitleBar_headTitleGeneralCenterSubTextSize,
-            context.resources.getDimension(R.dimen.head_right_textview_size).toInt()
+            context.resources.getDimension(R.dimen.head_right_textview_size)
         )
         headTitleSearchSoftInputKeyBoard = typedArray.getBoolean(
             R.styleable.HeadTitleBar_headTitleSearchSoftInputKeyBoard,
@@ -246,9 +246,9 @@ class HeadTitleBar : FrameLayout, View.OnLayoutChangeListener {
             R.styleable.HeadTitleBar_headTitleSearchTextColor,
             Color.WHITE
         )
-        headTitleSearchTextSize = typedArray.getDimensionPixelSize(
+        headTitleSearchTextSize = typedArray.getDimension(
             R.styleable.HeadTitleBar_headTitleSearchTextSize,
-            context.resources.getDimension(R.dimen.head_right_textview_size).toInt()
+            context.resources.getDimension(R.dimen.head_right_textview_size)
         )
 
         headTitleSearchBackgroundColor = typedArray.getColor(
@@ -267,33 +267,33 @@ class HeadTitleBar : FrameLayout, View.OnLayoutChangeListener {
             R.styleable.HeadTitleBar_headTitleSearchGradientTo,
             Color.TRANSPARENT
         )
-        headTitleSearchRadians = typedArray.getDimensionPixelSize(
+        headTitleSearchRadians = typedArray.getDimension(
             R.styleable.HeadTitleBar_headTitleSearchRadians,
-            0
+            0F
         )
-        headTitleSearchRadianLeftTop = typedArray.getDimensionPixelSize(
+        headTitleSearchRadianLeftTop = typedArray.getDimension(
             R.styleable.HeadTitleBar_headTitleSearchRadianLeftTop,
-            0
+            0F
         )
-        headTitleSearchRadianRightTop = typedArray.getDimensionPixelSize(
+        headTitleSearchRadianRightTop = typedArray.getDimension(
             R.styleable.HeadTitleBar_headTitleSearchRadianRightTop,
-            0
+            0F
         )
-        headTitleSearchRadianLeftBottom = typedArray.getDimensionPixelSize(
+        headTitleSearchRadianLeftBottom = typedArray.getDimension(
             R.styleable.HeadTitleBar_headTitleSearchRadianLeftBottom,
-            0
+            0F
         )
-        headTitleSearchRadianRightBottom = typedArray.getDimensionPixelSize(
+        headTitleSearchRadianRightBottom = typedArray.getDimension(
             R.styleable.HeadTitleBar_headTitleSearchRadianRightBottom,
-            0
+            0F
         )
         headTitleSearchStrokeColor = typedArray.getColor(
             R.styleable.HeadTitleBar_headTitleSearchStrokeColor,
             -1
         )
-        headTitleSearchStrokeWidth = typedArray.getDimensionPixelSize(
+        headTitleSearchStrokeWidth = typedArray.getDimension(
             R.styleable.HeadTitleBar_headTitleSearchStrokeWidth,
-            0
+            0F
         )
         headTitleSearchStrokeDashWidth = typedArray.getFloat(
             R.styleable.HeadTitleBar_headTitleSearchStrokeDashWidth,
@@ -340,11 +340,11 @@ class HeadTitleBar : FrameLayout, View.OnLayoutChangeListener {
                     gradientFrom = headTitleSearchGradientFrom
                     gradientTo = headTitleSearchGradientTo
                     backgroundColor = headTitleSearchBackgroundColor
-                    radianLeftTop = headTitleSearchRadianLeftTop.toFloat()
-                    radianLeftBottom =headTitleSearchRadianLeftBottom.toFloat()
-                    radianRightTop =headTitleSearchRadianRightTop.toFloat()
-                    radianRightBottom =headTitleSearchRadianRightBottom.toFloat()
-                    radians =headTitleSearchRadians.toFloat()
+                    radianLeftTop = headTitleSearchRadianLeftTop
+                    radianLeftBottom =headTitleSearchRadianLeftBottom
+                    radianRightTop =headTitleSearchRadianRightTop
+                    radianRightBottom =headTitleSearchRadianRightBottom
+                    radians =headTitleSearchRadians
                     strokeWidth = headTitleSearchStrokeWidth
                     strokeColor = headTitleSearchStrokeColor
                     strokeDashWidth = headTitleSearchStrokeDashWidth

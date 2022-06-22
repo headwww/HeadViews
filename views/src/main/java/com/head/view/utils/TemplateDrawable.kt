@@ -22,7 +22,7 @@ class TemplateDrawable(
     var radianRightTop: Float = 0F,
     var radianRightBottom: Float = 0F,
     var radians: Float = 0F,
-    var strokeWidth: Int = 0,
+    var strokeWidth: Float = 0F,
     var strokeColor: Int = Color.TRANSPARENT,
     var strokeDashWidth: Float = 0F,
     var strokeDashGap: Float = 0F
@@ -104,7 +104,7 @@ class TemplateDrawable(
 
     }
 
-    override fun setStrokeWidth(strokeWidth: Int): TemplateImpl {
+    override fun setStrokeWidth(strokeWidth: Float): TemplateImpl {
         this.strokeWidth = strokeWidth
         stroke()
         return this
@@ -133,8 +133,8 @@ class TemplateDrawable(
     private fun stroke() {
         if (strokeColor != -1)
             setStroke(
-                this.strokeWidth,
-                this.strokeColor,
+                this.strokeWidth.toInt(),
+                this.strokeColor.toInt(),
                 this.strokeDashWidth,
                 this.strokeDashGap
             )

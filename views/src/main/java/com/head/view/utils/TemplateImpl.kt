@@ -10,7 +10,7 @@ interface TemplateImpl {
     fun setRadianRightTop(radianRightTop: Float):TemplateImpl;
     fun setRadianRightBottom(radianRightBottom:Float):TemplateImpl;
     fun setRadians(radians:Float):TemplateImpl;
-    fun setStrokeWidth(strokeWidth:Int):TemplateImpl;
+    fun setStrokeWidth(strokeWidth:Float):TemplateImpl;
     fun setStrokeColor(strokeColor:Int):TemplateImpl;
     fun setStrokeDashWidth(strokeDashWidth:Float):TemplateImpl;
     fun setStrokeDashGap( strokeDashGap: Float):TemplateImpl;

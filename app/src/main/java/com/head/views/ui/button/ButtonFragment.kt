@@ -63,13 +63,13 @@ class ButtonFragment : Fragment() {
             if (isChecked){
                 binding.headButton.setHeadButtonNormalStrokeColor(Color.RED)
                 binding.headButton.setHeadButtonPressedStrokeColor(Color.YELLOW)
-                binding.headButton.setHeadButtonNormalStrokeWidth(6)
-                binding.headButton.setHeadButtonPressedStrokeWidth(6)
+                binding.headButton.setHeadButtonNormalStrokeWidth(6F)
+                binding.headButton.setHeadButtonPressedStrokeWidth(6F)
                 binding.headButton.setHeadButtonPressedStrokeDashWidth(12F)
                 binding.headButton.setHeadButtonPressedStrokeDashGap(12F)
             }else{
-                binding.headButton.setHeadButtonNormalStrokeWidth(0)
-                binding.headButton.setHeadButtonPressedStrokeWidth(0)
+                binding.headButton.setHeadButtonNormalStrokeWidth(0F)
+                binding.headButton.setHeadButtonPressedStrokeWidth(0F)
                 binding.headButton.setHeadButtonPressedStrokeDashWidth(0F)
                 binding.headButton.setHeadButtonPressedStrokeDashGap(0F)
             }

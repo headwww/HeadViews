@@ -85,15 +85,15 @@ class HeadSpinner<T> : AppCompatTextView, AdapterView.OnItemClickListener {
 
     private var headSpinnerDropDownGravity: Int = Gravity.CENTER.ordinal
 
-    private var headSpinnerRadians: Int = 0
-    private var headSpinnerStrokeWidth: Int = 0
-    private var headSpinnerRadianLeftTop: Int = 0
-    private var headSpinnerRadianRightTop: Int = 0
-    private var headSpinnerVerticalOffset: Int = 0
+    private var headSpinnerRadians: Float = 0F
+    private var headSpinnerStrokeWidth: Float = 0F
+    private var headSpinnerRadianLeftTop: Float = 0F
+    private var headSpinnerRadianRightTop: Float = 0F
+    private var headSpinnerVerticalOffset: Float = 0F
     private var headSpinnerArrowVisibility: Int = 0
-    private var headSpinnerHorizontalOffset: Int = 0
-    private var headSpinnerRadianLeftBottom: Int = 0
-    private var headSpinnerRadianRightBottom: Int = 0
+    private var headSpinnerHorizontalOffset: Float = 0F
+    private var headSpinnerRadianLeftBottom: Float = 0F
+    private var headSpinnerRadianRightBottom: Float = 0F
 
     private var headSpinnerTextSize: Float = 0F
     private var headSpinnerStrokeDashGap: Float = 0F
@@ -176,33 +176,33 @@ class HeadSpinner<T> : AppCompatTextView, AdapterView.OnItemClickListener {
             R.styleable.HeadSpinner_headSpinnerGradientTo,
             Color.TRANSPARENT
         )
-        headSpinnerRadians = typedArray.getDimensionPixelSize(
+        headSpinnerRadians = typedArray.getDimension(
             R.styleable.HeadSpinner_headSpinnerRadians,
-            0
+            0F
         )
-        headSpinnerRadianLeftTop = typedArray.getDimensionPixelSize(
+        headSpinnerRadianLeftTop = typedArray.getDimension(
             R.styleable.HeadSpinner_headSpinnerRadianLeftTop,
-            0
+            0F
         )
-        headSpinnerRadianRightTop = typedArray.getDimensionPixelSize(
+        headSpinnerRadianRightTop = typedArray.getDimension(
             R.styleable.HeadSpinner_headSpinnerRadianRightTop,
-            0
+            0F
         )
-        headSpinnerRadianLeftBottom = typedArray.getDimensionPixelSize(
+        headSpinnerRadianLeftBottom = typedArray.getDimension(
             R.styleable.HeadSpinner_headSpinnerRadianLeftBottom,
-            0
+            0F
         )
-        headSpinnerRadianRightBottom = typedArray.getDimensionPixelSize(
+        headSpinnerRadianRightBottom = typedArray.getDimension(
             R.styleable.HeadSpinner_headSpinnerRadianRightBottom,
-            0
+            0F
         )
         headSpinnerStrokeColor = typedArray.getColor(
             R.styleable.HeadSpinner_headSpinnerStrokeColor,
             -1
         )
-        headSpinnerStrokeWidth = typedArray.getDimensionPixelSize(
+        headSpinnerStrokeWidth = typedArray.getDimension(
             R.styleable.HeadSpinner_headSpinnerStrokeWidth,
-            0
+            0F
         )
         headSpinnerStrokeDashWidth = typedArray.getFloat(
             R.styleable.HeadSpinner_headSpinnerStrokeDashWidth,
@@ -225,13 +225,13 @@ class HeadSpinner<T> : AppCompatTextView, AdapterView.OnItemClickListener {
             R.styleable.HeadSpinner_headSpinnerArrowColor,
             Color.BLACK
         )
-        headSpinnerHorizontalOffset = typedArray.getDimensionPixelSize(
+        headSpinnerHorizontalOffset = typedArray.getDimension(
             R.styleable.HeadSpinner_headSpinnerHorizontalOffset,
-            0
+            0F
         )
-        headSpinnerVerticalOffset = typedArray.getDimensionPixelSize(
+        headSpinnerVerticalOffset = typedArray.getDimension(
             R.styleable.HeadSpinner_headSpinnerVerticalOffset,
-            0
+            0F
         )
 
         initPopupWindow()
@@ -245,8 +245,8 @@ class HeadSpinner<T> : AppCompatTextView, AdapterView.OnItemClickListener {
         adapter.setTextSize(headSpinnerTextSize)
         popupWindow.width = headSpinnerWidth
         popupWindow.height = headSpinnerHeight
-        popupWindow.horizontalOffset = headSpinnerHorizontalOffset
-        popupWindow.verticalOffset = headSpinnerVerticalOffset
+        popupWindow.horizontalOffset = headSpinnerHorizontalOffset.toInt()
+        popupWindow.verticalOffset = headSpinnerVerticalOffset.toInt()
         popupWindow.isModal = true
 
         templateDrawable = builderDrawable {
@@ -404,15 +404,15 @@ class HeadSpinner<T> : AppCompatTextView, AdapterView.OnItemClickListener {
         invalidate()
     }
 
-    fun setHeadSpinnerHorizontalOffset(horizontalOffset: Int) {
+    fun setHeadSpinnerHorizontalOffset(horizontalOffset: Float) {
         this.headSpinnerHorizontalOffset = horizontalOffset
-        popupWindow.horizontalOffset = headSpinnerHorizontalOffset
+        popupWindow.horizontalOffset = headSpinnerHorizontalOffset.toInt()
         invalidate()
     }
 
-    fun setHeadSpinnerVerticalOffset(verticalOffset: Int) {
+    fun setHeadSpinnerVerticalOffset(verticalOffset: Float) {
         this.headSpinnerVerticalOffset = verticalOffset
-        popupWindow.verticalOffset = headSpinnerVerticalOffset
+        popupWindow.verticalOffset = headSpinnerVerticalOffset.toInt()
         invalidate()
     }
 
@@ -463,7 +463,7 @@ class HeadSpinner<T> : AppCompatTextView, AdapterView.OnItemClickListener {
         }
     }
 
-    fun setHeadSpinnerRadians(radian: Int) {
+    fun setHeadSpinnerRadians(radian: Float) {
         headSpinnerRadians = radian
         background = modifyDrawable(templateDrawable) {
             setRadians(headSpinnerRadians.toFloat())
@@ -471,7 +471,7 @@ class HeadSpinner<T> : AppCompatTextView, AdapterView.OnItemClickListener {
         }
     }
 
-    fun setHeadSpinnerRadianLeftTop(radian: Int) {
+    fun setHeadSpinnerRadianLeftTop(radian: Float) {
         headSpinnerRadianLeftTop = radian
         background = modifyDrawable(templateDrawable) {
             setRadianLeftTop(headSpinnerRadianLeftTop.toFloat())
@@ -479,7 +479,7 @@ class HeadSpinner<T> : AppCompatTextView, AdapterView.OnItemClickListener {
         }
     }
 
-    fun setHeadSpinnerRadianLeftBottom(radian: Int) {
+    fun setHeadSpinnerRadianLeftBottom(radian: Float) {
         headSpinnerRadianLeftBottom = radian
         background = modifyDrawable(templateDrawable) {
             setRadianLeftBottom(headSpinnerRadianLeftBottom.toFloat())
@@ -487,7 +487,7 @@ class HeadSpinner<T> : AppCompatTextView, AdapterView.OnItemClickListener {
         }
     }
 
-    fun setHeadSpinnerRadianRightTop(radian: Int) {
+    fun setHeadSpinnerRadianRightTop(radian: Float) {
         headSpinnerRadianRightTop = radian
         background = modifyDrawable(templateDrawable) {
             setRadianRightTop(headSpinnerRadianRightTop.toFloat())
@@ -495,7 +495,7 @@ class HeadSpinner<T> : AppCompatTextView, AdapterView.OnItemClickListener {
         }
     }
 
-    fun setHeadSpinnerRadianRightBottom(radian: Int) {
+    fun setHeadSpinnerRadianRightBottom(radian: Float) {
         headSpinnerRadianRightBottom = radian
         background = modifyDrawable(templateDrawable) {
             setRadianRightBottom(headSpinnerRadianRightBottom.toFloat())
@@ -511,7 +511,7 @@ class HeadSpinner<T> : AppCompatTextView, AdapterView.OnItemClickListener {
         }
     }
 
-    fun setHeadSpinnerStrokeWidth(width: Int) {
+    fun setHeadSpinnerStrokeWidth(width: Float) {
         headSpinnerStrokeWidth = width
         background = modifyDrawable(templateDrawable) {
             setStrokeWidth(headSpinnerStrokeWidth)
