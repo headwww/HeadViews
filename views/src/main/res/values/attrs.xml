@@ -260,6 +260,46 @@
         <attr name="headTitleGeneralCenterSubMarquee" format="boolean"/>
 
 
+        <!--搜索标题栏的是否弹出软键盘-->
+        <attr name="headTitleSearchSoftInputKeyBoard" format="boolean" />
+        <!--搜索标题栏的输入框左侧图标-->
+        <attr name="headTitleSearchLeftIcon" format="reference" />
+        <!--搜索标题栏的输入框提示性文本-->
+        <attr name="headTitleSearchHint" format="string" />
+        <!--搜索标题栏的输入框提示性文本-->
+        <attr name="headTitleSearchHintColor" format="color" />
+
+        <!--搜索标题栏的输入框文本大小-->
+        <attr name="headTitleSearchTextSize" format="dimension" />
+        <!--搜索标题栏的输入框文本颜色-->
+        <attr name="headTitleSearchTextColor" format="color" />
+
+        <!--搜索标题栏的输入框背景色-->
+        <attr name="headTitleSearchBackgroundColor" format="color" />
+        <!--搜索标题栏的输入框是否支持渐变-->
+        <attr name="headTitleSearchSupportGradient" format="boolean" />
+        <!--搜索标题栏的输入框渐变起始色-->
+        <attr name="headTitleSearchGradientFrom" format="color" />
+        <!--搜索标题栏的输入框渐变结束色-->
+        <attr name="headTitleSearchGradientTo" format="color" />
+        <!--搜索标题栏的输入框圆角弧度-->
+        <attr name="headTitleSearchRadians" format="dimension" />
+        <!--搜索标题栏的输入框单独设置每个角-->
+        <attr name="headTitleSearchRadianLeftTop" format="dimension" />
+        <!--搜索标题栏的输入框单独设置每个角-->
+        <attr name="headTitleSearchRadianRightTop" format="dimension" />
+        <!--搜索标题栏的输入框单独设置每个角-->
+        <attr name="headTitleSearchRadianLeftBottom" format="dimension" />
+        <!--搜索标题栏的输入框单独设置每个角-->
+        <attr name="headTitleSearchRadianRightBottom" format="dimension" />
+        <!--搜索标题栏的输入框边框颜色-->
+        <attr name="headTitleSearchStrokeColor" format="color" />
+        <!--搜索标题栏的输入框设置边框宽度-->
+        <attr name="headTitleSearchStrokeWidth" format="dimension" />
+        <!--搜索标题栏的输入框设置边框为虚线的长度-->
+        <attr name="headTitleSearchStrokeDashWidth" format="float" />
+        <!--搜索标题栏的输入框设置虚线之间的像素间距-->
+        <attr name="headTitleSearchStrokeDashGap" format="float" />
 
     </declare-styleable>
 

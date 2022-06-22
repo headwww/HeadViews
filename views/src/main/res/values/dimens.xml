@@ -8,4 +8,6 @@
     <dimen name="head_center_main_search_size">15sp</dimen>
     <dimen name="head_center_sub_textview_size">13sp</dimen>
     <dimen name="head_center_search_radio">14dp</dimen>
+    <dimen name="head_center_search_padding_horizontal">8dp</dimen>
+    <dimen name="head_center_search_padding_vertical">3dp</dimen>
 </resources>

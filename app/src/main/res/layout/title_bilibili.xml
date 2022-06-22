@@ -1,0 +1,44 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:orientation="horizontal"
+    android:layout_width="match_parent"
+    android:gravity="center"
+    android:layout_height="match_parent">
+
+    <ImageView
+        android:layout_marginRight="15dp"
+        android:background="@drawable/ic_bilibili"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"/>
+
+    <com.head.view.HeadEditTextView
+        android:layout_width="wrap_content"
+        app:headEditTextType="textView"
+        android:hint="hhhhhhhhhh"
+        android:textSize="12dp"
+        android:paddingVertical="6dp"
+        android:layout_weight="1"
+        android:id="@+id/headEditTextView"
+        android:paddingHorizontal="4dp"
+        android:drawableLeft="@drawable/ic_baseline_search_24"
+        app:headEditTextRadians="30dp"
+        android:textColorHint="#757575"
+        app:headEditTextBackgroundColor="#252628"
+        android:layout_height="wrap_content"/>
+    <ImageView
+        android:background="@drawable/ic_cha"
+        android:layout_width="wrap_content"
+        android:layout_marginHorizontal="15dp"
+        android:layout_height="wrap_content"/>
+    <ImageView
+        android:background="@drawable/ic_roujiamo"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"/>
+    <ImageView
+        android:background="@drawable/ic_baseline_email_24"
+        android:layout_marginLeft="15dp"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"/>
+
+</LinearLayout>

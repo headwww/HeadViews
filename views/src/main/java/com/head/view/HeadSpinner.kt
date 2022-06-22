@@ -20,6 +20,8 @@ import androidx.core.content.ContextCompat
 import androidx.core.graphics.drawable.DrawableCompat
 import com.head.view.adapter.HeadSpinnerAdapter
 import com.head.view.utils.TemplateDrawable
+import com.head.view.utils.builderDrawable
+import com.head.view.utils.modifyDrawable
 
 
 /**
@@ -102,6 +104,8 @@ class HeadSpinner<T> : AppCompatTextView, AdapterView.OnItemClickListener {
     private var position: Int = -1
 
     private var dataSource: List<T> = arrayListOf()
+
+    private lateinit var templateDrawable: TemplateDrawable
 
     private val adapter: HeadSpinnerAdapter<T> by lazy {
         HeadSpinnerAdapter(context, dataSource, null)
@@ -241,10 +245,27 @@ class HeadSpinner<T> : AppCompatTextView, AdapterView.OnItemClickListener {
         adapter.setTextSize(headSpinnerTextSize)
         popupWindow.width = headSpinnerWidth
         popupWindow.height = headSpinnerHeight
-        popupWindow.horizontalOffset= headSpinnerHorizontalOffset
+        popupWindow.horizontalOffset = headSpinnerHorizontalOffset
         popupWindow.verticalOffset = headSpinnerVerticalOffset
         popupWindow.isModal = true
-        popupWindow.setBackgroundDrawable(getDrawable())
+
+        templateDrawable = builderDrawable {
+            supportGradient = headSpinnerSupportGradient
+            gradientFrom = headSpinnerGradientFrom
+            gradientTo = headSpinnerGradientTo
+            backgroundColor = headSpinnerBackgroundColor
+            radianLeftTop = headSpinnerRadianLeftTop.toFloat()
+            radianLeftBottom = headSpinnerRadianLeftBottom.toFloat()
+            radianRightTop = headSpinnerRadianRightTop.toFloat()
+            radianRightBottom = headSpinnerRadianRightBottom.toFloat()
+            radians = headSpinnerRadians.toFloat()
+            strokeWidth = headSpinnerStrokeWidth
+            strokeColor = headSpinnerStrokeColor
+            strokeDashWidth = headSpinnerStrokeDashWidth
+            strokeDashGap = headSpinnerStrokeDashGap
+            this
+        }
+        popupWindow.setBackgroundDrawable(templateDrawable)
         popupWindow.setOnItemClickListener(this)
         popupWindow.setOnDismissListener {
             onDismiss?.let {
@@ -255,7 +276,10 @@ class HeadSpinner<T> : AppCompatTextView, AdapterView.OnItemClickListener {
                 headSpinnerArrowColor
             ).start()
         }
-        if (headSpinnerArrowVisibility == 0) setArrowAnimation(R.drawable.head_anim_arrow_from_down_to_up,headSpinnerArrowColor)
+        if (headSpinnerArrowVisibility == 0) setArrowAnimation(
+            R.drawable.head_anim_arrow_from_down_to_up,
+            headSpinnerArrowColor
+        )
 
     }
 
@@ -385,6 +409,7 @@ class HeadSpinner<T> : AppCompatTextView, AdapterView.OnItemClickListener {
         popupWindow.horizontalOffset = headSpinnerHorizontalOffset
         invalidate()
     }
+
     fun setHeadSpinnerVerticalOffset(verticalOffset: Int) {
         this.headSpinnerVerticalOffset = verticalOffset
         popupWindow.verticalOffset = headSpinnerVerticalOffset
@@ -408,67 +433,106 @@ class HeadSpinner<T> : AppCompatTextView, AdapterView.OnItemClickListener {
 
     fun setHeadSpinnerBackgroundColor(@ColorInt color: Int) {
         headSpinnerBackgroundColor = color
-        background = getDrawable()
+        background = modifyDrawable(templateDrawable) {
+            setBackgroundColor(headSpinnerBackgroundColor)
+            this
+        }
     }
 
     fun setHeadSpinnerSupportGradient(support: Boolean) {
         headSpinnerSupportGradient = support
-        background = getDrawable()
+        background = modifyDrawable(templateDrawable) {
+            setSupportGradient(headSpinnerSupportGradient)
+            this
+        }
     }
 
     fun setHeadSpinnerGradientFrom(@ColorInt color: Int) {
         headSpinnerGradientFrom = color
-        background = getDrawable()
+        background = modifyDrawable(templateDrawable) {
+            setGradientFrom(headSpinnerGradientFrom)
+            this
+        }
     }
 
     fun setHeadSpinnerGradientTo(@ColorInt color: Int) {
         headSpinnerGradientTo = color
-        background = getDrawable()
+        background = modifyDrawable(templateDrawable) {
+            setGradientTo(headSpinnerGradientTo)
+            this
+        }
     }
 
     fun setHeadSpinnerRadians(radian: Int) {
         headSpinnerRadians = radian
-        background = getDrawable()
+        background = modifyDrawable(templateDrawable) {
+            setRadians(headSpinnerRadians.toFloat())
+            this
+        }
     }
 
     fun setHeadSpinnerRadianLeftTop(radian: Int) {
         headSpinnerRadianLeftTop = radian
-        background = getDrawable()
+        background = modifyDrawable(templateDrawable) {
+            setRadianLeftTop(headSpinnerRadianLeftTop.toFloat())
+            this
+        }
     }
 
     fun setHeadSpinnerRadianLeftBottom(radian: Int) {
         headSpinnerRadianLeftBottom = radian
-        background = getDrawable()
+        background = modifyDrawable(templateDrawable) {
+            setRadianLeftBottom(headSpinnerRadianLeftBottom.toFloat())
+            this
+        }
     }
 
     fun setHeadSpinnerRadianRightTop(radian: Int) {
         headSpinnerRadianRightTop = radian
-        background = getDrawable()
+        background = modifyDrawable(templateDrawable) {
+            setRadianRightTop(headSpinnerRadianRightTop.toFloat())
+            this
+        }
     }
 
     fun setHeadSpinnerRadianRightBottom(radian: Int) {
         headSpinnerRadianRightBottom = radian
-        background = getDrawable()
+        background = modifyDrawable(templateDrawable) {
+            setRadianRightBottom(headSpinnerRadianRightBottom.toFloat())
+            this
+        }
     }
 
     fun setHeadSpinnerStrokeColor(@ColorInt color: Int) {
         headSpinnerStrokeColor = color
-        background = getDrawable()
+        background = modifyDrawable(templateDrawable) {
+            setStrokeColor(headSpinnerStrokeColor)
+            this
+        }
     }
 
     fun setHeadSpinnerStrokeWidth(width: Int) {
         headSpinnerStrokeWidth = width
-        background = getDrawable()
+        background = modifyDrawable(templateDrawable) {
+            setStrokeWidth(headSpinnerStrokeWidth)
+            this
+        }
     }
 
     fun setHeadSpinnerStrokeDashWidth(width: Float) {
         headSpinnerStrokeDashWidth = width
-        background = getDrawable()
+        background = modifyDrawable(templateDrawable) {
+            setStrokeDashWidth(headSpinnerStrokeDashWidth)
+            this
+        }
     }
 
     fun setHeadSpinnerStrokeDashGap(gap: Float) {
         headSpinnerStrokeDashGap = gap
-        background = getDrawable()
+        background = modifyDrawable(templateDrawable) {
+            setStrokeDashGap(headSpinnerStrokeDashGap)
+            this
+        }
     }
 
     fun setHeadSpinnerArrowVisibility(arrow: Arrow) {
@@ -509,25 +573,7 @@ class HeadSpinner<T> : AppCompatTextView, AdapterView.OnItemClickListener {
         adapter.seItemIcon(list)
     }
 
-    private fun getDrawable(): TemplateDrawable = TemplateDrawable(
-        context,
-        headSpinnerSupportGradient,
-        headSpinnerGradientFrom,
-        headSpinnerGradientTo,
-        headSpinnerBackgroundColor,
-        headSpinnerRadianLeftTop,
-        headSpinnerRadianLeftBottom,
-        headSpinnerRadianRightTop,
-        headSpinnerRadianRightBottom,
-        headSpinnerRadians,
-        headSpinnerStrokeWidth,
-        headSpinnerStrokeColor,
-        headSpinnerStrokeDashWidth,
-        headSpinnerStrokeDashGap
-    ).apply {
-        this@HeadSpinner.invalidate()
-    }
-    companion object{
+    companion object {
         private const val HEAD_SPINNER = "head_spinner"
 
         private const val SAVE_SPINNER_TEXT = "save_head_spinner_text"

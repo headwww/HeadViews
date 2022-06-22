@@ -12,16 +12,42 @@
         android:layout_height="match_parent"
         tools:context=".ui.title.TitleFragment">
 
-<!--        <com.head.view.HeadTitleBar-->
-<!--            android:layout_width="match_parent"-->
-<!--            android:id="@+id/headTitleBar"-->
-<!--            android:layout_height="80dp"-->
-<!--            app:headTitleBarSupportGradient="true"-->
-<!--            app:headTitleBarGradientFrom="#2BB3F1"-->
-<!--            app:headTitleBarGradientTo="#008EFF"-->
-<!--            app:headTitleBarCustomView="@layout/item_title"-->
-<!--            app:layout_constraintEnd_toEndOf="parent"-->
-<!--            app:layout_constraintStart_toStartOf="parent"-->
-<!--            app:layout_constraintTop_toTopOf="parent" />-->
+        <!--        <com.head.view.HeadTitleBar-->
+        <!--            android:layout_width="match_parent"-->
+        <!--            android:id="@+id/headTitleBar"-->
+        <!--            android:layout_height="80dp"-->
+        <!--            app:headTitleBarSupportGradient="true"-->
+        <!--            app:headTitleBarGradientFrom="#2BB3F1"-->
+        <!--            app:headTitleBarGradientTo="#008EFF"-->
+        <!--            app:headTitleBarCustomView="@layout/item_title"-->
+        <!--            app:layout_constraintEnd_toEndOf="parent"-->
+        <!--            app:layout_constraintStart_toStartOf="parent"-->
+        <!--            app:layout_constraintTop_toTopOf="parent" />-->
+        <com.head.view.HeadTitleBar
+            android:id="@+id/headTitleBar"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            app:headTitleBarBackgroundColor="#18191b"
+            app:headTitleStyle="custom"
+            app:headTitleBarCustomView="@layout/title_bilibili"
+            android:padding="12dp"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintHorizontal_bias="0.497"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
+
+        <com.head.view.HeadTitleBar
+            android:id="@+id/head_title_02"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="36dp"
+            android:padding="15dp"
+            app:headTitleBarBackgroundColor="#191919"
+            app:headTitleBarCustomView="@layout/title_wx"
+            app:headTitleStyle="custom"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintHorizontal_bias="0.0"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/headTitleBar" />
     </androidx.constraintlayout.widget.ConstraintLayout>
 </layout>

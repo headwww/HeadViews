@@ -1,18 +1,18 @@
 package com.head.views.ui.title
 
-import android.app.Activity
+import android.content.Intent
 import android.os.Bundle
-import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.widget.TextView
-import androidx.databinding.DataBindingUtil
+import android.widget.ImageView
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModelProvider
+import com.head.view.HeadEditTextView
+import com.head.views.BilibiliActivity
 import com.head.views.R
+import com.head.views.WechatActivity
 import com.head.views.databinding.FragmentTitleBinding
-import com.head.views.databinding.ItemTitleBinding
 
 class TitleFragment : Fragment() {
 
@@ -38,10 +38,23 @@ class TitleFragment : Fragment() {
 //            textView?.text = "标题"
 //        }
 
-        Log.e(TAG, "onCreateView: ", )
+//        binding.headButton2.setOnClickListener {
+//        }
+        binding.headTitleBar.getCustomView()?.let {
+            it.findViewById<HeadEditTextView>(R.id.headEditTextView).setOnTextareaClickListener {
+                startActivity(Intent(requireActivity(), BilibiliActivity::class.java))
+            }
+
+        }
+        binding.headTitle02.getCustomView()?.let {
+            it.findViewById<ImageView>(R.id.searchWx).setOnClickListener {
+                startActivity(Intent(requireActivity(), WechatActivity::class.java))
+
+            }
+
+        }
         return binding.root
     }
-
 
 
     override fun onDestroyView() {

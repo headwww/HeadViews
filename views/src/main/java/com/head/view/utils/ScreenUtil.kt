@@ -52,17 +52,10 @@ object ScreenUtil {
         return intArrayOf(metrics.widthPixels, metrics.heightPixels)
     }
 
-    fun hideSoftInputKeyBoard(context: Context, focusView: View?) {
-        if (focusView != null) {
-            val binder = focusView.windowToken
-            if (binder != null) {
-                val imd = context
-                    .getSystemService(Context.INPUT_METHOD_SERVICE) as InputMethodManager
-                imd.hideSoftInputFromWindow(
-                    binder,
-                    InputMethodManager.HIDE_IMPLICIT_ONLY
-                )
-            }
+    fun hideSoftInputKeyBoard(focusView: View?) {
+        focusView?.let {
+            val imm = focusView.context.getSystemService(Context.INPUT_METHOD_SERVICE) as InputMethodManager
+            imm.hideSoftInputFromWindow(focusView.windowToken, 0);
         }
     }
 
@@ -71,5 +64,13 @@ object ScreenUtil {
             .getSystemService(Context.INPUT_METHOD_SERVICE) as InputMethodManager
         imm.showSoftInput(focusView, InputMethodManager.SHOW_FORCED)
     }
+
+
+    //根据当前键盘状态切换，显示就隐藏，隐藏就显示
+    fun toggleKeyboard(context: Context) {
+        val imm = context.getSystemService(Context.INPUT_METHOD_SERVICE) as InputMethodManager
+        imm.toggleSoftInput(0, 0)
+    }
+
 
 }

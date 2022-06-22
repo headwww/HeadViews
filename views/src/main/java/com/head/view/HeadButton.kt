@@ -6,8 +6,7 @@ import android.graphics.Color
 import android.graphics.drawable.StateListDrawable
 import android.util.AttributeSet
 import androidx.appcompat.widget.AppCompatButton
-import com.head.view.utils.StatusBarUtil
-import com.head.view.utils.TemplateDrawable
+import com.head.view.utils.builderDrawable
 
 
 /**
@@ -272,23 +271,23 @@ class HeadButton : AppCompatButton {
             intArrayOf(
                 -android.R.attr.state_pressed,
                 android.R.attr.state_enabled
-            ), TemplateDrawable(
-                context,
-                headButtonNormalSupportGradient,
-                headButtonNormalGradientFrom,
-                headButtonNormalGradientTo,
-                headButtonNormalBackgroundColor,
-                headButtonNormalRadianLeftTop,
-                headButtonNormalRadianLeftBottom,
-                headButtonNormalRadianRightTop,
-                headButtonNormalRadianRightBottom,
-                headButtonNormalRadians,
-                headButtonNormalStrokeWidth,
-                headButtonNormalStrokeColor,
-                headButtonNormalStrokeDashWidth,
-                headButtonNormalStrokeDashGap
-            ).apply { shape = headButtonShape }
-
+            ), builderDrawable {
+                supportGradient = headButtonNormalSupportGradient
+                gradientFrom = headButtonNormalGradientFrom
+                gradientTo = headButtonNormalGradientTo
+                backgroundColor = headButtonNormalBackgroundColor
+                radianLeftTop = headButtonNormalRadianLeftTop.toFloat()
+                radianLeftBottom = headButtonNormalRadianLeftBottom.toFloat()
+                radianRightTop = headButtonNormalRadianRightTop.toFloat()
+                radianRightBottom =
+                    headButtonNormalRadianRightBottom.toFloat()
+                radians = headButtonNormalRadians.toFloat()
+                strokeWidth = headButtonNormalStrokeWidth
+                strokeColor = headButtonNormalStrokeColor
+                strokeDashWidth = headButtonNormalStrokeDashWidth
+                strokeDashGap = headButtonNormalStrokeDashGap
+                this
+            }.apply { shape = headButtonShape }
         )
         //按下状态
         headButtonPressedBackgroundColor =
@@ -297,43 +296,43 @@ class HeadButton : AppCompatButton {
             intArrayOf(
                 android.R.attr.state_pressed,
                 android.R.attr.state_enabled
-            ), TemplateDrawable(
-                context,
-                headButtonPressedSupportGradient,
-                headButtonPressedGradientFrom,
-                headButtonPressedGradientTo,
-                headButtonPressedBackgroundColor,
-                headButtonPressedRadianLeftTop,
-                headButtonPressedRadianLeftBottom,
-                headButtonPressedRadianRightTop,
-                headButtonPressedRadianRightBottom,
-                headButtonPressedRadians,
-                headButtonPressedStrokeWidth,
-                headButtonPressedStrokeColor,
-                headButtonPressedStrokeDashWidth,
-                headButtonPressedStrokeDashGap
-            ).apply { shape = headButtonShape }
-
+            ), builderDrawable {
+                supportGradient = headButtonPressedSupportGradient
+                gradientFrom = headButtonPressedGradientFrom
+                gradientTo = headButtonPressedGradientTo
+                backgroundColor = headButtonPressedBackgroundColor
+                radianLeftTop = headButtonPressedRadianLeftTop.toFloat()
+                radianLeftBottom = headButtonPressedRadianLeftBottom.toFloat()
+                radianRightTop = headButtonPressedRadianRightTop.toFloat()
+                radianRightBottom = headButtonPressedRadianRightBottom.toFloat()
+                radians = headButtonPressedRadians.toFloat()
+                strokeWidth = headButtonPressedStrokeWidth
+                strokeColor = headButtonPressedStrokeColor
+                strokeDashWidth = headButtonPressedStrokeDashWidth
+                strokeDashGap = headButtonPressedStrokeDashGap
+                this
+            }.apply { shape = headButtonShape }
         )
         //禁止状态
         addState(
             intArrayOf(-android.R.attr.state_enabled),
-            TemplateDrawable(
-                context,
-                headButtonEnabledSupportGradient,
-                headButtonEnabledGradientFrom,
-                headButtonEnabledGradientTo,
-                headButtonEnabledBackgroundColor,
-                headButtonEnabledRadianLeftTop,
-                headButtonEnabledRadianLeftBottom,
-                headButtonEnabledRadianRightTop,
-                headButtonEnabledRadianRightBottom,
-                headButtonEnabledRadians,
-                headButtonEnabledStrokeWidth,
-                headButtonEnabledStrokeColor,
-                headButtonEnabledStrokeDashWidth,
-                headButtonEnabledStrokeDashGap
-            ).apply { shape = headButtonShape }
+            builderDrawable {
+                supportGradient = headButtonEnabledSupportGradient
+                gradientFrom = headButtonEnabledGradientFrom
+                gradientTo = headButtonEnabledGradientTo
+                backgroundColor = headButtonEnabledBackgroundColor
+                radianLeftTop = headButtonEnabledRadianLeftTop.toFloat()
+                radianLeftBottom = headButtonEnabledRadianLeftBottom.toFloat()
+                radianRightTop = headButtonEnabledRadianRightTop.toFloat()
+                radianRightBottom =
+                    headButtonEnabledRadianRightBottom.toFloat()
+                radians = headButtonEnabledRadians.toFloat()
+                strokeWidth = headButtonEnabledStrokeWidth
+                strokeColor = headButtonEnabledStrokeColor
+                strokeDashWidth = headButtonEnabledStrokeDashWidth
+                strokeDashGap = headButtonEnabledStrokeDashGap
+                this
+            }.apply { shape = headButtonShape }
         )
         invalidate()
     }

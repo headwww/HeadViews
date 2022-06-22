@@ -1,63 +1,66 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
-    android:id="@+id/container"
-    android:layout_width="match_parent"
-    android:layout_height="match_parent"
-    android:orientation="vertical">
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
 
-    <com.head.view.HeadTitleBar
-        android:id="@+id/headTitleBar"
+    <data>
+
+    </data>
+
+    <LinearLayout
+        android:id="@+id/container"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:elevation="8dp"
-        android:paddingHorizontal="5dp"
-        android:paddingVertical="5dp"
-        app:elevation="10dp"
-        app:headTitleBarBackgroundColor="#FFFFFF"
-        app:headTitleBarCustomView="@layout/item_title"
-        app:headTitleBarFill="true"
-        app:headTitleBarTransparent="true"
-        app:headTitleBarGradientFrom="#3C3C3C"
-        app:headTitleBarGradientTo="#3C3C3C"
-        app:headTitleBarSupportGradient="true"
-        app:headTitleBarTheme="light"
-        app:headTitleGeneralCenterMainMarquee="true"
-        app:headTitleGeneralCenterMainTextColor="#FF5722"
-        app:headTitleGeneralCenterMainTextSize="18dp"
-        app:headTitleGeneralCenterSubTextColor="#020202"
-        app:headTitleGeneralLeftTextColor="#FFFFFF"
-        app:headTitleGeneralLeftTextSize="18dp"
-        app:headTitleGeneralRightTextColor="#000000"
-        app:headTitleGeneralRightTextSize="18dp"
-        app:headTitleStyle="search"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
+        android:layout_height="match_parent"
+        android:orientation="vertical">
 
-    <fragment
-        android:id="@+id/nav_host_fragment_activity_main"
-        android:name="androidx.navigation.fragment.NavHostFragment"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="5dp"
-        android:layout_weight="1"
-        app:defaultNavHost="true"
-        app:layout_constraintBottom_toTopOf="@id/nav_view"
-        app:layout_constraintHorizontal_bias="0.0"
-        app:layout_constraintLeft_toLeftOf="parent"
-        app:layout_constraintRight_toRightOf="parent"
-        app:navGraph="@navigation/mobile_navigation" />
+        <com.head.view.HeadTitleBar
+            android:id="@+id/headTitleBar"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:elevation="8dp"
+            android:paddingHorizontal="5dp"
+            android:paddingVertical="5dp"
+            app:headTitleBarBackgroundColor="#FFFFFF"
+            app:headTitleBarCustomView="@layout/item_title"
+            app:headTitleBarFill="true"
+            app:headTitleBarTheme="light"
+            app:headTitleBarGradientFrom="#3C3C3C"
+            app:headTitleBarGradientTo="#3C3C3C"
+            app:headTitleBarSupportGradient="true"
+            app:headTitleStyle="general"
+            app:headTitleGeneralCenterMainText="主标题"
+            app:headTitleGeneralCenterSubText="二级标题"
+            app:headTitleGeneralLeftText="返回"
+            app:headTitleGeneralLeftTextSize="18dp"
+            app:headTitleGeneralRightText="切换状态栏"
+            app:headTitleGeneralLeftIcon="@drawable/ic_baseline_arrow_back_ios_24"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
 
-    <com.google.android.material.bottomnavigation.BottomNavigationView
-        android:id="@+id/nav_view"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:background="?android:attr/windowBackground"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintLeft_toLeftOf="parent"
-        app:layout_constraintRight_toRightOf="parent"
-        app:menu="@menu/bottom_nav_menu" />
+        <fragment
+            android:id="@+id/nav_host_fragment_activity_main"
+            android:name="androidx.navigation.fragment.NavHostFragment"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="5dp"
+            android:layout_weight="1"
+            app:defaultNavHost="true"
+            app:layout_constraintBottom_toTopOf="@id/nav_view"
+            app:layout_constraintHorizontal_bias="0.0"
+            app:layout_constraintLeft_toLeftOf="parent"
+            app:layout_constraintRight_toRightOf="parent"
+            app:navGraph="@navigation/mobile_navigation" />
+
+        <com.google.android.material.bottomnavigation.BottomNavigationView
+            android:id="@+id/nav_view"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:background="?android:attr/windowBackground"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintLeft_toLeftOf="parent"
+            app:layout_constraintRight_toRightOf="parent"
+            app:menu="@menu/bottom_nav_menu" />
 
 
-</LinearLayout>
+    </LinearLayout>
+</layout>

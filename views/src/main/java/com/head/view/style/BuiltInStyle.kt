@@ -17,11 +17,12 @@ import com.head.view.HeadEditTextView
 import com.head.view.HeadTitleBar
 import com.head.view.R
 import com.head.view.utils.ScreenUtil
+import com.head.view.utils.TemplateDrawable
 import kotlin.math.max
 
 /**
  *
- * 类名称： GeneralModeTitle<br/>
+ * 类名称： BuiltInStyle<br/>
  * 类描述： 内置了两种方式的标题，通用模式和搜索模式<br/>
  * 创建人： <br/>
  * 创建时间：  <br/>
@@ -56,8 +57,14 @@ data class BuiltInStyle(
     var onSearchClearListener: ((v: View) -> Unit)? = null,
     var centerMainListener: ((v: View) -> Unit)? = null,
     var centerSubListener: ((v: View) -> Unit)? = null,
+    var isSoftInputKeyBoard: Boolean = false,
+    var centerSearchHint: CharSequence = "",
+    var centerSearchHintColor: Int = Color.WHITE,
+    var centerSearchTextSize: Float = 0F,
+    var centerSearchTextColor: Int = Color.WHITE,
+    var centerSearchLeftIcon: Int = -1,
+    var templateSearchDrawable: TemplateDrawable = TemplateDrawable(),
     var layoutChange: LayoutChange? = null
-
 
 ) : BuiltInImpl {
     val leftTextView: TextView by lazy {
@@ -126,9 +133,14 @@ data class BuiltInStyle(
             imeOptions = EditorInfo.IME_ACTION_SEARCH
 
             setHeadEditTextClear(true)
-            setHeadEditTextClearIcon(true)
-            setHeadEditTextRadians(resources.getDimension(R.dimen.head_center_search_radio).toInt())
-            setPadding(30, paddingTop, 30, paddingBottom)
+
+            setPadding(
+                resources.getDimension(R.dimen.head_center_search_padding_horizontal).toInt(),
+                resources.getDimension(R.dimen.head_center_search_padding_vertical).toInt(),
+                resources.getDimension(R.dimen.head_center_search_padding_horizontal).toInt(),
+                resources.getDimension(R.dimen.head_center_search_padding_vertical).toInt(),
+            )
+
             ellipsize = null
             isSingleLine = true
         }
@@ -230,29 +242,9 @@ data class BuiltInStyle(
         return this
     }
 
-    override fun setOnSearchActionListener(listener: (v: View, text: String) -> Unit): BuiltInImpl {
-        this.onEditorActionListener = listener
-        centerSearchView.setOnEditorActionListener { _, actionId, keyEvent ->
-            if ((actionId == EditorInfo.IME_ACTION_UNSPECIFIED || actionId == EditorInfo.IME_ACTION_SEARCH) && keyEvent != null) {
-                //点击搜索要做的操作
-                onEditorActionListener?.invoke(centerSearchView, centerSearchView.text.toString())
-                true
-            }
-            false
-        }
-        return this
-    }
-
-    override fun setOnSearchClearListener(listener: (v: View) -> Unit): BuiltInImpl {
-        this.onSearchClearListener = listener
-        centerSearchView.setOnRightDrawableClickListener {
-            onSearchClearListener?.invoke(it)
-        }
-        return this
-    }
 
     override fun centerMainText(text: CharSequence): BuiltInImpl {
-        centerMainTitleText  = text
+        centerMainTitleText = text
         centerMainTitleTextView.text = centerMainTitleText
         return this
     }
@@ -333,6 +325,90 @@ data class BuiltInStyle(
         centerSubTitleTextView.setOnClickListener(centerSubListener)
         return this
     }
+
+    override fun setOnSearchEditorActionListener(listener: (v: View, text: String) -> Unit): BuiltInImpl {
+        this.onEditorActionListener = listener
+        centerSearchView.setOnEditorActionListener { _, actionId, keyEvent ->
+            if ((actionId == EditorInfo.IME_ACTION_UNSPECIFIED || actionId == EditorInfo.IME_ACTION_SEARCH) && keyEvent != null) {
+                //点击搜索要做的操作
+                onEditorActionListener?.invoke(centerSearchView, centerSearchView.text.toString())
+                true
+            }
+            false
+        }
+        return this
+    }
+
+    override fun setOnSearchClearListener(listener: (v: View) -> Unit): BuiltInImpl {
+        this.onSearchClearListener = listener
+        centerSearchView.setOnRightDrawableClickListener {
+            onSearchClearListener?.invoke(it)
+        }
+        return this
+    }
+
+
+    override fun setSearchSoftInputKeyBoard(isShow: Boolean): BuiltInImpl {
+        this.isSoftInputKeyBoard = isShow
+        if (isSoftInputKeyBoard) {
+            centerSearchView.postDelayed({
+                centerSearchView.isFocusable = true
+                centerSearchView.isFocusableInTouchMode = true
+                centerSearchView.requestFocus()
+                ScreenUtil.showSoftInputKeyBoard(mContext!!, centerSearchView)
+            }, 300)
+        }
+        return this
+    }
+
+    override fun setSearchLeftIcon(iconRes: Int): BuiltInImpl {
+        centerSearchLeftIcon = iconRes
+        if (centerSearchLeftIcon != -1) {
+            var drawable = ContextCompat.getDrawable(mContext!!, centerSearchLeftIcon)
+            drawable?.let {
+                it.setBounds(
+                    0,
+                    0,
+                    drawable.intrinsicWidth,
+                    drawable.intrinsicHeight
+                )
+            }
+            centerSearchView.setCompoundDrawables(drawable, null, null, null)
+        }
+        return this
+    }
+
+    override fun setSearchHint(text: CharSequence): BuiltInImpl {
+        this.centerSearchHint = text
+        centerSearchView.hint = centerSearchHint
+        return this
+    }
+
+    override fun setSearchHintColor(color: Int): BuiltInImpl {
+        this.centerSearchHintColor = color
+        centerSearchView.setHintTextColor(centerSearchHintColor)
+
+        return this
+    }
+
+    override fun setSearchTextColor(color: Int): BuiltInImpl {
+        this.centerSearchTextColor = color
+        centerSearchView.setTextColor(this.centerSearchTextColor)
+        return this
+    }
+
+    override fun setSearchTextSize(size: Float): BuiltInImpl {
+        this.centerSearchTextSize = size
+        centerSearchView.paint.textSize = if (centerSearchTextSize == 0F) mContext!!
+            .resources.getDimension(R.dimen.head_left_textview_size)
+        else centerSearchTextSize
+        return this
+    }
+
+    override fun setSearchAttribute(drawable: TemplateDrawable): BuiltInImpl {
+        centerSearchView.background = drawable
+        return this
+    }
 }
 
 fun builderTitle(context: Context?, builder: BuiltInStyle.() -> BuiltInStyle) =
@@ -365,31 +441,31 @@ fun builderTitle(context: Context?, builder: BuiltInStyle.() -> BuiltInStyle) =
                 .centerSubTextSize(centerSubTitleTextSize)
                 .centerSubMarquee(isCenterSubTitleMarquee)
         }
+        if (style == HeadTitleBar.HeadTitleStyle.SEARCH.ordinal) {
+            this.setSearchSoftInputKeyBoard(isSoftInputKeyBoard)
+                .setSearchHint(centerSearchHint)
+                .setSearchHintColor(centerSearchHintColor)
+                .setSearchLeftIcon(centerSearchLeftIcon)
+                .setSearchAttribute(templateSearchDrawable)
+                .setSearchTextColor(centerSearchTextColor)
+                .setSearchTextSize(centerSearchTextSize)
+        }
+
 
     }
 
 fun modifyTitle(
-    generalModeTitle: BuiltInStyle,
-    modifyAction: BuiltInStyle.() -> BuiltInStyle
-) = generalModeTitle.apply {
+    builtIn: BuiltInStyle,
+    modify: BuiltInStyle.() -> BuiltInStyle
+) = builtIn.apply {
     centerLinearLayout.removeAllViews()
     if (style == HeadTitleBar.HeadTitleStyle.GENERAL.ordinal) {
-        measureGeneral()(modifyAction(generalModeTitle))
+        measureGeneral()(modify(builtIn))
         centerLinearLayout.addView(centerMainTitleTextView)
         if (centerSubTitleText != "") centerLinearLayout.addView(centerSubTitleTextView)
     }
     if (style == HeadTitleBar.HeadTitleStyle.SEARCH.ordinal) {
-        measureSearch()(modifyAction(generalModeTitle))
-
-        centerSearchView.postDelayed({
-            centerSearchView.isFocusable = true
-            centerSearchView.isFocusableInTouchMode = true
-            centerSearchView.requestFocus()
-            ScreenUtil.showSoftInputKeyBoard(mContext!!, centerSearchView)
-        }, 300)
-        centerSearchView.setHeadEditTextBackgroundColor(Color.BLACK)
-
-
+        measureSearch()(modify(builtIn))
         centerLinearLayout.addView(centerSearchView)
     }
 

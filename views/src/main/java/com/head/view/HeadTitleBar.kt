@@ -14,6 +14,8 @@ import com.google.android.material.shape.MaterialShapeDrawable
 import com.head.view.style.*
 import com.head.view.utils.StatusBarUtil
 import com.head.view.utils.TemplateDrawable
+import com.head.view.utils.builderDrawable
+import com.head.view.utils.modifyDrawable
 
 
 /**
@@ -53,6 +55,12 @@ class HeadTitleBar : FrameLayout, View.OnLayoutChangeListener {
         init(attrs, defStyleAttr)
     }
 
+    private var headTitleSearchTextSize: Int = 0
+    private var headTitleSearchTextColor: Int = Color.WHITE
+    private var headTitleSearchLeftIcon: Int = -1
+    private var headTitleSearchHint: String = ""
+    private var headTitleSearchHintColor: Int = Color.WHITE
+    private var headTitleSearchSoftInputKeyBoard: Boolean = false
     private var headTitleBarTheme: Int = -1
     private var headTitleBarFillColorAlpha: Int = 1
     private var headTitleBarFillColor: Int = -1
@@ -80,15 +88,35 @@ class HeadTitleBar : FrameLayout, View.OnLayoutChangeListener {
     private var headTitleGeneralRightText: String = ""
 
 
-    private lateinit var generalModeTitle: BuiltInStyle
+    private lateinit var builtInTitle: BuiltInStyle
     private var headTitleBarGradientFrom: Int = Color.WHITE
     private var headTitleBarGradientTo: Int = Color.WHITE
     private var headTitleBarSupportGradient: Boolean = false
     private var headTitleBarBackgroundColor: Int = Color.WHITE
     private var headTitleBarCustomViewRes: Int = 0
-    private var headTitleStyle: Int = -1
+    private var headTitleStyle: Int = HeadTitleStyle.GENERAL.ordinal
+
+    @ColorInt
+    private var headTitleSearchBackgroundColor: Int = Color.TRANSPARENT
+    private var headTitleSearchSupportGradient: Boolean = false
+    @ColorInt
+    private var headTitleSearchGradientFrom: Int = Color.TRANSPARENT
+    @ColorInt
+    private var headTitleSearchGradientTo: Int = Color.TRANSPARENT
+    private var headTitleSearchRadians: Int = 0
+    private var headTitleSearchRadianLeftTop: Int = 0
+    private var headTitleSearchRadianRightTop: Int = 0
+    private var headTitleSearchRadianLeftBottom: Int = 0
+    private var headTitleSearchRadianRightBottom: Int = 0
+    @ColorInt
+    private var headTitleSearchStrokeColor: Int = -1
+    private var headTitleSearchStrokeWidth: Int = 0
+    private var headTitleSearchStrokeDashWidth: Float = 0F
+    private var headTitleSearchStrokeDashGap: Float = 0F
 
     private var customView: View? = null
+
+    private lateinit var templateDrawable:TemplateDrawable
 
     private fun init(attrs: AttributeSet? = null, defStyleAttr: Int? = null) {
         val typedArray: TypedArray = context.obtainStyledAttributes(attrs, R.styleable.HeadTitleBar)
@@ -113,7 +141,7 @@ class HeadTitleBar : FrameLayout, View.OnLayoutChangeListener {
         )
         headTitleStyle = typedArray.getInt(
             R.styleable.HeadTitleBar_headTitleStyle,
-            -1
+            HeadTitleStyle.GENERAL.ordinal
         )
         headTitleBarTransparent = typedArray.getBoolean(
             R.styleable.HeadTitleBar_headTitleBarTransparent,
@@ -199,10 +227,85 @@ class HeadTitleBar : FrameLayout, View.OnLayoutChangeListener {
             R.styleable.HeadTitleBar_headTitleGeneralCenterSubTextSize,
             context.resources.getDimension(R.dimen.head_right_textview_size).toInt()
         )
+        headTitleSearchSoftInputKeyBoard = typedArray.getBoolean(
+            R.styleable.HeadTitleBar_headTitleSearchSoftInputKeyBoard,
+            false
+        )
+        headTitleSearchHintColor = typedArray.getColor(
+            R.styleable.HeadTitleBar_headTitleSearchHintColor,
+            Color.WHITE
+        )
+        headTitleSearchHint = typedArray.getString(
+            R.styleable.HeadTitleBar_headTitleSearchHint,
+        ) ?: ""
+        headTitleSearchLeftIcon = typedArray.getResourceId(
+            R.styleable.HeadTitleBar_headTitleSearchLeftIcon,
+            -1
+        )
+        headTitleSearchTextColor = typedArray.getColor(
+            R.styleable.HeadTitleBar_headTitleSearchTextColor,
+            Color.WHITE
+        )
+        headTitleSearchTextSize = typedArray.getDimensionPixelSize(
+            R.styleable.HeadTitleBar_headTitleSearchTextSize,
+            context.resources.getDimension(R.dimen.head_right_textview_size).toInt()
+        )
 
+        headTitleSearchBackgroundColor = typedArray.getColor(
+            R.styleable.HeadTitleBar_headTitleSearchBackgroundColor,
+            Color.TRANSPARENT
+        )
+        headTitleSearchSupportGradient = typedArray.getBoolean(
+            R.styleable.HeadTitleBar_headTitleSearchSupportGradient,
+            false
+        )
+        headTitleSearchGradientFrom = typedArray.getColor(
+            R.styleable.HeadTitleBar_headTitleSearchGradientFrom,
+            Color.TRANSPARENT
+        )
+        headTitleSearchGradientTo = typedArray.getColor(
+            R.styleable.HeadTitleBar_headTitleSearchGradientTo,
+            Color.TRANSPARENT
+        )
+        headTitleSearchRadians = typedArray.getDimensionPixelSize(
+            R.styleable.HeadTitleBar_headTitleSearchRadians,
+            0
+        )
+        headTitleSearchRadianLeftTop = typedArray.getDimensionPixelSize(
+            R.styleable.HeadTitleBar_headTitleSearchRadianLeftTop,
+            0
+        )
+        headTitleSearchRadianRightTop = typedArray.getDimensionPixelSize(
+            R.styleable.HeadTitleBar_headTitleSearchRadianRightTop,
+            0
+        )
+        headTitleSearchRadianLeftBottom = typedArray.getDimensionPixelSize(
+            R.styleable.HeadTitleBar_headTitleSearchRadianLeftBottom,
+            0
+        )
+        headTitleSearchRadianRightBottom = typedArray.getDimensionPixelSize(
+            R.styleable.HeadTitleBar_headTitleSearchRadianRightBottom,
+            0
+        )
+        headTitleSearchStrokeColor = typedArray.getColor(
+            R.styleable.HeadTitleBar_headTitleSearchStrokeColor,
+            -1
+        )
+        headTitleSearchStrokeWidth = typedArray.getDimensionPixelSize(
+            R.styleable.HeadTitleBar_headTitleSearchStrokeWidth,
+            0
+        )
+        headTitleSearchStrokeDashWidth = typedArray.getFloat(
+            R.styleable.HeadTitleBar_headTitleSearchStrokeDashWidth,
+            0F
+        )
+        headTitleSearchStrokeDashGap = typedArray.getFloat(
+            R.styleable.HeadTitleBar_headTitleSearchStrokeDashGap,
+            0F
+        )
         //通用的标题模版
-        if (headTitleStyle == HeadTitleStyle.GENERAL.ordinal||headTitleStyle == HeadTitleStyle.SEARCH.ordinal) {
-            generalModeTitle = builderTitle(context) {
+        if (headTitleStyle == HeadTitleStyle.GENERAL.ordinal || headTitleStyle == HeadTitleStyle.SEARCH.ordinal) {
+            builtInTitle = builderTitle(context) {
                 style = headTitleStyle
                 leftText = headTitleGeneralLeftText
                 leftIcon = headTitleGeneralLeftIcon
@@ -224,6 +327,30 @@ class HeadTitleBar : FrameLayout, View.OnLayoutChangeListener {
                 centerSubTitleTextSize = headTitleGeneralCenterSubTextSize.toFloat()
                 isCenterSubTitleMarquee = headTitleGeneralCenterSubMarquee
 
+                isSoftInputKeyBoard = headTitleSearchSoftInputKeyBoard
+
+                centerSearchHint = headTitleSearchHint
+                centerSearchHintColor = headTitleSearchHintColor
+                centerSearchLeftIcon = headTitleSearchLeftIcon
+
+                centerSearchTextSize =headTitleSearchTextSize.toFloat()
+                centerSearchTextColor = headTitleSearchTextColor
+                this.templateSearchDrawable = builderDrawable {
+                    supportGradient = headTitleSearchSupportGradient
+                    gradientFrom = headTitleSearchGradientFrom
+                    gradientTo = headTitleSearchGradientTo
+                    backgroundColor = headTitleSearchBackgroundColor
+                    radianLeftTop = headTitleSearchRadianLeftTop.toFloat()
+                    radianLeftBottom =headTitleSearchRadianLeftBottom.toFloat()
+                    radianRightTop =headTitleSearchRadianRightTop.toFloat()
+                    radianRightBottom =headTitleSearchRadianRightBottom.toFloat()
+                    radians =headTitleSearchRadians.toFloat()
+                    strokeWidth = headTitleSearchStrokeWidth
+                    strokeColor = headTitleSearchStrokeColor
+                    strokeDashWidth = headTitleSearchStrokeDashWidth
+                    strokeDashGap = headTitleSearchStrokeDashGap
+                    this
+                }
                 this@HeadTitleBar.addView(leftTextView)
                 this@HeadTitleBar.addView(rightTextView)
                 this@HeadTitleBar.addView(centerLinearLayout)
@@ -251,29 +378,18 @@ class HeadTitleBar : FrameLayout, View.OnLayoutChangeListener {
             )
         }
 
-        background = getLayerBackground()
+        templateDrawable=builderDrawable {
+            supportGradient = headTitleBarSupportGradient
+            gradientFrom = headTitleBarGradientFrom
+            gradientTo = headTitleBarGradientTo
+            backgroundColor = headTitleBarBackgroundColor
+            this
+        }
+        background =  templateDrawable
         typedArray.recycle()
 
     }
 
-    /**
-     * 在设置了elevation并且TemplateDrawable为偏白色一些的时候会出现Material设计感觉
-     */
-    private fun getLayerBackground(): LayerDrawable = LayerDrawable(arrayOf(
-        TemplateDrawable(
-            context,
-            headTitleBarSupportGradient,
-            headTitleBarGradientFrom,
-            headTitleBarGradientTo,
-            headTitleBarBackgroundColor,
-        ),
-        MaterialShapeDrawable().apply {
-            setTint(Color.TRANSPARENT)
-            elevation = this@HeadTitleBar.elevation
-        }
-    )).apply {
-        this@HeadTitleBar.invalidate()
-    }
 
 
     override fun onLayoutChange(
@@ -289,8 +405,8 @@ class HeadTitleBar : FrameLayout, View.OnLayoutChangeListener {
     ) {
         // 先移除当前的监听，因为子View在setMaxWidth时候会重新触发监听，解决递归
         removeOnLayoutChangeListener(this)
-        if (generalModeTitle != null) {
-            modifyTitle(generalModeTitle) {
+        if (builtInTitle != null) {
+            modifyTitle(builtInTitle) {
                 layoutChange = LayoutChange(left, right, paddingLeft, paddingRight)
                 this
             }
@@ -339,30 +455,46 @@ class HeadTitleBar : FrameLayout, View.OnLayoutChangeListener {
 
     fun setHeadTitleBarBackgroundColor(@ColorInt headTitleBarBackgroundColor: Int) {
         this.headTitleBarBackgroundColor = headTitleBarBackgroundColor
-        background = getLayerBackground()
+        background = modifyDrawable(templateDrawable){
+            setBackgroundColor(this@HeadTitleBar.headTitleBarBackgroundColor)
+            this
+        }
     }
 
     fun setHeadTitleBarSupportGradient(headTitleBarSupportGradient: Boolean) {
         this.headTitleBarSupportGradient = headTitleBarSupportGradient
-        background = getLayerBackground()
+        background = modifyDrawable(templateDrawable){
+            setSupportGradient(this@HeadTitleBar.headTitleBarSupportGradient)
+            this
+        }
     }
 
     fun setHeadTitleBarGradientFrom(@ColorInt headTitleBarGradientFrom: Int) {
         this.headTitleBarGradientFrom = headTitleBarGradientFrom
-        background = getLayerBackground()
+        background = modifyDrawable(templateDrawable){
+            setGradientFrom(this@HeadTitleBar.headTitleBarGradientFrom)
+            this
+        }
     }
 
     fun setHeadTitleBarGradientTo(@ColorInt headTitleBarGradientTo: Int) {
         this.headTitleBarGradientTo = headTitleBarGradientTo
-        background = getLayerBackground()
+        background = modifyDrawable(templateDrawable){
+            setGradientTo(this@HeadTitleBar.headTitleBarGradientTo)
+            this
+        }
     }
 
     fun setHeadTitleStyle(style: HeadTitleStyle) {
         this.headTitleStyle = style.ordinal
     }
 
-    fun getGeneralModeTitle(): BuiltInImpl {
-        return generalModeTitle
+    fun getBuiltInTitle(): BuiltInImpl {
+        if (this::builtInTitle.isInitialized){
+            return builtInTitle
+        }else{
+           throw UninitializedPropertyAccessException("内置风格类型的标题未初始化！")
+        }
     }
 
     fun setHeadTitleBarTransparent() {
@@ -372,7 +504,7 @@ class HeadTitleBar : FrameLayout, View.OnLayoutChangeListener {
         }
     }
 
-    fun setHeadTitleBarFill(headTitleBarFill:Boolean) {
+    fun setHeadTitleBarFill(headTitleBarFill: Boolean) {
         this.headTitleBarFill = headTitleBarFill
         if (headTitleBarFill) {
             setPadding(
@@ -381,7 +513,7 @@ class HeadTitleBar : FrameLayout, View.OnLayoutChangeListener {
                 paddingLeft,
                 paddingBottom
             )
-        }else{
+        } else {
             setPadding(
                 paddingLeft,
                 paddingTop - StatusBarUtil.getStatusBarHeight(context),
@@ -392,8 +524,8 @@ class HeadTitleBar : FrameLayout, View.OnLayoutChangeListener {
         }
     }
 
-    fun setHeadTitleBarFillColor(@ColorInt headTitleBarFillColor:Int){
-        this.headTitleBarFillColor=headTitleBarFillColor
+    fun setHeadTitleBarFillColor(@ColorInt headTitleBarFillColor: Int) {
+        this.headTitleBarFillColor = headTitleBarFillColor
         StatusBarUtil.setStatusBarColor(
             context as Activity,
             headTitleBarFillColor,
@@ -401,8 +533,9 @@ class HeadTitleBar : FrameLayout, View.OnLayoutChangeListener {
         )
 
     }
-    fun setHeadTitleBarFillColorAlpha(headTitleBarFillColorAlpha:Int){
-        this.headTitleBarFillColorAlpha=headTitleBarFillColorAlpha
+
+    fun setHeadTitleBarFillColorAlpha(headTitleBarFillColorAlpha: Int) {
+        this.headTitleBarFillColorAlpha = headTitleBarFillColorAlpha
         StatusBarUtil.setStatusBarColor(
             context as Activity,
             headTitleBarFillColor,
@@ -410,7 +543,8 @@ class HeadTitleBar : FrameLayout, View.OnLayoutChangeListener {
         )
 
     }
-    fun setHeadTitleBarTheme(theme:Theme){
+
+    fun setHeadTitleBarTheme(theme: Theme) {
         this.headTitleBarTheme = theme.ordinal
         //开启这个后标题栏会被遮挡，建议把状态栏填充也开着
         if (headTitleBarTheme == Theme.LIGHT.ordinal) {

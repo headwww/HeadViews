@@ -13,53 +13,154 @@ import android.graphics.drawable.GradientDrawable
  * @version
  */
 class TemplateDrawable(
-    context: Context,
-    supportGradient: Boolean = false,
-    gradientFrom: Int = Color.TRANSPARENT,
-    gradientTo: Int = Color.TRANSPARENT,
-    backgroundColor: Int = Color.TRANSPARENT,
-    radianLeftTop: Int = 0,
-    radianLeftBottom: Int = 0,
-    radianRightTop: Int = 0,
-    radianRightBottom: Int = 0,
-    radians: Int = 0,
-    strokeWidth: Int = 0,
-    strokeColor: Int = Color.TRANSPARENT,
-    strokeDashWidth: Float = 0F,
-    strokeDashGap: Float = 0F
-) : GradientDrawable() {
+    var supportGradient: Boolean = false,
+    var gradientFrom: Int = Color.TRANSPARENT,
+    var gradientTo: Int = Color.TRANSPARENT,
+    var backgroundColor: Int = Color.TRANSPARENT,
+    var radianLeftTop: Float = 0F,
+    var radianLeftBottom: Float = 0F,
+    var radianRightTop: Float = 0F,
+    var radianRightBottom: Float = 0F,
+    var radians: Float = 0F,
+    var strokeWidth: Int = 0,
+    var strokeColor: Int = Color.TRANSPARENT,
+    var strokeDashWidth: Float = 0F,
+    var strokeDashGap: Float = 0F
+) : GradientDrawable(), TemplateImpl {
 
-    init {
-        shape = RECTANGLE
-        if (supportGradient) {
+    override fun setSupportGradient(supportGradient: Boolean): TemplateImpl {
+        this.supportGradient = supportGradient
+        if (this.supportGradient) {
             orientation = Orientation.LEFT_RIGHT
             colors = intArrayOf(gradientFrom, gradientTo)
         } else {
             setColor(backgroundColor)
         }
+        return this
+    }
 
-        cornerRadii = floatArrayOf(
-            Utils.dp2px(context, radianLeftTop.toFloat()),
-            Utils.dp2px(context, radianLeftTop.toFloat()),
-            Utils.dp2px(context, radianRightTop.toFloat()),
-            Utils.dp2px(context, radianRightTop.toFloat()),
-            Utils.dp2px(context, radianRightBottom.toFloat()),
-            Utils.dp2px(context, radianRightBottom.toFloat()),
-            Utils.dp2px(context, radianLeftBottom.toFloat()),
-            Utils.dp2px(context, radianLeftBottom.toFloat())
-        )
-        if (radians != 0) cornerRadius =
-            radians.toFloat()
+    override fun setGradientFrom(gradientFrom: Int): TemplateImpl {
+        this.gradientFrom = gradientFrom
+        setSupportGradient(this.supportGradient)
+        return this
+    }
 
-        if (strokeColor != -1)
-            setStroke(
-                strokeWidth,
-                strokeColor,
-                strokeDashWidth,
-                strokeDashGap
-            )
+    override fun setGradientTo(gradientTo: Int): TemplateImpl {
+        this.gradientTo = gradientTo
+        setSupportGradient(this.supportGradient)
+        return this
+    }
 
+    override fun setBackgroundColor(backgroundColor: Int): TemplateImpl {
+        this.backgroundColor = backgroundColor
+        setSupportGradient(this.supportGradient)
+        return this
     }
 
 
+    override fun setRadianLeftTop(radianLeftTop: Float): TemplateImpl {
+        this.radianLeftTop = radianLeftTop
+        aroundRadians()
+        return this
+    }
+
+    override fun setRadianLeftBottom(radianLeftBottom: Float): TemplateImpl {
+        this.radianLeftBottom = radianLeftBottom
+        aroundRadians()
+        return this
+
+    }
+
+    override fun setRadianRightTop(radianRightTop: Float): TemplateImpl {
+        this.radianRightTop = radianRightTop
+        aroundRadians()
+        return this
+
+    }
+
+    override fun setRadianRightBottom(radianRightBottom: Float): TemplateImpl {
+        this.radianRightBottom = radianRightBottom
+        aroundRadians()
+        return this
+    }
+
+    override fun setRadians(radians: Float): TemplateImpl {
+        this.radians = radians
+        if (this.radians != 0F) cornerRadius = this.radians
+        return this
+    }
+
+    private fun aroundRadians() {
+        cornerRadii = floatArrayOf(
+            radianLeftTop,
+            radianLeftTop,
+            radianRightTop,
+            radianRightTop,
+            radianRightBottom,
+            radianRightBottom,
+            radianLeftBottom,
+            radianLeftBottom
+        )
+
+    }
+
+    override fun setStrokeWidth(strokeWidth: Int): TemplateImpl {
+        this.strokeWidth = strokeWidth
+        stroke()
+        return this
+
+    }
+
+    override fun setStrokeColor(strokeColor: Int): TemplateImpl {
+        this.strokeColor = strokeColor
+        stroke()
+        return this
+
+    }
+
+    override fun setStrokeDashWidth(strokeDashWidth: Float): TemplateImpl {
+        this.strokeDashWidth = strokeDashWidth
+        stroke()
+        return this
+    }
+
+    override fun setStrokeDashGap(strokeDashGap: Float): TemplateImpl {
+        this.strokeDashGap = strokeDashGap
+        stroke()
+        return this
+    }
+
+    private fun stroke() {
+        if (strokeColor != -1)
+            setStroke(
+                this.strokeWidth,
+                this.strokeColor,
+                this.strokeDashWidth,
+                this.strokeDashGap
+            )
+
+    }
+}
+
+fun builderDrawable(builder: TemplateDrawable.() -> TemplateDrawable) = TemplateDrawable().apply {
+    builder(this)
+    shape = GradientDrawable.RECTANGLE
+    this.setSupportGradient(supportGradient)
+        .setGradientFrom(gradientFrom)
+        .setGradientTo(gradientTo)
+        .setBackgroundColor(backgroundColor)
+        .setRadianLeftTop(radianLeftTop)
+        .setRadianLeftBottom(radianLeftBottom)
+        .setRadians(radians)
+        .setStrokeWidth(strokeWidth)
+        .setStrokeColor(strokeColor)
+        .setStrokeDashWidth(strokeDashWidth)
+        .setStrokeDashGap(strokeDashGap)
+}
+
+fun modifyDrawable(
+    drawable: TemplateDrawable,
+    modify: TemplateDrawable.() -> TemplateDrawable
+) = drawable.apply {
+    modify(drawable)
 }
