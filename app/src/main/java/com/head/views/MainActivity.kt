@@ -1,8 +1,6 @@
 package com.head.views
 
-import android.graphics.Color
 import android.os.Bundle
-import android.view.MenuItem
 import android.widget.TextView
 import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
@@ -10,9 +8,7 @@ import androidx.appcompat.app.AppCompatDelegate
 import androidx.navigation.findNavController
 import androidx.navigation.ui.setupWithNavController
 import com.google.android.material.bottomnavigation.BottomNavigationView
-import com.google.android.material.navigation.NavigationBarView
 import com.head.view.HeadTitleBar
-import com.head.view.utils.builderDrawable
 import com.head.views.databinding.ActivityMainBinding
 
 class MainActivity : AppCompatActivity() {

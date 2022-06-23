@@ -5,6 +5,9 @@
 
     <data>
 
+        <variable
+            name="viewmodel"
+            type="com.head.views.ui.edittext.EditTextViewViewModel" />
     </data>
 
     <androidx.constraintlayout.widget.ConstraintLayout
@@ -24,14 +27,15 @@
             android:paddingVertical="6dp"
             app:headTitleSearchBackgroundColor="#252628"
             app:headTitleSearchRadians="20dp"
-            app:headTitleGeneralRightText="取消"
+            app:headTitleBuiltInRightText="取消"
             app:headTitleSearchHint="搜索"
+            app:headTitleSearchText="sas"
             app:headTitleSearchSoftInputKeyBoard="true"
             app:headTitleSearchLeftIcon="@drawable/ic_baseline_search_24"
             app:headTitleSearchTextSize="12dp"
             app:headTitleSearchHintColor="#57595a"
             app:headTitleSearchTextColor="#9C9C9E"
-            app:headTitleGeneralRightTextColor="#a5a6a8"
+            app:headTitleBuiltInRightTextColor="#a5a6a8"
             android:paddingHorizontal="10dp"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"

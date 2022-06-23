@@ -4,18 +4,18 @@ import android.app.Activity
 import android.content.Context
 import android.content.res.TypedArray
 import android.graphics.Color
-import android.graphics.drawable.LayerDrawable
+import android.os.Bundle
+import android.os.Parcelable
 import android.util.AttributeSet
 import android.view.LayoutInflater
 import android.view.View
 import android.widget.FrameLayout
 import androidx.annotation.ColorInt
-import com.google.android.material.shape.MaterialShapeDrawable
+import com.head.view.drawable.TemplateDrawable
+import com.head.view.drawable.builderDrawable
+import com.head.view.drawable.modifyDrawable
 import com.head.view.style.*
 import com.head.view.utils.StatusBarUtil
-import com.head.view.utils.TemplateDrawable
-import com.head.view.utils.builderDrawable
-import com.head.view.utils.modifyDrawable
 
 
 /**
@@ -59,6 +59,7 @@ class HeadTitleBar : FrameLayout, View.OnLayoutChangeListener {
     private var headTitleSearchTextColor: Int = Color.WHITE
     private var headTitleSearchLeftIcon: Int = -1
     private var headTitleSearchHint: String = ""
+    private var headTitleSearchText: String = ""
     private var headTitleSearchHintColor: Int = Color.WHITE
     private var headTitleSearchSoftInputKeyBoard: Boolean = false
     private var headTitleBarTheme: Int = -1
@@ -77,15 +78,15 @@ class HeadTitleBar : FrameLayout, View.OnLayoutChangeListener {
     private var headTitleGeneralCenterSubMarquee: Boolean = false
     private var headTitleGeneralCenterSubText: String = ""
 
-    private var headTitleGeneralLeftTextSize: Float = 0F
-    private var headTitleGeneralLeftTextColor: Int = Color.WHITE
-    private var headTitleGeneralLeftIcon: Int = 0
-    private var headTitleGeneralLeftText: String = ""
+    private var headTitleBuiltInLeftTextSize: Float = 0F
+    private var headTitleBuiltInLeftTextColor: Int = Color.WHITE
+    private var headTitleBuiltInLeftIcon: Int = 0
+    private var headTitleBuiltInLeftText: String = ""
 
-    private var headTitleGeneralRightTextSize: Float = 0F
-    private var headTitleGeneralRightTextColor: Int = Color.WHITE
-    private var headTitleGeneralRightIcon: Int = 0
-    private var headTitleGeneralRightText: String = ""
+    private var headTitleBuiltInRightTextSize: Float = 0F
+    private var headTitleBuiltInRightTextColor: Int = Color.WHITE
+    private var headTitleBuiltInRightIcon: Int = 0
+    private var headTitleBuiltInRightText: String = ""
 
 
     private lateinit var builtInTitle: BuiltInStyle
@@ -99,8 +100,10 @@ class HeadTitleBar : FrameLayout, View.OnLayoutChangeListener {
     @ColorInt
     private var headTitleSearchBackgroundColor: Int = Color.TRANSPARENT
     private var headTitleSearchSupportGradient: Boolean = false
+
     @ColorInt
     private var headTitleSearchGradientFrom: Int = Color.TRANSPARENT
+
     @ColorInt
     private var headTitleSearchGradientTo: Int = Color.TRANSPARENT
     private var headTitleSearchRadians: Float = 0F
@@ -108,6 +111,7 @@ class HeadTitleBar : FrameLayout, View.OnLayoutChangeListener {
     private var headTitleSearchRadianRightTop: Float = 0F
     private var headTitleSearchRadianLeftBottom: Float = 0F
     private var headTitleSearchRadianRightBottom: Float = 0F
+
     @ColorInt
     private var headTitleSearchStrokeColor: Int = -1
     private var headTitleSearchStrokeWidth: Float = 0F
@@ -116,7 +120,7 @@ class HeadTitleBar : FrameLayout, View.OnLayoutChangeListener {
 
     private var customView: View? = null
 
-    private lateinit var templateDrawable:TemplateDrawable
+    private lateinit var templateDrawable: TemplateDrawable
 
     private fun init(attrs: AttributeSet? = null, defStyleAttr: Int? = null) {
         val typedArray: TypedArray = context.obtainStyledAttributes(attrs, R.styleable.HeadTitleBar)
@@ -163,37 +167,37 @@ class HeadTitleBar : FrameLayout, View.OnLayoutChangeListener {
 
         headTitleBarTheme = typedArray.getInt(R.styleable.HeadTitleBar_headTitleBarTheme, -1)
 
-        headTitleGeneralLeftText = typedArray.getString(
-            R.styleable.HeadTitleBar_headTitleGeneralLeftText,
+        headTitleBuiltInLeftText = typedArray.getString(
+            R.styleable.HeadTitleBar_headTitleBuiltInLeftText,
         ) ?: ""
-        headTitleGeneralLeftIcon = typedArray.getResourceId(
-            R.styleable.HeadTitleBar_headTitleGeneralLeftIcon,
+        headTitleBuiltInLeftIcon = typedArray.getResourceId(
+            R.styleable.HeadTitleBar_headTitleBuiltInLeftIcon,
             0
         )
-        headTitleGeneralLeftTextColor = typedArray.getColor(
-            R.styleable.HeadTitleBar_headTitleGeneralLeftTextColor,
+        headTitleBuiltInLeftTextColor = typedArray.getColor(
+            R.styleable.HeadTitleBar_headTitleBuiltInLeftTextColor,
             Color.WHITE
         )
-        headTitleGeneralLeftTextSize = typedArray.getDimension(
-            R.styleable.HeadTitleBar_headTitleGeneralLeftTextSize,
-            context.resources.getDimension(R.dimen.head_left_textview_size)
+        headTitleBuiltInLeftTextSize = typedArray.getDimension(
+            R.styleable.HeadTitleBar_headTitleBuiltInLeftTextSize,
+            context.resources.getDimension(R.dimen.head_view_default_size)
         )
 
 
-        headTitleGeneralRightText = typedArray.getString(
-            R.styleable.HeadTitleBar_headTitleGeneralRightText
+        headTitleBuiltInRightText = typedArray.getString(
+            R.styleable.HeadTitleBar_headTitleBuiltInRightText
         ) ?: ""
-        headTitleGeneralRightIcon = typedArray.getResourceId(
-            R.styleable.HeadTitleBar_headTitleGeneralRightIcon,
+        headTitleBuiltInRightIcon = typedArray.getResourceId(
+            R.styleable.HeadTitleBar_headTitleBuiltInRightIcon,
             0
         )
-        headTitleGeneralRightTextColor = typedArray.getColor(
-            R.styleable.HeadTitleBar_headTitleGeneralRightTextColor,
+        headTitleBuiltInRightTextColor = typedArray.getColor(
+            R.styleable.HeadTitleBar_headTitleBuiltInRightTextColor,
             Color.WHITE
         )
-        headTitleGeneralRightTextSize = typedArray.getDimension(
-            R.styleable.HeadTitleBar_headTitleGeneralRightTextSize,
-            context.resources.getDimension(R.dimen.head_right_textview_size)
+        headTitleBuiltInRightTextSize = typedArray.getDimension(
+            R.styleable.HeadTitleBar_headTitleBuiltInRightTextSize,
+            context.resources.getDimension(R.dimen.head_view_default_size)
         )
 
         headTitleGeneralCenterMainText = typedArray.getString(
@@ -209,7 +213,7 @@ class HeadTitleBar : FrameLayout, View.OnLayoutChangeListener {
         )
         headTitleGeneralCenterMainTextSize = typedArray.getDimension(
             R.styleable.HeadTitleBar_headTitleGeneralCenterMainTextSize,
-            context.resources.getDimension(R.dimen.head_right_textview_size)
+            context.resources.getDimension(R.dimen.head_view_default_size)
         )
 
         headTitleGeneralCenterSubText = typedArray.getString(
@@ -225,7 +229,7 @@ class HeadTitleBar : FrameLayout, View.OnLayoutChangeListener {
         )
         headTitleGeneralCenterSubTextSize = typedArray.getDimension(
             R.styleable.HeadTitleBar_headTitleGeneralCenterSubTextSize,
-            context.resources.getDimension(R.dimen.head_right_textview_size)
+            context.resources.getDimension(R.dimen.head_view_default_size)
         )
         headTitleSearchSoftInputKeyBoard = typedArray.getBoolean(
             R.styleable.HeadTitleBar_headTitleSearchSoftInputKeyBoard,
@@ -238,6 +242,10 @@ class HeadTitleBar : FrameLayout, View.OnLayoutChangeListener {
         headTitleSearchHint = typedArray.getString(
             R.styleable.HeadTitleBar_headTitleSearchHint,
         ) ?: ""
+        headTitleSearchText = typedArray.getString(
+            R.styleable.HeadTitleBar_headTitleSearchText,
+        ) ?: ""
+
         headTitleSearchLeftIcon = typedArray.getResourceId(
             R.styleable.HeadTitleBar_headTitleSearchLeftIcon,
             -1
@@ -248,7 +256,7 @@ class HeadTitleBar : FrameLayout, View.OnLayoutChangeListener {
         )
         headTitleSearchTextSize = typedArray.getDimension(
             R.styleable.HeadTitleBar_headTitleSearchTextSize,
-            context.resources.getDimension(R.dimen.head_right_textview_size)
+            context.resources.getDimension(R.dimen.head_view_default_size)
         )
 
         headTitleSearchBackgroundColor = typedArray.getColor(
@@ -307,15 +315,15 @@ class HeadTitleBar : FrameLayout, View.OnLayoutChangeListener {
         if (headTitleStyle == HeadTitleStyle.GENERAL.ordinal || headTitleStyle == HeadTitleStyle.SEARCH.ordinal) {
             builtInTitle = builderTitle(context) {
                 style = headTitleStyle
-                leftText = headTitleGeneralLeftText
-                leftIcon = headTitleGeneralLeftIcon
-                leftTextColor = headTitleGeneralLeftTextColor
-                leftTextSize = headTitleGeneralLeftTextSize.toFloat()
+                leftText = headTitleBuiltInLeftText
+                leftIcon = headTitleBuiltInLeftIcon
+                leftTextColor = headTitleBuiltInLeftTextColor
+                leftTextSize = headTitleBuiltInLeftTextSize.toFloat()
 
-                rightText = headTitleGeneralRightText
-                rightIcon = headTitleGeneralRightIcon
-                rightTextColor = headTitleGeneralRightTextColor
-                rightTextSize = headTitleGeneralRightTextSize.toFloat()
+                rightText = headTitleBuiltInRightText
+                rightIcon = headTitleBuiltInRightIcon
+                rightTextColor = headTitleBuiltInRightTextColor
+                rightTextSize = headTitleBuiltInRightTextSize.toFloat()
 
                 centerMainTitleText = headTitleGeneralCenterMainText
                 centerMainTitleTextColor = headTitleGeneralCenterMainTextColor
@@ -330,10 +338,11 @@ class HeadTitleBar : FrameLayout, View.OnLayoutChangeListener {
                 isSoftInputKeyBoard = headTitleSearchSoftInputKeyBoard
 
                 centerSearchHint = headTitleSearchHint
+                centerSearchText = headTitleSearchText
                 centerSearchHintColor = headTitleSearchHintColor
                 centerSearchLeftIcon = headTitleSearchLeftIcon
 
-                centerSearchTextSize =headTitleSearchTextSize.toFloat()
+                centerSearchTextSize = headTitleSearchTextSize.toFloat()
                 centerSearchTextColor = headTitleSearchTextColor
                 this.templateSearchDrawable = builderDrawable {
                     supportGradient = headTitleSearchSupportGradient
@@ -341,10 +350,10 @@ class HeadTitleBar : FrameLayout, View.OnLayoutChangeListener {
                     gradientTo = headTitleSearchGradientTo
                     backgroundColor = headTitleSearchBackgroundColor
                     radianLeftTop = headTitleSearchRadianLeftTop
-                    radianLeftBottom =headTitleSearchRadianLeftBottom
-                    radianRightTop =headTitleSearchRadianRightTop
-                    radianRightBottom =headTitleSearchRadianRightBottom
-                    radians =headTitleSearchRadians
+                    radianLeftBottom = headTitleSearchRadianLeftBottom
+                    radianRightTop = headTitleSearchRadianRightTop
+                    radianRightBottom = headTitleSearchRadianRightBottom
+                    radians = headTitleSearchRadians
                     strokeWidth = headTitleSearchStrokeWidth
                     strokeColor = headTitleSearchStrokeColor
                     strokeDashWidth = headTitleSearchStrokeDashWidth
@@ -378,19 +387,49 @@ class HeadTitleBar : FrameLayout, View.OnLayoutChangeListener {
             )
         }
 
-        templateDrawable=builderDrawable {
+        templateDrawable = builderDrawable {
             supportGradient = headTitleBarSupportGradient
             gradientFrom = headTitleBarGradientFrom
             gradientTo = headTitleBarGradientTo
             backgroundColor = headTitleBarBackgroundColor
             this
         }
-        background =  templateDrawable
+        background = templateDrawable
         typedArray.recycle()
 
     }
 
+    companion object{
+        const val HEAD_TITLE = "head_title"
+        const val  SAVE_HEAD_SEARCH_TEXT = "save_head_search_text"
+        const val  SAVE_HEAD_SEARCH_SELECTION = "save_head_search_selection"
+    }
+    override fun onSaveInstanceState(): Parcelable? {
+        if (headTitleStyle ==HeadTitleStyle.SEARCH.ordinal) {
+            val bundle = Bundle()
+            val parcelable = super.onSaveInstanceState()
+            bundle.putParcelable(HEAD_TITLE, parcelable)
+            bundle.putSerializable(SAVE_HEAD_SEARCH_TEXT, builtInTitle.centerSearchView.text.toString())
+            bundle.putSerializable(SAVE_HEAD_SEARCH_SELECTION, builtInTitle.centerSearchView.selectionStart)
+        return bundle
+        }else{
+            return super.onSaveInstanceState()
+        }
 
+    }
+
+    override fun onRestoreInstanceState(state: Parcelable?) {
+        if (headTitleStyle ==HeadTitleStyle.SEARCH.ordinal) {
+            val bundle = (state as Bundle)
+            val parcelable: Parcelable? = bundle.getParcelable(HEAD_TITLE)
+            var searchText = bundle.getSerializable(SAVE_HEAD_SEARCH_TEXT) as String
+            builtInTitle.centerSearchView?.setText(searchText)
+            builtInTitle.centerSearchView.setSelection(bundle.getSerializable(SAVE_HEAD_SEARCH_SELECTION) as Int)
+            super.onRestoreInstanceState(parcelable)
+        }else{
+            super.onRestoreInstanceState(state)
+        }
+    }
 
     override fun onLayoutChange(
         v: View?,
@@ -411,10 +450,10 @@ class HeadTitleBar : FrameLayout, View.OnLayoutChangeListener {
                 this
             }
         }
-//        post {
-//            // 这里再次监听需要延迟，否则会导致递归的情况发生
-//            addOnLayoutChangeListener(this@HeadTitleBar)
-//        }
+        //post {
+            // 这里再次监听需要延迟，否则会导致递归的情况发生
+            //addOnLayoutChangeListener(this@HeadTitleBar)
+        //}
     }
 
     override fun onAttachedToWindow() {
@@ -455,7 +494,7 @@ class HeadTitleBar : FrameLayout, View.OnLayoutChangeListener {
 
     fun setHeadTitleBarBackgroundColor(@ColorInt headTitleBarBackgroundColor: Int) {
         this.headTitleBarBackgroundColor = headTitleBarBackgroundColor
-        background = modifyDrawable(templateDrawable){
+        background = modifyDrawable(templateDrawable) {
             setBackgroundColor(this@HeadTitleBar.headTitleBarBackgroundColor)
             this
         }
@@ -463,7 +502,7 @@ class HeadTitleBar : FrameLayout, View.OnLayoutChangeListener {
 
     fun setHeadTitleBarSupportGradient(headTitleBarSupportGradient: Boolean) {
         this.headTitleBarSupportGradient = headTitleBarSupportGradient
-        background = modifyDrawable(templateDrawable){
+        background = modifyDrawable(templateDrawable) {
             setSupportGradient(this@HeadTitleBar.headTitleBarSupportGradient)
             this
         }
@@ -471,7 +510,7 @@ class HeadTitleBar : FrameLayout, View.OnLayoutChangeListener {
 
     fun setHeadTitleBarGradientFrom(@ColorInt headTitleBarGradientFrom: Int) {
         this.headTitleBarGradientFrom = headTitleBarGradientFrom
-        background = modifyDrawable(templateDrawable){
+        background = modifyDrawable(templateDrawable) {
             setGradientFrom(this@HeadTitleBar.headTitleBarGradientFrom)
             this
         }
@@ -479,7 +518,7 @@ class HeadTitleBar : FrameLayout, View.OnLayoutChangeListener {
 
     fun setHeadTitleBarGradientTo(@ColorInt headTitleBarGradientTo: Int) {
         this.headTitleBarGradientTo = headTitleBarGradientTo
-        background = modifyDrawable(templateDrawable){
+        background = modifyDrawable(templateDrawable) {
             setGradientTo(this@HeadTitleBar.headTitleBarGradientTo)
             this
         }
@@ -490,10 +529,10 @@ class HeadTitleBar : FrameLayout, View.OnLayoutChangeListener {
     }
 
     fun getBuiltInTitle(): BuiltInImpl {
-        if (this::builtInTitle.isInitialized){
+        if (this::builtInTitle.isInitialized) {
             return builtInTitle
-        }else{
-           throw UninitializedPropertyAccessException("内置风格类型的标题未初始化！")
+        } else {
+            throw UninitializedPropertyAccessException("内置风格类型的标题未初始化！")
         }
     }
 

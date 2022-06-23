@@ -223,23 +223,23 @@
             <enum name="search" value="1" />
             <enum name="custom" value="2" />
         </attr>
-        <!--通用标题模版左侧文本-->
-        <attr name="headTitleGeneralLeftText" format="string"/>
-        <!--通用标题模版左侧图标-->
-        <attr name="headTitleGeneralLeftIcon" format="reference"/>
-        <!--通用标题模版左侧文字大小-->
-        <attr name="headTitleGeneralLeftTextSize" format="dimension"/>
-        <!--通用标题模版左侧文字颜色-->
-        <attr name="headTitleGeneralLeftTextColor" format="color"/>
+        <!--内置标题模版左侧文本-->
+        <attr name="headTitleBuiltInLeftText" format="string"/>
+        <!--内置标题模版左侧图标-->
+        <attr name="headTitleBuiltInLeftIcon" format="reference"/>
+        <!--内置标题模版左侧文字大小-->
+        <attr name="headTitleBuiltInLeftTextSize" format="dimension"/>
+        <!--内置标题模版左侧文字颜色-->
+        <attr name="headTitleBuiltInLeftTextColor" format="color"/>
 
-        <!--通用标题模版右侧文本-->
-        <attr name="headTitleGeneralRightText" format="string"/>
-        <!--通用标题模版右侧图标-->
-        <attr name="headTitleGeneralRightIcon" format="reference"/>
-        <!--通用标题模版右侧文字大小-->
-        <attr name="headTitleGeneralRightTextSize" format="dimension"/>
-        <!--通用标题模版右侧文字颜色-->
-        <attr name="headTitleGeneralRightTextColor" format="color"/>
+        <!--内置标题模版右侧文本-->
+        <attr name="headTitleBuiltInRightText" format="string"/>
+        <!--内置标题模版右侧图标-->
+        <attr name="headTitleBuiltInRightIcon" format="reference"/>
+        <!--内置标题模版右侧文字大小-->
+        <attr name="headTitleBuiltInRightTextSize" format="dimension"/>
+        <!--内置标题模版右侧文字颜色-->
+        <attr name="headTitleBuiltInRightTextColor" format="color"/>
 
         <!--通用标题模版中间主标题文本-->
         <attr name="headTitleGeneralCenterMainText" format="string"/>
@@ -264,6 +264,8 @@
         <attr name="headTitleSearchSoftInputKeyBoard" format="boolean" />
         <!--搜索标题栏的输入框左侧图标-->
         <attr name="headTitleSearchLeftIcon" format="reference" />
+        <!--搜索标题栏的输入框文本-->
+        <attr name="headTitleSearchText" format="string"/>
         <!--搜索标题栏的输入框提示性文本-->
         <attr name="headTitleSearchHint" format="string" />
         <!--搜索标题栏的输入框提示性文本-->

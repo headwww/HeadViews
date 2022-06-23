@@ -13,6 +13,7 @@ class EditTextViewViewModel : ViewModel() {
     var check1:MutableLiveData<Boolean> = MutableLiveData(false)
     var check2:MutableLiveData<Boolean> = MutableLiveData(false)
     var check3:MutableLiveData<Boolean> = MutableLiveData(false)
+    var text:MutableLiveData<String> = MutableLiveData("false")
     fun leftClick(v: HeadEditTextView){
         Log.e("===","leftClick")
     }

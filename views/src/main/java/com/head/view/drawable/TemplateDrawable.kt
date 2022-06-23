@@ -1,6 +1,5 @@
-package com.head.view.utils
+package com.head.view.drawable
 
-import android.content.Context
 import android.graphics.Color
 import android.graphics.drawable.GradientDrawable
 

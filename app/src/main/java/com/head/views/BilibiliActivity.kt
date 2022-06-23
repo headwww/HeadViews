@@ -4,8 +4,10 @@ import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.widget.Toast
 import androidx.databinding.DataBindingUtil
+import androidx.lifecycle.ViewModelProvider
 import com.head.view.utils.ScreenUtil
 import com.head.views.databinding.ActivityBilibiliBinding
+import com.head.views.ui.edittext.EditTextViewViewModel
 
 class BilibiliActivity : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -14,6 +16,10 @@ class BilibiliActivity : AppCompatActivity() {
             this,
             R.layout.activity_bilibili
         )
+        var viewModel = ViewModelProvider(this,
+            ViewModelProvider.AndroidViewModelFactory(application)).get(EditTextViewViewModel::class.java)
+        contentView.viewmodel=viewModel
+        contentView.lifecycleOwner = this
         contentView.headTitle01.getBuiltInTitle().setOnRightListener {
             ScreenUtil.hideSoftInputKeyBoard(it)
             finish()

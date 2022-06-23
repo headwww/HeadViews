@@ -20,7 +20,7 @@ class HeadSpinnerAdapter<T>(
 
     private var drawables: MutableList<Drawable?> = arrayListOf()
     private var color: Int = ContextCompat.getColor(context, R.color.spinner_text_default_color)
-    private var size: Float = context.resources.getDimension(R.dimen.spinner_item_default_text_size)
+    private var size: Float = context.resources.getDimension(R.dimen.head_view_default_size)
     private var gravity: Int = -3
 
 

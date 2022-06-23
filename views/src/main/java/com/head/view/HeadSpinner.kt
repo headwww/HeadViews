@@ -19,9 +19,9 @@ import androidx.appcompat.widget.ListPopupWindow
 import androidx.core.content.ContextCompat
 import androidx.core.graphics.drawable.DrawableCompat
 import com.head.view.adapter.HeadSpinnerAdapter
-import com.head.view.utils.TemplateDrawable
-import com.head.view.utils.builderDrawable
-import com.head.view.utils.modifyDrawable
+import com.head.view.drawable.TemplateDrawable
+import com.head.view.drawable.builderDrawable
+import com.head.view.drawable.modifyDrawable
 
 
 /**
@@ -219,7 +219,7 @@ class HeadSpinner<T> : AppCompatTextView, AdapterView.OnItemClickListener {
 
         headSpinnerTextSize = typedArray.getDimension(
             R.styleable.HeadSpinner_headSpinnerTextSize,
-            context.resources.getDimension(R.dimen.spinner_item_default_text_size)
+            context.resources.getDimension(R.dimen.head_view_default_size)
         )
         headSpinnerArrowColor = typedArray.getColor(
             R.styleable.HeadSpinner_headSpinnerArrowColor,

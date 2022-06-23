@@ -17,7 +17,7 @@ import com.head.view.HeadEditTextView
 import com.head.view.HeadTitleBar
 import com.head.view.R
 import com.head.view.utils.ScreenUtil
-import com.head.view.utils.TemplateDrawable
+import com.head.view.drawable.TemplateDrawable
 import kotlin.math.max
 
 /**
@@ -59,6 +59,7 @@ data class BuiltInStyle(
     var centerSubListener: ((v: View) -> Unit)? = null,
     var isSoftInputKeyBoard: Boolean = false,
     var centerSearchHint: CharSequence = "",
+    var centerSearchText: CharSequence = "",
     var centerSearchHintColor: Int = Color.WHITE,
     var centerSearchTextSize: Float = 0F,
     var centerSearchTextColor: Int = Color.WHITE,
@@ -140,7 +141,6 @@ data class BuiltInStyle(
                 resources.getDimension(R.dimen.head_center_search_padding_horizontal).toInt(),
                 resources.getDimension(R.dimen.head_center_search_padding_vertical).toInt(),
             )
-
             ellipsize = null
             isSingleLine = true
         }
@@ -173,7 +173,7 @@ data class BuiltInStyle(
     override fun leftTextSize(size: Float): BuiltInImpl {
         leftTextSize = size
         leftTextView.paint.textSize = if (leftTextSize == 0F) mContext!!
-            .resources.getDimension(R.dimen.head_left_textview_size)
+            .resources.getDimension(R.dimen.head_view_default_size)
         else leftTextSize
         return this
     }
@@ -217,7 +217,7 @@ data class BuiltInStyle(
     override fun rightTextSize(size: Float): BuiltInImpl {
         rightTextSize = size
         rightTextView.paint.textSize =
-            if (rightTextSize == 0F) mContext!!.resources.getDimension(R.dimen.head_right_textview_size) else rightTextSize
+            if (rightTextSize == 0F) mContext!!.resources.getDimension(R.dimen.head_view_default_size) else rightTextSize
 
         return this
     }
@@ -252,7 +252,7 @@ data class BuiltInStyle(
     override fun centerMainTextSize(size: Float): BuiltInImpl {
         centerMainTitleTextSize = size
         centerMainTitleTextView.paint.textSize =
-            if (centerMainTitleTextSize == 0F) mContext!!.resources.getDimension(R.dimen.head_center_main_textview_size) else centerMainTitleTextSize
+            if (centerMainTitleTextSize == 0F) mContext!!.resources.getDimension(R.dimen.head_view_default_size) else centerMainTitleTextSize
 
         return this
 
@@ -384,6 +384,13 @@ data class BuiltInStyle(
         return this
     }
 
+    override fun setSearchText(text: CharSequence): BuiltInImpl {
+        this.centerSearchText = text
+        centerSearchView.setText(centerSearchText)
+        centerSearchView.setSelection(centerSearchText.length)
+        return this
+    }
+
     override fun setSearchHintColor(color: Int): BuiltInImpl {
         this.centerSearchHintColor = color
         centerSearchView.setHintTextColor(centerSearchHintColor)
@@ -400,7 +407,7 @@ data class BuiltInStyle(
     override fun setSearchTextSize(size: Float): BuiltInImpl {
         this.centerSearchTextSize = size
         centerSearchView.paint.textSize = if (centerSearchTextSize == 0F) mContext!!
-            .resources.getDimension(R.dimen.head_left_textview_size)
+            .resources.getDimension(R.dimen.head_view_default_size)
         else centerSearchTextSize
         return this
     }
@@ -444,6 +451,7 @@ fun builderTitle(context: Context?, builder: BuiltInStyle.() -> BuiltInStyle) =
         if (style == HeadTitleBar.HeadTitleStyle.SEARCH.ordinal) {
             this.setSearchSoftInputKeyBoard(isSoftInputKeyBoard)
                 .setSearchHint(centerSearchHint)
+                .setSearchText(centerSearchText)
                 .setSearchHintColor(centerSearchHintColor)
                 .setSearchLeftIcon(centerSearchLeftIcon)
                 .setSearchAttribute(templateSearchDrawable)

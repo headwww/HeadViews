@@ -10,9 +10,9 @@ import android.view.MotionEvent
 import androidx.annotation.ColorInt
 import androidx.appcompat.widget.AppCompatEditText
 import androidx.core.content.ContextCompat
-import com.head.view.utils.TemplateDrawable
-import com.head.view.utils.builderDrawable
-import com.head.view.utils.modifyDrawable
+import com.head.view.drawable.TemplateDrawable
+import com.head.view.drawable.builderDrawable
+import com.head.view.drawable.modifyDrawable
 
 
 /**
@@ -177,7 +177,7 @@ class HeadEditTextView :
      */
     private var drawableInitRight: Drawable? = null
 
-    private lateinit var templateDrawable:TemplateDrawable
+    private lateinit var templateDrawable: TemplateDrawable
 
     private fun init(attrs: AttributeSet? = null, defStyleAttr: Int? = null) {
 

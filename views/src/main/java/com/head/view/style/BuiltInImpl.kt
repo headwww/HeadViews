@@ -3,7 +3,7 @@ package com.head.view.style
 import android.view.View
 import androidx.annotation.ColorInt
 import androidx.annotation.DrawableRes
-import com.head.view.utils.TemplateDrawable
+import com.head.view.drawable.TemplateDrawable
 
 
 interface BuiltInImpl {
@@ -13,7 +13,6 @@ interface BuiltInImpl {
     fun leftTextSize(size: Float): BuiltInImpl
     fun leftTextColor(@ColorInt color: Int): BuiltInImpl
     fun setOnLeftListener(listener: (v: View) -> Unit): BuiltInImpl
-
 
     fun rightIcon(@DrawableRes icon: Int): BuiltInImpl
     fun rightText(text: CharSequence): BuiltInImpl
@@ -39,6 +38,7 @@ interface BuiltInImpl {
     fun setSearchSoftInputKeyBoard(isShow: Boolean): BuiltInImpl
     fun setSearchLeftIcon(iconRes: Int): BuiltInImpl
     fun setSearchHint(text: CharSequence): BuiltInImpl
+    fun setSearchText(text: CharSequence): BuiltInImpl
     fun setSearchHintColor(@ColorInt color: Int): BuiltInImpl
     fun setSearchTextColor(@ColorInt color: Int): BuiltInImpl
     fun setSearchTextSize(size: Float): BuiltInImpl
