@@ -128,7 +128,7 @@
             android:min="0"
             android:progress="@={viewModel.progress1}"
             app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintHorizontal_bias="0.531"
+            app:layout_constraintHorizontal_bias="1.0"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/textView8" />
 
@@ -188,7 +188,8 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="不可编辑"
-                android:textColor="@color/textColor" />
+                android:textColor="@color/textColor"
+                tools:ignore="TouchTargetSizeCheck,TouchTargetSizeCheck" />
 
             <CheckBox
                 android:id="@+id/checkbox2"
@@ -196,7 +197,8 @@
                 android:layout_height="wrap_content"
                 android:checked="@={viewModel.check1}"
                 android:text="是否渐变"
-                android:textColor="@color/textColor" />
+                android:textColor="@color/textColor"
+                tools:ignore="TouchTargetSizeCheck" />
 
             <CheckBox
                 android:id="@+id/checkbox3"
@@ -204,7 +206,8 @@
                 android:layout_height="wrap_content"
                 android:checked="@={viewModel.check2}"
                 android:text="清空功能"
-                android:textColor="@color/textColor" />
+                android:textColor="@color/textColor"
+                tools:ignore="TouchTargetSizeCheck" />
 
             <CheckBox
                 android:id="@+id/checkbox4"
@@ -212,7 +215,8 @@
                 android:layout_height="wrap_content"
                 android:checked="@={viewModel.check3}"
                 android:text="清空图标常驻"
-                android:textColor="@color/textColor" />
+                android:textColor="@color/textColor"
+                tools:ignore="TouchTargetSizeCheck" />
         </LinearLayout>
 
         <com.flask.colorpicker.ColorPickerView
@@ -228,6 +232,19 @@
             app:layout_constraintTop_toBottomOf="@+id/textView2"
             app:lightnessSlider="true"
             app:wheelType="FLOWER" />
+
+        <com.head.view.HeadEditTextView
+            android:id="@+id/headEditTextView2"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="18dp"
+            android:drawableRight="@drawable/ic_baseline_add_circle_outline_24"
+            android:text="com.head.view.HeadEditTextView"
+            app:headEditTextClear="false"
+            app:headEditTextClearIcon="false"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/color_picker_view" />
 
 
     </androidx.constraintlayout.widget.ConstraintLayout>
