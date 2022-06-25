@@ -468,18 +468,18 @@ fun modifyTitle(
 ) = builtIn.apply {
     centerLinearLayout.removeAllViews()
     if (style == HeadTitleBar.HeadTitleStyle.GENERAL.ordinal) {
-        measureGeneral()(modify(builtIn))
+        setGeneralViewScaleValues()(modify(builtIn))
         centerLinearLayout.addView(centerMainTitleTextView)
         if (centerSubTitleText != "") centerLinearLayout.addView(centerSubTitleTextView)
     }
     if (style == HeadTitleBar.HeadTitleStyle.SEARCH.ordinal) {
-        measureSearch()(modify(builtIn))
+        setSearchViewScaleValues()(modify(builtIn))
         centerLinearLayout.addView(centerSearchView)
     }
 
 }
 
-private fun measureSearch(): BuiltInStyle.() -> Unit {
+private fun setSearchViewScaleValues(): BuiltInStyle.() -> Unit {
     return {
         layoutChange?.let {
             val barWidth: Int = it.right - it.left
@@ -514,7 +514,7 @@ private fun measureSearch(): BuiltInStyle.() -> Unit {
     }
 }
 
-private fun measureGeneral(): BuiltInStyle.() -> Unit {
+private fun setGeneralViewScaleValues(): BuiltInStyle.() -> Unit {
     return {
         //测量左中右的位置
         layoutChange?.let {

@@ -12,8 +12,8 @@ import android.view.View
 import android.widget.FrameLayout
 import androidx.annotation.ColorInt
 import com.head.view.drawable.TemplateDrawable
-import com.head.view.drawable.builderDrawable
-import com.head.view.drawable.modifyDrawable
+import com.head.view.drawable.builderTemplateDrawable
+import com.head.view.drawable.modifyTemplateDrawable
 import com.head.view.style.*
 import com.head.view.utils.StatusBarUtil
 
@@ -344,7 +344,7 @@ class HeadTitleBar : FrameLayout, View.OnLayoutChangeListener {
 
                 centerSearchTextSize = headTitleSearchTextSize.toFloat()
                 centerSearchTextColor = headTitleSearchTextColor
-                this.templateSearchDrawable = builderDrawable {
+                this.templateSearchDrawable = builderTemplateDrawable {
                     supportGradient = headTitleSearchSupportGradient
                     gradientFrom = headTitleSearchGradientFrom
                     gradientTo = headTitleSearchGradientTo
@@ -387,7 +387,7 @@ class HeadTitleBar : FrameLayout, View.OnLayoutChangeListener {
             )
         }
 
-        templateDrawable = builderDrawable {
+        templateDrawable = builderTemplateDrawable {
             supportGradient = headTitleBarSupportGradient
             gradientFrom = headTitleBarGradientFrom
             gradientTo = headTitleBarGradientTo
@@ -494,7 +494,7 @@ class HeadTitleBar : FrameLayout, View.OnLayoutChangeListener {
 
     fun setHeadTitleBarBackgroundColor(@ColorInt headTitleBarBackgroundColor: Int) {
         this.headTitleBarBackgroundColor = headTitleBarBackgroundColor
-        background = modifyDrawable(templateDrawable) {
+        background = modifyTemplateDrawable(templateDrawable) {
             setBackgroundColor(this@HeadTitleBar.headTitleBarBackgroundColor)
             this
         }
@@ -502,7 +502,7 @@ class HeadTitleBar : FrameLayout, View.OnLayoutChangeListener {
 
     fun setHeadTitleBarSupportGradient(headTitleBarSupportGradient: Boolean) {
         this.headTitleBarSupportGradient = headTitleBarSupportGradient
-        background = modifyDrawable(templateDrawable) {
+        background = modifyTemplateDrawable(templateDrawable) {
             setSupportGradient(this@HeadTitleBar.headTitleBarSupportGradient)
             this
         }
@@ -510,7 +510,7 @@ class HeadTitleBar : FrameLayout, View.OnLayoutChangeListener {
 
     fun setHeadTitleBarGradientFrom(@ColorInt headTitleBarGradientFrom: Int) {
         this.headTitleBarGradientFrom = headTitleBarGradientFrom
-        background = modifyDrawable(templateDrawable) {
+        background = modifyTemplateDrawable(templateDrawable) {
             setGradientFrom(this@HeadTitleBar.headTitleBarGradientFrom)
             this
         }
@@ -518,7 +518,7 @@ class HeadTitleBar : FrameLayout, View.OnLayoutChangeListener {
 
     fun setHeadTitleBarGradientTo(@ColorInt headTitleBarGradientTo: Int) {
         this.headTitleBarGradientTo = headTitleBarGradientTo
-        background = modifyDrawable(templateDrawable) {
+        background = modifyTemplateDrawable(templateDrawable) {
             setGradientTo(this@HeadTitleBar.headTitleBarGradientTo)
             this
         }

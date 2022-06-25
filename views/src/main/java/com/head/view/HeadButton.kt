@@ -6,7 +6,7 @@ import android.graphics.Color
 import android.graphics.drawable.StateListDrawable
 import android.util.AttributeSet
 import androidx.appcompat.widget.AppCompatButton
-import com.head.view.drawable.builderDrawable
+import com.head.view.drawable.builderTemplateDrawable
 
 
 /**
@@ -271,7 +271,7 @@ class HeadButton : AppCompatButton {
             intArrayOf(
                 -android.R.attr.state_pressed,
                 android.R.attr.state_enabled
-            ), builderDrawable {
+            ), builderTemplateDrawable {
                 supportGradient = headButtonNormalSupportGradient
                 gradientFrom = headButtonNormalGradientFrom
                 gradientTo = headButtonNormalGradientTo
@@ -296,7 +296,7 @@ class HeadButton : AppCompatButton {
             intArrayOf(
                 android.R.attr.state_pressed,
                 android.R.attr.state_enabled
-            ), builderDrawable {
+            ), builderTemplateDrawable {
                 supportGradient = headButtonPressedSupportGradient
                 gradientFrom = headButtonPressedGradientFrom
                 gradientTo = headButtonPressedGradientTo
@@ -316,7 +316,7 @@ class HeadButton : AppCompatButton {
         //禁止状态
         addState(
             intArrayOf(-android.R.attr.state_enabled),
-            builderDrawable {
+            builderTemplateDrawable {
                 supportGradient = headButtonEnabledSupportGradient
                 gradientFrom = headButtonEnabledGradientFrom
                 gradientTo = headButtonEnabledGradientTo

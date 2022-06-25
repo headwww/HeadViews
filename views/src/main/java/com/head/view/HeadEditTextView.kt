@@ -11,8 +11,8 @@ import androidx.annotation.ColorInt
 import androidx.appcompat.widget.AppCompatEditText
 import androidx.core.content.ContextCompat
 import com.head.view.drawable.TemplateDrawable
-import com.head.view.drawable.builderDrawable
-import com.head.view.drawable.modifyDrawable
+import com.head.view.drawable.builderTemplateDrawable
+import com.head.view.drawable.modifyTemplateDrawable
 
 
 /**
@@ -151,7 +151,7 @@ class HeadEditTextView :
             EditTextType.EDITTEXT.ordinal
         )
         isOpenClear()
-        templateDrawable = builderDrawable {
+        templateDrawable = builderTemplateDrawable {
             supportGradient = headEditTextSupportGradient
             gradientFrom = headEditTextGradientFrom
             gradientTo = headEditTextGradientTo
@@ -377,7 +377,7 @@ class HeadEditTextView :
 
     fun setHeadEditTextBackgroundColor(@ColorInt color: Int) {
         headEditTextBackgroundColor = color
-        background = modifyDrawable(templateDrawable) {
+        background = modifyTemplateDrawable(templateDrawable) {
             setBackgroundColor(headEditTextBackgroundColor)
             this
         }
@@ -385,7 +385,7 @@ class HeadEditTextView :
 
     fun setHeadEditTextSupportGradient(support: Boolean) {
         headEditTextSupportGradient = support
-        background = modifyDrawable(templateDrawable) {
+        background = modifyTemplateDrawable(templateDrawable) {
             setSupportGradient(headEditTextSupportGradient)
             this
         }
@@ -393,7 +393,7 @@ class HeadEditTextView :
 
     fun setHeadEditTextGradientFrom(@ColorInt color: Int) {
         headEditTextGradientFrom = color
-        background = modifyDrawable(templateDrawable) {
+        background = modifyTemplateDrawable(templateDrawable) {
             setGradientFrom(headEditTextGradientFrom)
             this
         }
@@ -401,7 +401,7 @@ class HeadEditTextView :
 
     fun setHeadEditTextGradientTo(@ColorInt color: Int) {
         headEditTextGradientTo = color
-        background = modifyDrawable(templateDrawable) {
+        background = modifyTemplateDrawable(templateDrawable) {
             setGradientTo(headEditTextGradientTo)
             this
         }
@@ -409,7 +409,7 @@ class HeadEditTextView :
 
     fun setHeadEditTextRadians(radian: Float) {
         headEditTextRadians = radian
-        background = modifyDrawable(templateDrawable) {
+        background = modifyTemplateDrawable(templateDrawable) {
             setRadians(headEditTextRadians.toFloat())
             this
         }
@@ -417,7 +417,7 @@ class HeadEditTextView :
 
     fun setHeadEditTextRadianLeftTop(radian: Float) {
         headEditTextRadianLeftTop = radian
-        background = modifyDrawable(templateDrawable) {
+        background = modifyTemplateDrawable(templateDrawable) {
             setRadianLeftTop(headEditTextRadianLeftTop.toFloat())
             this
         }
@@ -425,7 +425,7 @@ class HeadEditTextView :
 
     fun setHeadEditTextRadianLeftBottom(radian: Float) {
         headEditTextRadianLeftBottom = radian
-        background = modifyDrawable(templateDrawable) {
+        background = modifyTemplateDrawable(templateDrawable) {
             setRadianLeftBottom(headEditTextRadianLeftBottom.toFloat())
             this
         }
@@ -433,7 +433,7 @@ class HeadEditTextView :
 
     fun setHeadEditTextRadianRightTop(radian: Float) {
         headEditTextRadianRightTop = radian
-        background = modifyDrawable(templateDrawable) {
+        background = modifyTemplateDrawable(templateDrawable) {
             setRadianRightTop(headEditTextRadianRightTop.toFloat())
             this
         }
@@ -441,7 +441,7 @@ class HeadEditTextView :
 
     fun setHeadEditTextRadianRightBottom(radian: Float) {
         headEditTextRadianRightBottom = radian
-        background = modifyDrawable(templateDrawable) {
+        background = modifyTemplateDrawable(templateDrawable) {
             setRadianRightBottom(headEditTextRadianRightBottom.toFloat())
             this
         }
@@ -455,7 +455,7 @@ class HeadEditTextView :
 
     fun setHeadEditTextStrokeColor(@ColorInt color: Int) {
         headEditTextStrokeColor = color
-        background = modifyDrawable(templateDrawable) {
+        background = modifyTemplateDrawable(templateDrawable) {
             setStrokeColor(headEditTextStrokeColor)
             this
         }
@@ -464,7 +464,7 @@ class HeadEditTextView :
 
     fun setHeadEditTextStrokeWidth(width: Float) {
         headEditTextStrokeWidth = width
-        background = modifyDrawable(templateDrawable) {
+        background = modifyTemplateDrawable(templateDrawable) {
             setStrokeWidth(headEditTextStrokeWidth)
             this
         }
@@ -472,7 +472,7 @@ class HeadEditTextView :
 
     fun setHeadEditTextStrokeDashWidth(width: Float) {
         headEditTextStrokeDashWidth = width
-        background = modifyDrawable(templateDrawable) {
+        background = modifyTemplateDrawable(templateDrawable) {
             setStrokeDashWidth(headEditTextStrokeDashWidth)
             this
         }
@@ -480,7 +480,7 @@ class HeadEditTextView :
 
     fun setHeadEditTextStrokeDashGap(gap: Float) {
         headEditTextStrokeDashGap = gap
-        background = modifyDrawable(templateDrawable) {
+        background = modifyTemplateDrawable(templateDrawable) {
             setStrokeDashGap(headEditTextStrokeDashGap)
             this
         }

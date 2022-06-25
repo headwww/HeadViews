@@ -31,6 +31,12 @@ class HeadBottomNavigation  : FrameLayout {
     }
 
     private fun init(attrs: AttributeSet? = null, defStyleAttr: Int? = null) {
+       val navigationItemView =  NavigationItemView(context)
+        setOnClickListener {
+            navigationItemView.toggle()
+        }
+        addView(navigationItemView)
+
     }
 
 }

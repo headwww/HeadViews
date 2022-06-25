@@ -20,8 +20,8 @@ import androidx.core.content.ContextCompat
 import androidx.core.graphics.drawable.DrawableCompat
 import com.head.view.adapter.HeadSpinnerAdapter
 import com.head.view.drawable.TemplateDrawable
-import com.head.view.drawable.builderDrawable
-import com.head.view.drawable.modifyDrawable
+import com.head.view.drawable.builderTemplateDrawable
+import com.head.view.drawable.modifyTemplateDrawable
 
 
 /**
@@ -249,7 +249,7 @@ class HeadSpinner<T> : AppCompatTextView, AdapterView.OnItemClickListener {
         popupWindow.verticalOffset = headSpinnerVerticalOffset.toInt()
         popupWindow.isModal = true
 
-        templateDrawable = builderDrawable {
+        templateDrawable = builderTemplateDrawable {
             supportGradient = headSpinnerSupportGradient
             gradientFrom = headSpinnerGradientFrom
             gradientTo = headSpinnerGradientTo
@@ -433,7 +433,7 @@ class HeadSpinner<T> : AppCompatTextView, AdapterView.OnItemClickListener {
 
     fun setHeadSpinnerBackgroundColor(@ColorInt color: Int) {
         headSpinnerBackgroundColor = color
-        background = modifyDrawable(templateDrawable) {
+        background = modifyTemplateDrawable(templateDrawable) {
             setBackgroundColor(headSpinnerBackgroundColor)
             this
         }
@@ -441,7 +441,7 @@ class HeadSpinner<T> : AppCompatTextView, AdapterView.OnItemClickListener {
 
     fun setHeadSpinnerSupportGradient(support: Boolean) {
         headSpinnerSupportGradient = support
-        background = modifyDrawable(templateDrawable) {
+        background = modifyTemplateDrawable(templateDrawable) {
             setSupportGradient(headSpinnerSupportGradient)
             this
         }
@@ -449,7 +449,7 @@ class HeadSpinner<T> : AppCompatTextView, AdapterView.OnItemClickListener {
 
     fun setHeadSpinnerGradientFrom(@ColorInt color: Int) {
         headSpinnerGradientFrom = color
-        background = modifyDrawable(templateDrawable) {
+        background = modifyTemplateDrawable(templateDrawable) {
             setGradientFrom(headSpinnerGradientFrom)
             this
         }
@@ -457,7 +457,7 @@ class HeadSpinner<T> : AppCompatTextView, AdapterView.OnItemClickListener {
 
     fun setHeadSpinnerGradientTo(@ColorInt color: Int) {
         headSpinnerGradientTo = color
-        background = modifyDrawable(templateDrawable) {
+        background = modifyTemplateDrawable(templateDrawable) {
             setGradientTo(headSpinnerGradientTo)
             this
         }
@@ -465,7 +465,7 @@ class HeadSpinner<T> : AppCompatTextView, AdapterView.OnItemClickListener {
 
     fun setHeadSpinnerRadians(radian: Float) {
         headSpinnerRadians = radian
-        background = modifyDrawable(templateDrawable) {
+        background = modifyTemplateDrawable(templateDrawable) {
             setRadians(headSpinnerRadians.toFloat())
             this
         }
@@ -473,7 +473,7 @@ class HeadSpinner<T> : AppCompatTextView, AdapterView.OnItemClickListener {
 
     fun setHeadSpinnerRadianLeftTop(radian: Float) {
         headSpinnerRadianLeftTop = radian
-        background = modifyDrawable(templateDrawable) {
+        background = modifyTemplateDrawable(templateDrawable) {
             setRadianLeftTop(headSpinnerRadianLeftTop.toFloat())
             this
         }
@@ -481,7 +481,7 @@ class HeadSpinner<T> : AppCompatTextView, AdapterView.OnItemClickListener {
 
     fun setHeadSpinnerRadianLeftBottom(radian: Float) {
         headSpinnerRadianLeftBottom = radian
-        background = modifyDrawable(templateDrawable) {
+        background = modifyTemplateDrawable(templateDrawable) {
             setRadianLeftBottom(headSpinnerRadianLeftBottom.toFloat())
             this
         }
@@ -489,7 +489,7 @@ class HeadSpinner<T> : AppCompatTextView, AdapterView.OnItemClickListener {
 
     fun setHeadSpinnerRadianRightTop(radian: Float) {
         headSpinnerRadianRightTop = radian
-        background = modifyDrawable(templateDrawable) {
+        background = modifyTemplateDrawable(templateDrawable) {
             setRadianRightTop(headSpinnerRadianRightTop.toFloat())
             this
         }
@@ -497,7 +497,7 @@ class HeadSpinner<T> : AppCompatTextView, AdapterView.OnItemClickListener {
 
     fun setHeadSpinnerRadianRightBottom(radian: Float) {
         headSpinnerRadianRightBottom = radian
-        background = modifyDrawable(templateDrawable) {
+        background = modifyTemplateDrawable(templateDrawable) {
             setRadianRightBottom(headSpinnerRadianRightBottom.toFloat())
             this
         }
@@ -505,7 +505,7 @@ class HeadSpinner<T> : AppCompatTextView, AdapterView.OnItemClickListener {
 
     fun setHeadSpinnerStrokeColor(@ColorInt color: Int) {
         headSpinnerStrokeColor = color
-        background = modifyDrawable(templateDrawable) {
+        background = modifyTemplateDrawable(templateDrawable) {
             setStrokeColor(headSpinnerStrokeColor)
             this
         }
@@ -513,7 +513,7 @@ class HeadSpinner<T> : AppCompatTextView, AdapterView.OnItemClickListener {
 
     fun setHeadSpinnerStrokeWidth(width: Float) {
         headSpinnerStrokeWidth = width
-        background = modifyDrawable(templateDrawable) {
+        background = modifyTemplateDrawable(templateDrawable) {
             setStrokeWidth(headSpinnerStrokeWidth)
             this
         }
@@ -521,7 +521,7 @@ class HeadSpinner<T> : AppCompatTextView, AdapterView.OnItemClickListener {
 
     fun setHeadSpinnerStrokeDashWidth(width: Float) {
         headSpinnerStrokeDashWidth = width
-        background = modifyDrawable(templateDrawable) {
+        background = modifyTemplateDrawable(templateDrawable) {
             setStrokeDashWidth(headSpinnerStrokeDashWidth)
             this
         }
@@ -529,7 +529,7 @@ class HeadSpinner<T> : AppCompatTextView, AdapterView.OnItemClickListener {
 
     fun setHeadSpinnerStrokeDashGap(gap: Float) {
         headSpinnerStrokeDashGap = gap
-        background = modifyDrawable(templateDrawable) {
+        background = modifyTemplateDrawable(templateDrawable) {
             setStrokeDashGap(headSpinnerStrokeDashGap)
             this
         }

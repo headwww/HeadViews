@@ -141,7 +141,7 @@ class TemplateDrawable(
     }
 }
 
-fun builderDrawable(builder: TemplateDrawable.() -> TemplateDrawable) = TemplateDrawable().apply {
+fun builderTemplateDrawable(builder: TemplateDrawable.() -> TemplateDrawable) = TemplateDrawable().apply {
     builder(this)
     shape = GradientDrawable.RECTANGLE
     this.setSupportGradient(supportGradient)
@@ -157,7 +157,7 @@ fun builderDrawable(builder: TemplateDrawable.() -> TemplateDrawable) = Template
         .setStrokeDashGap(strokeDashGap)
 }
 
-fun modifyDrawable(
+fun modifyTemplateDrawable(
     drawable: TemplateDrawable,
     modify: TemplateDrawable.() -> TemplateDrawable
 ) = drawable.apply {
