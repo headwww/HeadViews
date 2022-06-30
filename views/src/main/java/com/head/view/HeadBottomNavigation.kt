@@ -1,10 +1,12 @@
 package com.head.view
 
 import android.content.Context
+import android.content.res.TypedArray
 import android.util.AttributeSet
-import android.view.View
+import android.view.ViewGroup
 import android.widget.LinearLayout
-import com.head.view.menu.ItemViewState
+import com.head.view.menu.ItemView
+import com.head.view.menu.MenuItemImpl
 
 /**
  *
@@ -14,7 +16,7 @@ import com.head.view.menu.ItemViewState
  * 创建时间：2022/6/23 13:55 <br/>
  * @version
  */
-class HeadBottomNavigation : LinearLayout, View.OnLayoutChangeListener {
+class HeadBottomNavigation : LinearLayout {
 
     constructor(context: Context) : super(context) {
         init()
@@ -30,56 +32,87 @@ class HeadBottomNavigation : LinearLayout, View.OnLayoutChangeListener {
         defStyleAttr
     ) {
         init(attrs, defStyleAttr)
-        addOnLayoutChangeListener(this)
     }
 
 
-    private val navigationItemViews: MutableList<NavigationItemView> = ArrayList()
-    private var itemViewStates: MutableList<ItemViewState> = ArrayList()
+    private var headBottomNavigationClickRipples: Boolean = true
+
+    private var itemViews: MutableList<ItemView> = ArrayList()
+
+    private var menuItemImpl: MutableList<MenuItemImpl> = ArrayList()
+
     private var position: Int = 0
+
+    private var onItemSelectedListener: ((v: ViewGroup, position: Int) -> Unit)? = null
+
     private fun init(attrs: AttributeSet? = null, defStyleAttr: Int? = null) {
         orientation = HORIZONTAL
-        addOnLayoutChangeListener(this)
+        val typedArray: TypedArray =
+            context.obtainStyledAttributes(attrs, R.styleable.HeadBottomNavigation)
+        headBottomNavigationClickRipples = typedArray.getBoolean(
+            R.styleable.HeadBottomNavigation_HeadBottomNavigationClickRipples,
+            true
+        )
+        typedArray.recycle()
 
     }
 
-    fun addItem(itemView: NavigationItemView): HeadBottomNavigation {
-        navigationItemViews.add(itemView)
+    fun getSelectPosition(): Int {
+        return position
+    }
+
+    fun addItem(state: ItemView): HeadBottomNavigation {
+        itemViews.add(state)
+        return this
+    }
+
+    fun firstSelectedPosition(position: Int): HeadBottomNavigation {
+        this.position = position
         return this
     }
 
     fun build() {
-        itemViewStates.addAll(navigationItemViews)
-        for (navigationItemView in navigationItemViews) {
-            navigationItemView.setOnClickListener {
-                for (itemViewState in itemViewStates) {
-                    itemViewState.setChecked(false)
+        val size = itemViews.size
+        if (position !in 0 until size) throw IndexOutOfBoundsException("The setting position is greater than the length of the HeadBottomNavigation!!!")
+        for (i in 0 until size) {
+            menuItemImpl.add(MenuItemImpl().apply {
+                if (position == i) checked = true
+                itemView = itemViews[i]
+                ripples = headBottomNavigationClickRipples
+            })
+            val navigationItemView = NavigationItemView(context).apply {
+                layoutParams = LayoutParams(
+                    ViewGroup.LayoutParams.MATCH_PARENT,
+                    ViewGroup.LayoutParams.MATCH_PARENT,
+                    1.0f
+                )
+
+                initialize(menuItemImpl[i])
+                setOnClickListener {
+                    if (i != position) {
+                        menuItemImpl[position].checked = false
+                        (this@HeadBottomNavigation.getChildAt(position) as NavigationItemView).initialize(
+                            menuItemImpl[position]
+                        )
+                        menuItemImpl[i].checked = true
+                        (this@HeadBottomNavigation.getChildAt(i) as NavigationItemView).initialize(
+                            menuItemImpl[i]
+                        )
+                    }
+                    position = i
+                    this@HeadBottomNavigation.onItemSelectedListener?.invoke(
+                        this@HeadBottomNavigation.getChildAt(
+                            position
+                        ) as ViewGroup, position
+                    )
                 }
-                navigationItemView.setChecked(true)
             }
             addView(navigationItemView)
         }
     }
 
-    override fun onLayoutChange(
-        v: View?,
-        left: Int,
-        top: Int,
-        right: Int,
-        bottom: Int,
-        oldLeft: Int,
-        oldTop: Int,
-        oldRight: Int,
-        oldBottom: Int
-    ) {
-        // 先移除当前的监听，因为子View在setMaxWidth时候会重新触发监听，解决递归
-        removeOnLayoutChangeListener(this)
-        for (item in navigationItemViews) {
-            item.layoutParams.width = (right - left) / navigationItemViews.size
-        }
-        post {
-            //这里再次监听需要延迟，否则会导致递归的情况发生
-            addOnLayoutChangeListener(this)
-        }
+    fun setOnItemSelectedListener(listener: (v: ViewGroup, position: Int) -> Unit): HeadBottomNavigation {
+        this.onItemSelectedListener = listener
+        return this
     }
 }

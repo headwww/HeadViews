@@ -8,7 +8,6 @@ import android.view.ViewGroup
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModelProvider
 import com.head.view.HeadEditTextView
-import com.head.views.TAG
 import com.head.views.databinding.FragmentEditTextBinding
 
 class HomeFragment : Fragment() {
@@ -48,16 +47,16 @@ class HomeFragment : Fragment() {
             }
         }
         binding.headEditTextView.setOnLeftDrawableClickListener {
-            Log.d(TAG, "onCreateView: Left" )
+            Log.d("TAG", "onCreateView: Left" )
         }
         binding.headEditTextView.setOnRightDrawableClickListener {
-            Log.d(TAG, "onCreateView: Right" )
+            Log.d("TAG", "onCreateView: Right" )
         }
         binding.headEditTextView.setOnTopDrawableClickListener {
-            Log.d(TAG, "onCreateView: Top", )
+            Log.d("TAG", "onCreateView: Top", )
         }
         binding.headEditTextView.setOnBottomDrawableClickListener {
-            Log.i(TAG, "onCreateView: Bottom", )
+            Log.i("TAG", "onCreateView: Bottom", )
         }
         return root
     }

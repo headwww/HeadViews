@@ -1,6 +1,9 @@
 package com.head.views
 
+import android.graphics.Color
 import android.os.Bundle
+import android.util.Log
+import android.widget.FrameLayout
 import android.widget.TextView
 import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
@@ -9,7 +12,7 @@ import androidx.navigation.findNavController
 import androidx.navigation.ui.setupWithNavController
 import com.google.android.material.bottomnavigation.BottomNavigationView
 import com.head.view.HeadTitleBar
-import com.head.view.NavigationItemView
+import com.head.view.menu.ItemView
 import com.head.views.databinding.ActivityMainBinding
 
 class MainActivity : AppCompatActivity() {
@@ -38,15 +41,37 @@ class MainActivity : AppCompatActivity() {
             }
         }
 
+        binding.lottieLayerName.playAnimation()
+
         binding.headBottom
-            .addItem(NavigationItemView(this))
-            .addItem(NavigationItemView(this))
-            .addItem(NavigationItemView(this))
+            .addItem(
+                ItemView(
+                    checkedIcon = R.drawable.palyer_run,
+                    unCheckedIcon =R.drawable.ic_baseline_visibility_24,
+                    checkedLabelColor = Color.BLUE
+                )
+            )
+            .addItem(
+                ItemView(
+                    checkedIcon = R.drawable.palyer_run,
+                    unCheckedIcon = R.drawable.ic_baseline_visibility_off_24,
+                    checkedLabel = "View"
+                )
+            )
+            .addItem(
+                ItemView(
+                    checkedIcon = R.drawable.palyer_run,
+                    unCheckedIcon = R.drawable.ic_baseline_visibility_off_24,
+                    checkedLabel = "Home"
+                )
+            ).firstSelectedPosition(0)
+            .setOnItemSelectedListener { v, position -> 
+                Log.e("TAG", "onCreate: ${position}", )
+             }
             .build()
+
         binding.headTitleBar.setHeadTitleBarTransparent()
         navView.setupWithNavController(navController)
     }
 
 }
-
-const val TAG = "HeadViews"

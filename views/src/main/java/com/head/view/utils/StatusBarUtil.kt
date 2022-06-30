@@ -46,18 +46,18 @@ object StatusBarUtil {
      *
      * @param activity
      */
-    open fun setLightMode(activity: Activity) {
+    open fun setLightMode(context: Context) {
         if (OSUtil.isMiui()) {
-            setMIUIStatusBarDarkMode(activity, false)
+            setMIUIStatusBarDarkMode(context as Activity, false)
 
         } else if (OSUtil.isFlyme()) {
-            FlymeStatusBarUtil.setStatusBarDarkIcon(activity.window, false)
+            FlymeStatusBarUtil.setStatusBarDarkIcon((context as Activity).window, false)
 
         } else if (OSUtil.isOppo()) {
-            setOppoStatusBarDarkMode(activity, false)
+            setOppoStatusBarDarkMode(context as Activity, false)
 
         } else {
-            setStatusBarDarkMode(activity, false)
+            setStatusBarDarkMode(context as Activity, false)
         }
     }
 

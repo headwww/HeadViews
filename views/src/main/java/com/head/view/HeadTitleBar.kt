@@ -58,8 +58,8 @@ class HeadTitleBar : FrameLayout, View.OnLayoutChangeListener {
     private var headTitleSearchTextSize: Float = 0F
     private var headTitleSearchTextColor: Int = Color.WHITE
     private var headTitleSearchLeftIcon: Int = -1
-    private var headTitleSearchHint: String = ""
-    private var headTitleSearchText: String = ""
+    private var headTitleSearchHint: CharSequence = ""
+    private var headTitleSearchText: CharSequence = ""
     private var headTitleSearchHintColor: Int = Color.WHITE
     private var headTitleSearchSoftInputKeyBoard: Boolean = false
     private var headTitleBarTheme: Int = -1
@@ -70,13 +70,13 @@ class HeadTitleBar : FrameLayout, View.OnLayoutChangeListener {
     private var headTitleGeneralCenterMainTextSize: Float = 0F
     private var headTitleGeneralCenterMainTextColor: Int = Color.WHITE
     private var headTitleGeneralCenterMainMarquee: Boolean = false
-    private var headTitleGeneralCenterMainText: String = ""
+    private var headTitleGeneralCenterMainText: CharSequence = ""
 
 
     private var headTitleGeneralCenterSubTextSize: Float = 0F
     private var headTitleGeneralCenterSubTextColor: Int = Color.WHITE
     private var headTitleGeneralCenterSubMarquee: Boolean = false
-    private var headTitleGeneralCenterSubText: String = ""
+    private var headTitleGeneralCenterSubText: CharSequence = ""
 
     private var headTitleBuiltInLeftTextSize: Float = 0F
     private var headTitleBuiltInLeftTextColor: Int = Color.WHITE

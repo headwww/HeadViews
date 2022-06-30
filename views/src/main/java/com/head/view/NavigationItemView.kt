@@ -1,26 +1,28 @@
 package com.head.view
 
 import android.content.Context
+import android.content.res.ColorStateList
+import android.graphics.drawable.AnimationDrawable
+import android.graphics.drawable.Drawable
+import android.graphics.drawable.StateListDrawable
+import android.text.TextUtils
 import android.util.AttributeSet
-import android.util.Log
 import android.view.Gravity
+import android.view.View
 import android.view.ViewGroup
 import android.widget.FrameLayout
 import android.widget.ImageView
 import android.widget.LinearLayout
 import android.widget.TextView
 import androidx.annotation.RestrictTo
-import com.head.view.menu.ItemViewState
+import androidx.core.content.ContextCompat
+import com.head.view.menu.MenuItemImpl
 
 
 @RestrictTo(RestrictTo.Scope.LIBRARY_GROUP)
-class NavigationItemView : FrameLayout, ItemViewState {
-    // 代表选中状态的集合
-    private val CHECKED_STATE_SET = intArrayOf(android.R.attr.state_checked)
-
+class NavigationItemView : FrameLayout {
     constructor(context: Context) : super(context) {
         init()
-
     }
 
     constructor(context: Context, attrs: AttributeSet) : super(context, attrs) {
@@ -35,31 +37,12 @@ class NavigationItemView : FrameLayout, ItemViewState {
         init(attrs, defStyleAttr)
     }
 
-    /**
-     * 是否选中
-     */
-    private var mChecked = false
-
-    /**
-     * 提醒角标
-     */
-//    private val badge: TextView by lazy {
-//        TextView(context).apply {
-//            layoutParams = LayoutParams(
-//                300,
-//                300,
-//                Gravity.CENTER
-//            )
-//
-//        }
-//    }
 
     /**
      * 标签
      */
     private val labelView: TextView by lazy {
         TextView(context).apply {
-            text = "测试的数据"
             paint.textSize = resources.getDimension(R.dimen.head_view_default_size)
             layoutParams = LayoutParams(
                 ViewGroup.LayoutParams.WRAP_CONTENT,
@@ -83,7 +66,6 @@ class NavigationItemView : FrameLayout, ItemViewState {
                 ViewGroup.LayoutParams.WRAP_CONTENT,
                 Gravity.CENTER
             )
-            setImageDrawable(context.resources.getDrawable(R.drawable.head_edit_text_clear))
         }
     }
 
@@ -99,58 +81,102 @@ class NavigationItemView : FrameLayout, ItemViewState {
         }
     }
 
-//    设置点击水波纹效果
-//    val attrs = intArrayOf(android.R.attr.selectableItemBackground)
-//    val typedArray = context.obtainStyledAttributes(attrs)
-//    val backgroundResource = typedArray.getDrawable(0)
-//    foreground  = backgroundResource
-//    typedArray.recycle()
+    private var selectDrawable: Drawable? = null
+    private var unSelectDrawable: Drawable? = null
+    private var mChecked = false
+    private var backgroundResource: Drawable? = null
+    private lateinit var menuItemImpl: MenuItemImpl
+    private val CHECKED_STATE_SET = intArrayOf(android.R.attr.state_checked)
+    private val CHECKED_STATE_SELECTED = intArrayOf(android.R.attr.state_selected)
+    private val UN_CHECKED_STATE_SELECTED = intArrayOf(-android.R.attr.state_selected)
 
     private fun init(attrs: AttributeSet? = null, defStyleAttr: Int? = null) {
+        val typedArray =
+            context.obtainStyledAttributes(intArrayOf(android.R.attr.selectableItemBackground))
+        backgroundResource = typedArray.getDrawable(0)
+        typedArray.recycle()
         linearLayout.addView(icon)
         linearLayout.addView(labelView)
-        val attrs = intArrayOf(android.R.attr.selectableItemBackground)
-        val typedArray = context.obtainStyledAttributes(attrs)
-        val backgroundResource = typedArray.getDrawable(0)
-        foreground = backgroundResource
-        typedArray.recycle()
         addView(linearLayout)
+    }
+
+
+    fun initialize(menuItemImpl: MenuItemImpl) {
+        this.menuItemImpl = menuItemImpl
+
+        if (menuItemImpl.ripples) foreground = backgroundResource
+
+        setChecked(menuItemImpl.checked)
+
+        labelView.setTextColor(
+            ColorStateList(
+                arrayOf(
+                    intArrayOf(android.R.attr.state_selected),
+                    intArrayOf(-android.R.attr.state_selected)
+                ),
+                intArrayOf(
+                    menuItemImpl.itemView.checkedLabelColor,
+                    menuItemImpl.itemView.unCheckedLabelColor
+                )
+            )
+        )
+
+        selectDrawable = ContextCompat.getDrawable(context, menuItemImpl.itemView.checkedIcon)
+        unSelectDrawable = ContextCompat.getDrawable(context, menuItemImpl.itemView.unCheckedIcon)
+        val iconDrawable = StateListDrawable().apply {
+            addState(
+                CHECKED_STATE_SELECTED,
+                selectDrawable
+            )
+            addState(
+                UN_CHECKED_STATE_SELECTED,
+                unSelectDrawable
+            )
+        }
+        icon.background = iconDrawable
     }
 
     override fun onCreateDrawableState(extraSpace: Int): IntArray {
         return if (!mChecked) {
-//            Log.e("TAG", "onCreateDrawableState: 1")
-            labelView.text = "未选中"
-            super.onCreateDrawableState(extraSpace);
-
+            if (unSelectDrawable is AnimationDrawable) (unSelectDrawable as AnimationDrawable).start()
+            super.onCreateDrawableState(extraSpace)
         } else {
-            // 如果选中，将父类的结果和选中状态合并之后返回
-//            Log.e("TAG", "onCreateDrawableState: 2")
-            labelView.text = "选中"
-
-            // Set the item as selected to send an AccessibilityEvent.TYPE_VIEW_SELECTED from View, so that
-            // the item is read out as selected.
-
-            mergeDrawableStates(super.onCreateDrawableState(extraSpace + 1), CHECKED_STATE_SET);
+            if (selectDrawable is AnimationDrawable) (selectDrawable as AnimationDrawable).start()
+            mergeDrawableStates(super.onCreateDrawableState(extraSpace + 1), CHECKED_STATE_SET)
         }
     }
 
 
-    override fun isChecked(): Boolean {
+    private fun isChecked(): Boolean {
         return mChecked
     }
 
+    private fun setLabel() {
+        labelView.text =
+            if (isChecked()) menuItemImpl.itemView.checkedLabel else menuItemImpl.itemView.unCheckedLabel
+        labelView.visibility =
+            if (TextUtils.isEmpty(labelView.text.toString())) View.GONE else VISIBLE
+    }
 
-    override fun setChecked(checked: Boolean) {
+    private fun setChecked(checked: Boolean) {
         if (checked != mChecked) {
             mChecked = checked
+            icon.background = StateListDrawable().apply {
+                addState(
+                    CHECKED_STATE_SELECTED,
+                    selectDrawable
+                )
+                addState(
+                    UN_CHECKED_STATE_SELECTED,
+                    unSelectDrawable
+                )
+            }
             refreshDrawableState()
             isSelected = isChecked()
         }
-    }
-
-    fun toggle() {
-        setChecked(!mChecked)
+        icon.isSelected = menuItemImpl.checked
+        labelView.isSelected = menuItemImpl.checked
+        setLabel()
     }
 
 
