@@ -307,6 +307,6 @@
 
     <declare-styleable name="HeadBottomNavigation">
         <!--点击涟漪的效果-->
-        <attr name="HeadBottomNavigationClickRipples" format="boolean"/>
+        <attr name="headBottomNavigationClickRipples" format="boolean"/>
     </declare-styleable>
 </resources>

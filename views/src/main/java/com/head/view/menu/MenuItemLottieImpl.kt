@@ -2,7 +2,7 @@ package com.head.view.menu
 
 import androidx.annotation.RawRes
 
-data class MenuItemImpl(var checked:Boolean = false,var itemView: ItemView = ItemView(),var ripples:Boolean = true)
+data class MenuItemLottieImpl(var checked:Boolean = false, var itemView: ItemLottieView = ItemLottieView(), var ripples:Boolean = true)
 //
 //setAnimation(@RawRes final int rawRes)
 //setAnimation(final String assetName)

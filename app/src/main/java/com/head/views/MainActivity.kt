@@ -12,6 +12,7 @@ import androidx.navigation.findNavController
 import androidx.navigation.ui.setupWithNavController
 import com.google.android.material.bottomnavigation.BottomNavigationView
 import com.head.view.HeadTitleBar
+import com.head.view.menu.ItemLottieView
 import com.head.view.menu.ItemView
 import com.head.views.databinding.ActivityMainBinding
 
@@ -41,14 +42,18 @@ class MainActivity : AppCompatActivity() {
             }
         }
 
-        binding.lottieLayerName.playAnimation()
 
+        binding.headBottomLottieNavigation.addItem(ItemLottieView(R.raw.love))
+            .addItem(ItemLottieView(R.raw.ic_tab_market))
+            .addItem(ItemLottieView(R.raw.ic_tab_me))
+            .build()
         binding.headBottom
             .addItem(
                 ItemView(
                     checkedIcon = R.drawable.palyer_run,
                     unCheckedIcon =R.drawable.ic_baseline_visibility_24,
-                    checkedLabelColor = Color.BLUE
+                    checkedLabelColor = Color.BLUE,
+                    checkedLabel = "View"
                 )
             )
             .addItem(

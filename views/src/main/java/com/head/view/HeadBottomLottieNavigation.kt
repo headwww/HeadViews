@@ -5,8 +5,10 @@ import android.content.res.TypedArray
 import android.util.AttributeSet
 import android.view.ViewGroup
 import android.widget.LinearLayout
+import com.head.view.menu.ItemLottieView
 import com.head.view.menu.ItemView
 import com.head.view.menu.MenuItemImpl
+import com.head.view.menu.MenuItemLottieImpl
 
 /**
  *
@@ -16,7 +18,7 @@ import com.head.view.menu.MenuItemImpl
  * 创建时间：2022/6/23 13:55 <br/>
  * @version
  */
-class HeadBottomNavigation : LinearLayout {
+class HeadBottomLottieNavigation : LinearLayout {
 
     constructor(context: Context) : super(context) {
         init()
@@ -37,9 +39,9 @@ class HeadBottomNavigation : LinearLayout {
 
     private var headBottomNavigationClickRipples: Boolean = true
 
-    private var itemViews: MutableList<ItemView> = ArrayList()
+    private var itemViews: MutableList<ItemLottieView> = ArrayList()
 
-    private var menuItemImpl: MutableList<MenuItemImpl> = ArrayList()
+    private var menuItemImpl: MutableList<MenuItemLottieImpl> = ArrayList()
 
     private var position: Int = 0
 
@@ -61,12 +63,12 @@ class HeadBottomNavigation : LinearLayout {
         return position
     }
 
-    fun addItem(state: ItemView): HeadBottomNavigation {
+    fun addItem(state: ItemLottieView): HeadBottomLottieNavigation {
         itemViews.add(state)
         return this
     }
 
-    fun firstSelectedPosition(position: Int): HeadBottomNavigation {
+    fun firstSelectedPosition(position: Int): HeadBottomLottieNavigation {
         this.position = position
         return this
     }
@@ -75,12 +77,12 @@ class HeadBottomNavigation : LinearLayout {
         val size = itemViews.size
         if (position !in 0 until size) throw IndexOutOfBoundsException("The setting position is greater than the length of the HeadBottomNavigation!!!")
         for (i in 0 until size) {
-            menuItemImpl.add(MenuItemImpl().apply {
+            menuItemImpl.add(MenuItemLottieImpl().apply {
                 if (position == i) checked = true
                 itemView = itemViews[i]
                 ripples = headBottomNavigationClickRipples
             })
-            val navigationItemView = NavigationItemView(context).apply {
+            val navigationItemView = NavigationItemLottieView(context).apply {
                 layoutParams = LayoutParams(
                     ViewGroup.LayoutParams.MATCH_PARENT,
                     ViewGroup.LayoutParams.MATCH_PARENT,
@@ -91,17 +93,17 @@ class HeadBottomNavigation : LinearLayout {
                 setOnClickListener {
                     if (i != position) {
                         menuItemImpl[position].checked = false
-                        (this@HeadBottomNavigation.getChildAt(position) as NavigationItemView).initialize(
+                        (this@HeadBottomLottieNavigation.getChildAt(position) as NavigationItemLottieView).initialize(
                             menuItemImpl[position]
                         )
                         menuItemImpl[i].checked = true
-                        (this@HeadBottomNavigation.getChildAt(i) as NavigationItemView).initialize(
+                        (this@HeadBottomLottieNavigation.getChildAt(i) as NavigationItemLottieView).initialize(
                             menuItemImpl[i]
                         )
                     }
                     position = i
-                    this@HeadBottomNavigation.onItemSelectedListener?.invoke(
-                        this@HeadBottomNavigation.getChildAt(
+                    this@HeadBottomLottieNavigation.onItemSelectedListener?.invoke(
+                        this@HeadBottomLottieNavigation.getChildAt(
                             position
                         ) as ViewGroup, position
                     )
@@ -111,7 +113,7 @@ class HeadBottomNavigation : LinearLayout {
         }
     }
 
-    fun setOnItemSelectedListener(listener: (v: ViewGroup, position: Int) -> Unit): HeadBottomNavigation {
+    fun setOnItemSelectedListener(listener: (v: ViewGroup, position: Int) -> Unit): HeadBottomLottieNavigation {
         this.onItemSelectedListener = listener
         return this
     }

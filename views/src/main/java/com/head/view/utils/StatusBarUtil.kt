@@ -27,16 +27,16 @@ object StatusBarUtil {
      *
      * @param activity
      */
-    fun transparentStatusBar(activity: Activity) {
-        activity.window.addFlags(
+    fun transparentStatusBar(window: Window) {
+        window.addFlags(
             WindowManager.LayoutParams.FLAG_DRAWS_SYSTEM_BAR_BACKGROUNDS
         )
-        activity.window.clearFlags(WindowManager.LayoutParams.FLAG_TRANSLUCENT_STATUS)
-        activity.window.decorView.systemUiVisibility = (View.SYSTEM_UI_FLAG_LAYOUT_FULLSCREEN
+        window.clearFlags(WindowManager.LayoutParams.FLAG_TRANSLUCENT_STATUS)
+        window.decorView.systemUiVisibility = (View.SYSTEM_UI_FLAG_LAYOUT_FULLSCREEN
                 or View.SYSTEM_UI_FLAG_LAYOUT_STABLE)
-        activity.window.statusBarColor = Color.TRANSPARENT
+        window.statusBarColor = Color.TRANSPARENT
         if (OSUtil.isMiui() || OSUtil.isFlyme()) {
-            activity.window.addFlags(WindowManager.LayoutParams.FLAG_TRANSLUCENT_STATUS);
+            window.addFlags(WindowManager.LayoutParams.FLAG_TRANSLUCENT_STATUS);
         }
 
     }
@@ -46,41 +46,41 @@ object StatusBarUtil {
      *
      * @param activity
      */
-    open fun setLightMode(context: Context) {
+    open fun setLightMode(window: Window) {
         if (OSUtil.isMiui()) {
-            setMIUIStatusBarDarkMode(context as Activity, false)
+            setMIUIStatusBarDarkMode(window, false)
 
         } else if (OSUtil.isFlyme()) {
-            FlymeStatusBarUtil.setStatusBarDarkIcon((context as Activity).window, false)
+            FlymeStatusBarUtil.setStatusBarDarkIcon(window, false)
 
         } else if (OSUtil.isOppo()) {
-            setOppoStatusBarDarkMode(context as Activity, false)
+            setOppoStatusBarDarkMode(window, false)
 
         } else {
-            setStatusBarDarkMode(context as Activity, false)
+            setStatusBarDarkMode(window, false)
         }
     }
 
-    open fun setDarkMode(activity: Activity) {
+    open fun setDarkMode(window: Window) {
         if (OSUtil.isMiui()) {
-            setMIUIStatusBarDarkMode(activity, true)
+            setMIUIStatusBarDarkMode(window, true)
 
         } else if (OSUtil.isFlyme()) {
-            FlymeStatusBarUtil.setStatusBarDarkIcon(activity.window, true)
+            FlymeStatusBarUtil.setStatusBarDarkIcon(window, true)
 
         } else if (OSUtil.isOppo()) {
-            setOppoStatusBarDarkMode(activity, true)
+            setOppoStatusBarDarkMode(window, true)
 
         } else {
-            setStatusBarDarkMode(activity, true)
+            setStatusBarDarkMode(window, true)
         }
     }
 
     private fun setOppoStatusBarDarkMode(
-        activity: Activity,
+        window: Window,
         darkMode: Boolean
     ) {
-        var vis = activity.window.decorView.systemUiVisibility
+        var vis = window.decorView.systemUiVisibility
         vis = if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
             if (darkMode) {
                 vis or View.SYSTEM_UI_FLAG_LIGHT_STATUS_BAR
@@ -94,12 +94,12 @@ object StatusBarUtil {
                 vis and 0x00000010.inv()
 
             }
-        activity.window.decorView.systemUiVisibility = vis
+        window.decorView.systemUiVisibility = vis
     }
 
-    private fun setMIUIStatusBarDarkMode(activity: Activity, darkMode: Boolean) {
+    private fun setMIUIStatusBarDarkMode(window: Window, darkMode: Boolean) {
         if (Build.VERSION.SDK_INT < Build.VERSION_CODES.M) {
-            val clazz: Class<out Window?> = activity.window.javaClass
+            val clazz: Class<out Window?> = window.javaClass
             try {
                 val layoutParams = Class.forName("android.view.MiuiWindowManager\$LayoutParams")
                 val field = layoutParams.getField("EXTRA_FLAG_STATUS_BAR_DARK_MODE")
@@ -110,21 +110,21 @@ object StatusBarUtil {
                     Int::class.javaPrimitiveType
                 )
                 extraFlagField
-                    .invoke(activity.window, if (darkMode) darkModeFlag else 0, darkModeFlag)
+                    .invoke(window, if (darkMode) darkModeFlag else 0, darkModeFlag)
             } catch (e: Exception) {
             }
         }
-        setStatusBarDarkMode(activity, darkMode)
+        setStatusBarDarkMode(window, darkMode)
     }
 
 
-    private fun setStatusBarDarkMode(activity: Activity, darkMode: Boolean) {
+    private fun setStatusBarDarkMode(window: Window, darkMode: Boolean) {
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
             if (darkMode) {
-                activity.window.decorView.systemUiVisibility = (View.SYSTEM_UI_FLAG_LIGHT_STATUS_BAR
+                window.decorView.systemUiVisibility = (View.SYSTEM_UI_FLAG_LIGHT_STATUS_BAR
                         or View.SYSTEM_UI_FLAG_LAYOUT_FULLSCREEN)
             } else {
-                activity.window.decorView.systemUiVisibility = View.SYSTEM_UI_FLAG_LAYOUT_FULLSCREEN
+                window.decorView.systemUiVisibility = View.SYSTEM_UI_FLAG_LAYOUT_FULLSCREEN
             }
         }
     }
@@ -137,10 +137,10 @@ object StatusBarUtil {
      * @param alpha
      */
     fun setStatusBarColor(
-        activity: Activity, @ColorInt color: Int,
+        window: Window, @ColorInt color: Int,
         alpha: Int
     ) {
-        activity.window.statusBarColor = calculateStatusColor(color, alpha)
+        window.statusBarColor = calculateStatusColor(color, alpha)
     }
 
 

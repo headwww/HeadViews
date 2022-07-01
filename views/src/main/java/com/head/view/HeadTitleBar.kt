@@ -2,6 +2,7 @@ package com.head.view
 
 import android.app.Activity
 import android.content.Context
+import android.content.ContextWrapper
 import android.content.res.TypedArray
 import android.graphics.Color
 import android.os.Bundle
@@ -9,6 +10,7 @@ import android.os.Parcelable
 import android.util.AttributeSet
 import android.view.LayoutInflater
 import android.view.View
+import android.view.Window
 import android.widget.FrameLayout
 import androidx.annotation.ColorInt
 import com.head.view.drawable.TemplateDrawable
@@ -399,34 +401,45 @@ class HeadTitleBar : FrameLayout, View.OnLayoutChangeListener {
 
     }
 
-    companion object{
+    companion object {
         const val HEAD_TITLE = "head_title"
-        const val  SAVE_HEAD_SEARCH_TEXT = "save_head_search_text"
-        const val  SAVE_HEAD_SEARCH_SELECTION = "save_head_search_selection"
+        const val SAVE_HEAD_SEARCH_TEXT = "save_head_search_text"
+        const val SAVE_HEAD_SEARCH_SELECTION = "save_head_search_selection"
     }
+
     override fun onSaveInstanceState(): Parcelable? {
-        if (headTitleStyle ==HeadTitleStyle.SEARCH.ordinal) {
+        if (headTitleStyle == HeadTitleStyle.SEARCH.ordinal) {
             val bundle = Bundle()
             val parcelable = super.onSaveInstanceState()
             bundle.putParcelable(HEAD_TITLE, parcelable)
-            bundle.putSerializable(SAVE_HEAD_SEARCH_TEXT, builtInTitle.centerSearchView.text.toString())
-            bundle.putSerializable(SAVE_HEAD_SEARCH_SELECTION, builtInTitle.centerSearchView.selectionStart)
-        return bundle
-        }else{
+            bundle.putSerializable(
+                SAVE_HEAD_SEARCH_TEXT,
+                builtInTitle.centerSearchView.text.toString()
+            )
+            bundle.putSerializable(
+                SAVE_HEAD_SEARCH_SELECTION,
+                builtInTitle.centerSearchView.selectionStart
+            )
+            return bundle
+        } else {
             return super.onSaveInstanceState()
         }
 
     }
 
     override fun onRestoreInstanceState(state: Parcelable?) {
-        if (headTitleStyle ==HeadTitleStyle.SEARCH.ordinal) {
+        if (headTitleStyle == HeadTitleStyle.SEARCH.ordinal) {
             val bundle = (state as Bundle)
             val parcelable: Parcelable? = bundle.getParcelable(HEAD_TITLE)
             var searchText = bundle.getSerializable(SAVE_HEAD_SEARCH_TEXT) as String
             builtInTitle.centerSearchView?.setText(searchText)
-            builtInTitle.centerSearchView.setSelection(bundle.getSerializable(SAVE_HEAD_SEARCH_SELECTION) as Int)
+            builtInTitle.centerSearchView.setSelection(
+                bundle.getSerializable(
+                    SAVE_HEAD_SEARCH_SELECTION
+                ) as Int
+            )
             super.onRestoreInstanceState(parcelable)
-        }else{
+        } else {
             super.onRestoreInstanceState(state)
         }
     }
@@ -451,27 +464,27 @@ class HeadTitleBar : FrameLayout, View.OnLayoutChangeListener {
             }
         }
         //post {
-            // 这里再次监听需要延迟，否则会导致递归的情况发生
-            //addOnLayoutChangeListener(this@HeadTitleBar)
+        // 这里再次监听需要延迟，否则会导致递归的情况发生
+        //addOnLayoutChangeListener(this@HeadTitleBar)
         //}
     }
 
     override fun onAttachedToWindow() {
         super.onAttachedToWindow()
         if (headTitleBarTransparent && StatusBarUtil.supportTransparentStatusBar() && headTitleBarFillColor == -1) {
-            StatusBarUtil.transparentStatusBar(context as Activity)
+            StatusBarUtil.transparentStatusBar(getWindow() ?: return)
         } else if (headTitleBarFillColor != -1) {
             StatusBarUtil.setStatusBarColor(
-                context as Activity,
+                getWindow() ?: return,
                 headTitleBarFillColor,
                 headTitleBarFillColorAlpha
             )
         }
         //开启这个后标题栏会被遮挡，建议把状态栏填充也开着
         if (headTitleBarTheme == Theme.LIGHT.ordinal) {
-            StatusBarUtil.setLightMode(context as Activity)
+            StatusBarUtil.setLightMode(getWindow() ?: return)
         } else if (headTitleBarTheme == Theme.DARK.ordinal) {
-            StatusBarUtil.setDarkMode(context as Activity)
+            StatusBarUtil.setDarkMode(getWindow() ?: return)
         }
     }
 
@@ -539,7 +552,7 @@ class HeadTitleBar : FrameLayout, View.OnLayoutChangeListener {
     fun setHeadTitleBarTransparent() {
         this.headTitleBarTransparent = true
         if (headTitleBarTransparent && StatusBarUtil.supportTransparentStatusBar() && headTitleBarFillColor == -1) {
-            StatusBarUtil.transparentStatusBar(context as Activity)
+            StatusBarUtil.transparentStatusBar(getWindow() ?: return)
         }
     }
 
@@ -566,7 +579,7 @@ class HeadTitleBar : FrameLayout, View.OnLayoutChangeListener {
     fun setHeadTitleBarFillColor(@ColorInt headTitleBarFillColor: Int) {
         this.headTitleBarFillColor = headTitleBarFillColor
         StatusBarUtil.setStatusBarColor(
-            context as Activity,
+            getWindow() ?: return,
             headTitleBarFillColor,
             this.headTitleBarFillColorAlpha
         )
@@ -576,7 +589,7 @@ class HeadTitleBar : FrameLayout, View.OnLayoutChangeListener {
     fun setHeadTitleBarFillColorAlpha(headTitleBarFillColorAlpha: Int) {
         this.headTitleBarFillColorAlpha = headTitleBarFillColorAlpha
         StatusBarUtil.setStatusBarColor(
-            context as Activity,
+            getWindow() ?: return,
             headTitleBarFillColor,
             this.headTitleBarFillColorAlpha
         )
@@ -587,9 +600,27 @@ class HeadTitleBar : FrameLayout, View.OnLayoutChangeListener {
         this.headTitleBarTheme = theme.ordinal
         //开启这个后标题栏会被遮挡，建议把状态栏填充也开着
         if (headTitleBarTheme == Theme.LIGHT.ordinal) {
-            StatusBarUtil.setLightMode(context as Activity)
+            StatusBarUtil.setLightMode(getWindow() ?: return)
         } else if (headTitleBarTheme == Theme.DARK.ordinal) {
-            StatusBarUtil.setDarkMode(context as Activity)
+            StatusBarUtil.setDarkMode(getWindow() ?: return)
         }
     }
+
+    private fun getWindow(): Window? {
+        val context = context
+        val activity: Activity = try {
+            if (context is Activity) {
+                context
+            } else {
+                (context as ContextWrapper).baseContext as Activity
+            }
+        } catch (e: Exception) {
+            e.printStackTrace()
+            return null
+        }
+        return if (activity != null) {
+            activity.window
+        } else null
+    }
+
 }

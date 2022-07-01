@@ -3,8 +3,9 @@ package com.head.view.utils
 import android.content.Context
 import android.util.AttributeSet
 import android.widget.Checkable
+import androidx.annotation.RestrictTo
 import com.airbnb.lottie.LottieAnimationView
-
+@RestrictTo(RestrictTo.Scope.LIBRARY_GROUP)
 class CheckableLottieAnimationView : LottieAnimationView, Checkable {
     private var checked = false
 
